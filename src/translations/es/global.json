@@ -1,0 +1,39 @@
+{
+  "head": {
+    "title": "METRIX | Interfaz de mapa avanzada"
+  },
+  "body": {
+    "footer": {
+      "coordinates": {
+        "title": "Coordenadas:",
+        "goto-title": "Ingrese las coordenadas",
+        "goto-helper": "Indique las coordenadas de la forma <latitud, longitud>. Ej. 3, -76"
+      },
+      "zoom": {
+        "title": "Zoom:"
+      },
+      "scale": {
+        "title": "Escala:"
+      }
+    },
+    "incident": {
+      "popup": {
+        "title": "NO. TICKET",
+        "type": "TIPO:",
+        "subtype": "SUBTIPO:",
+        "created": "CREADO:",
+        "expiry": "VENCE:",
+        "client": "CLIENTE:",
+        "municipality": "MUNICIPIO:",
+        "details-button": "Detalles",
+        "close-button": "Cerrar"
+      },
+      "modal": {
+        "title": "FICHA DE INCIDENCIA",
+        "print-button": "IMPRIMIR",
+        "share-button": "COMPARTIR",
+        "close-button": "CERRAR"
+      }
+    }
+  }
+}
