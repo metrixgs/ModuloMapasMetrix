@@ -9,4 +9,8 @@ export interface Incident {
   expiry: string;
   client: string;
   municipality: string;
+  state: string;
+  hood: string;
+  photo: string;
+  description: string;
 }

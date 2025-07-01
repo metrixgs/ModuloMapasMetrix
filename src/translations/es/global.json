@@ -17,14 +17,20 @@
       }
     },
     "incident": {
+      "ticket":"NO. TICKET",
+      "type": "TIPO",
+      "subtype": "SUBTIPO",
+      "created": "CREADO",
+      "expiry": "VENCE",
+      "client": "CLIENTE",
+      "municipality": "MUNICIPIO",
+      "date": "FECHA",
+      "state": "ESTADO",
+      "hood": "COLONIA",
+      "attendant": "ENCARGADO",
+      "address": "DOMICILIO",
+      "comments": "COMENTARIOS",
       "popup": {
-        "title": "NO. TICKET",
-        "type": "TIPO:",
-        "subtype": "SUBTIPO:",
-        "created": "CREADO:",
-        "expiry": "VENCE:",
-        "client": "CLIENTE:",
-        "municipality": "MUNICIPIO:",
         "details-button": "Detalles",
         "close-button": "Cerrar"
       },

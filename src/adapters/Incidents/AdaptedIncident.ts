@@ -12,7 +12,11 @@ const AdaptedIncident = (incident: IncidentAPI): Incident => {
     created: incident.fecha_creacion,
     expiry: incident.fecha_vencimiento,
     client: incident.nombre_cliente,
-    municipality: incident.municipio
+    municipality: incident.municipio,
+    state: incident.estado,
+    hood: incident.colonia,
+    photo: incident.url,
+    description: incident.descripcion
   };
 
   return parsed;
