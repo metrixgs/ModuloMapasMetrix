@@ -22,6 +22,8 @@ import IncidentPopup from "@components/Map/Layers/Incidents/IncidentPopup";
 
 import "./IncidentPopup.css";
 
+import HandleIncidentsLoadEvent from "./Events/IncidentsLoadEvent";
+
 const Incidents = () => {
   const ref = useRef<boolean>(false);
 
@@ -52,6 +54,9 @@ const Incidents = () => {
         });
       },
     });
+
+    // Events
+    layer.on("add", HandleIncidentsLoadEvent);
     return layer;
   };
 

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.10",
+    "@turf/turf": "^7.2.0",
     "axios": "^1.10.0",
     "flowbite-react": "^0.11.8",
     "i18next": "^25.2.1",

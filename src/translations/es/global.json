@@ -5,15 +5,18 @@
   "body": {
     "footer": {
       "coordinates": {
-        "title": "Coordenadas:",
+        "title": "Coordenadas",
         "goto-title": "Ingrese las coordenadas",
         "goto-helper": "Indique las coordenadas de la forma <latitud, longitud>. Ej. 3, -76"
       },
       "zoom": {
-        "title": "Zoom:"
+        "title": "Zoom"
       },
       "scale": {
-        "title": "Escala:"
+        "title": "Escala"
+      },
+      "visible-incidents": {
+        "title": "Puntos visibles"
       }
     },
     "incident": {

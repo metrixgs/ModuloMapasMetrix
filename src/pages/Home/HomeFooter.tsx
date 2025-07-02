@@ -1,6 +1,7 @@
 import Scale from "@components/Scale/Scale";
 import Coordinates from "@components/Coordinates/Coordinates";
 import ZoomLevel from "@components/ZoomLevel/ZoomLevel";
+import VisibleIncidents from "@components/VisibleIncidents/VisibleIncidents";
 
 const HomeFooter = () => {
   return (
@@ -8,6 +9,7 @@ const HomeFooter = () => {
       <Scale />
       <Coordinates />
       <ZoomLevel />
+      <VisibleIncidents />
     </footer>
   )
 }

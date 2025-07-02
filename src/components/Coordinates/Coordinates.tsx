@@ -63,7 +63,7 @@ const Coordinates = () => {
   return (
     <div className="flex items-center gap-2">
       <div className="text-xs dark:text-white">
-        <span className="font-bold">{t("body.footer.coordinates.title")}</span>{" "}
+        <span className="font-bold">{t("body.footer.coordinates.title")}:</span>{" "}
         <span id={currentCoordsId}>
           {INITIAL_VIEW.center.lat}, {INITIAL_VIEW.center.lng}
         </span>

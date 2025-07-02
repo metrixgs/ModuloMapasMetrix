@@ -21,7 +21,7 @@ const Scale = () => {
 
   return (
     <p className="text-xs dark:text-white">
-      <span className="font-bold">{t("body.footer.scale.title")}</span> 1 :{" "}
+      <span className="font-bold">{t("body.footer.scale.title")}:</span> 1 :{" "}
       {Math.round(scaleFactor).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
     </p>
   );
