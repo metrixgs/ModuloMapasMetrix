@@ -8,7 +8,7 @@ export const useSidebarStore = create<SidebarStore>((set) => ({
   children: null,
   icon: null,
   open: () => set({ isOpen: true }),
-  close: () => set({ isOpen: false }),
+  close: () => set({ isOpen: false, title: "", children: null, icon: null }),
   setTitle: (content) => set({ title: content }),
   setChildren: (content) => set({ children: content }),
   setIcon: (content) => set({ icon: content }),

@@ -1,4 +1,5 @@
 import type { Map, Layer } from "leaflet";
+import type { FeatureCollection } from "geojson";
 import type { ReactNode } from "react";
 
 export interface MapStore {
@@ -25,7 +26,7 @@ export interface LayerList {
 }
 
 export interface LayerInfo {
-  [id: string]: LayerInfoItem
+  [id: string]: LayerInfoItem;
 }
 
 export interface MapLayersStore {
@@ -63,4 +64,35 @@ export interface ModalStore {
   close: () => void;
   setTitle: (content: string) => void;
   setChildren: (content: ReactNode) => void;
+}
+
+export interface SpatialFilterStore {
+  country?: number;
+  countryLayer?: Layer;
+  state?: number;
+  stateLayer?: Layer;
+  municipality?: number;
+  municipalityLayer?: Layer;
+  delegation?: number;
+  delegationLayer?: Layer;
+  zip?: number;
+  zipLayer?: Layer;
+  hood?: number;
+  hoodLayer?: Layer;
+  square?: number;
+  squareLayer?: Layer;
+  property?: string;
+  propertyLayer?: Layer;
+  setCountry: (country?: number, countryLayer?: FeatureCollection) => void;
+  setState: (state?: number, stateLayer?: FeatureCollection) => void;
+  setMunicipality: (
+    municipality?: number,
+    municipalityLayer?: FeatureCollection
+  ) => void;
+  setDelegation: (delegation?: number, delegationLayer?: FeatureCollection) => void;
+  setZip: (zip?: number, zipLayer?: FeatureCollection) => void;
+  setHood: (hood?: number, hoodLayer?: FeatureCollection) => void;
+  setSquare: (square?: number, squareLayer?: FeatureCollection) => void;
+  setProperty: (property?: string, propertyLayer?: FeatureCollection) => void;
+  clear: () => void;
 }

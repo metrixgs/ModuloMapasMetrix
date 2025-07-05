@@ -1,0 +1,66 @@
+[
+  {
+    "id": 5,
+    "name": "FELIX OSORES SOTOMAYOR",
+    "geom": "1_22_14_5.geojson",
+    "level_1": 1,
+    "level_2": 22,
+    "level_3": 14
+  },
+  {
+    "id": 1,
+    "name": "CENTRO HISTORICO",
+    "geom": "1_22_14_1.geojson",
+    "level_1": 1,
+    "level_2": 22,
+    "level_3": 14
+  },
+  {
+    "id": 3,
+    "name": "FELIPE CARRILLO PUERTO",
+    "geom": "1_22_14_3.geojson",
+    "level_1": 1,
+    "level_2": 22,
+    "level_3": 14
+  },
+  {
+    "id": 6,
+    "name": "JOSEFA VERGARA Y HERNANDEZ",
+    "geom": "1_22_14_6.geojson",
+    "level_1": 1,
+    "level_2": 22,
+    "level_3": 14
+  },
+  {
+    "id": 4,
+    "name": "SANTA ROSA JAUREGUI",
+    "geom": "1_22_14_4.geojson",
+    "level_1": 1,
+    "level_2": 22,
+    "level_3": 14
+  },
+  {
+    "id": 7,
+    "name": "VILLA CAYETANO RUBIO",
+    "geom": "1_22_14_7.geojson",
+    "level_1": 1,
+    "level_2": 22,
+    "level_3": 14
+  },
+  {
+    "id": 2,
+    "name": "EPIGMENIO GONZALEZ",
+    "geom": "1_22_14_2.geojson",
+    "level_1": 1,
+    "level_2": 22,
+    "level_3": 14
+  },
+  {
+    "id": 28,
+    "name": "SAN JOSE DE LOS OLVERA",
+    "geom": "1_22_6_28.geojson",
+    "level_1": 1,
+    "level_2": 22,
+    "level_3": 6
+  }
+]

@@ -3,6 +3,47 @@
     "title": "METRIX | Interfaz de mapa avanzada"
   },
   "body": {
+    "controls": {
+      "fullscreen": {
+        "title": "Pantalla completa"
+      },
+      "layers": {
+        "title": "Capas"
+      },
+      "bdd": {
+        "title": "BDD"
+      },
+      "filters": {
+        "title": "Filtros espaciales",
+        "sidebar-title": "FILTROS ESPACIALES",
+        "clean-button": "Limpiar filtros",
+        "tabs": {
+          "geographic": {
+            "title": "Geográfica",
+            "country": "Seleccione el país",
+            "state": "Seleccione el estado",
+            "municipality": "Seleccione el municipio",
+            "delegation": "Seleccione la delegación",
+            "zip": "Seleccione el código postal",
+            "hood": "Seleccione la colonia",
+            "square": "Seleccione la manzana",
+            "property": "Seleccione el predio"
+          },
+          "electoral": {
+            "title": "Electoral"
+          }
+        }
+      },
+      "draw": {
+        "title": "Edición y medición"
+      },
+      "location": {
+        "title": "Mi ubicación"
+      },
+      "share": {
+        "title": "Compartir"
+      }
+    },
     "footer": {
       "coordinates": {
         "title": "Coordenadas",

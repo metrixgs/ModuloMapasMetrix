@@ -1,0 +1,194 @@
+[
+  {
+    "id": 1,
+    "name": "AGUASCALIENTES",
+    "geom": "1_1.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 2,
+    "name": "BAJA CALIFORNIA",
+    "geom": "1_2.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 3,
+    "name": "BAJA CALIFORNIA SUR",
+    "geom": "1_3.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 4,
+    "name": "CAMPECHE",
+    "geom": "1_4.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 9,
+    "name": "CIUDAD DE MEXICO",
+    "geom": "1_9.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 5,
+    "name": "COAHUILA DE ZARAGOZA",
+    "geom": "1_5.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 6,
+    "name": "COLIMA",
+    "geom": "1_6.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 7,
+    "name": "CHIAPAS",
+    "geom": "1_7.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 8,
+    "name": "CHIHUAHUA",
+    "geom": "1_8.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 10,
+    "name": "DURANGO",
+    "geom": "1_10.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 11,
+    "name": "GUANAJUATO",
+    "geom": "1_11.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 12,
+    "name": "GUERRERO",
+    "geom": "1_12.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 13,
+    "name": "HIDALGO",
+    "geom": "1_13.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 14,
+    "name": "JALISCO",
+    "geom": "1_14.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 15,
+    "name": "MEXICO",
+    "geom": "1_15.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 16,
+    "name": "MICHOACAN DE OCAMPO",
+    "geom": "1_16.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 17,
+    "name": "MORELOS",
+    "geom": "1_17.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 18,
+    "name": "NAYARIT",
+    "geom": "1_18.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 19,
+    "name": "NUEVO LEON",
+    "geom": "1_19.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 20,
+    "name": "OAXACA",
+    "geom": "1_20.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 21,
+    "name": "PUEBLA",
+    "geom": "1_21.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 22,
+    "name": "QUERETARO",
+    "geom": "1_22.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 23,
+    "name": "QUINTANA ROO",
+    "geom": "1_23.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 24,
+    "name": "SAN LUIS POTOSI",
+    "geom": "1_24.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 25,
+    "name": "SINALOA",
+    "geom": "1_25.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 26,
+    "name": "SONORA",
+    "geom": "1_26.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 27,
+    "name": "TABASCO",
+    "geom": "1_27.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 28,
+    "name": "TAMAULIPAS",
+    "geom": "1_28.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 29,
+    "name": "TLAXCALA",
+    "geom": "1_29.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 30,
+    "name": "VERACRUZ DE IGNACIO DE LA LLAVE",
+    "geom": "1_30.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 31,
+    "name": "YUCATAN",
+    "geom": "1_31.geojson",
+    "level_1": 1
+  },
+  {
+    "id": 32,
+    "name": "ZACATECAS",
+    "geom": "1_32.geojson",
+    "level_1": 1
+  }
+]

@@ -40,5 +40,19 @@ export const customTheme = createTheme({
     footer: {
       base: "flex items-center space-x-2 rounded-b p-6 border-primary-300 dark:border-primary-800"
     }
+  },
+  tabs: {
+    tablist: {
+      tabitem: {
+        variant: {
+          default: {
+            active: {
+              on: "text-primary-600 bg-primary-300/25 dark:bg-primary-300/20 dark:text-primary-500",
+              off: "text-gray-500 hover:bg-primary-300/10 hover:text-gray-600 dark:text-gray-400 dark:hover:dark:bg-primary-300/15 dark:hover:text-gray-300"
+            }
+          }
+        }
+      }
+    }
   }
 })
