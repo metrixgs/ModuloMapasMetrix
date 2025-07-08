@@ -6,6 +6,7 @@ import Fullscreen from "@components/Map/Controls/Fullscreen/Fullscreen";
 import Layers from "@components/Map/Controls/Layers/Layers";
 import Bdd from "@components/Map/Controls/Bdd/Bdd";
 import Filters from "@components/Map/Controls/Filters/Filters";
+import StreetView from "@components/Map/Controls/StreetView/StreetView";
 import Draw from "@components/Map/Controls/Draw/Draw";
 import Location from "@components/Map/Controls/Location/Location";
 import Share from "@components/Map/Controls/Share/Share";
@@ -30,6 +31,7 @@ const MapControls = () => {
       <Layers />
       <Bdd />
       <Filters />
+      <StreetView />
       <Draw />
       <Location />
       <Share />

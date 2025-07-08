@@ -3,6 +3,8 @@ import { useRef, useEffect } from "react";
 import { Map as LeafletMap } from "leaflet";
 import "leaflet/dist/leaflet.css";
 
+import { LoadScript } from "@react-google-maps/api";
+
 import { useMapStore } from "@/stores/useMapStore";
 
 import { INITIAL_VIEW } from "@/config.map";
@@ -33,15 +35,15 @@ const Map = () => {
 
   return (
     <div ref={mapContainerRef} className="w-full h-full">
-      {
-        mapInit
-        &&
-        <>
-          <MapLayers />
-          <MapControls />
-          <MapEvents />
-        </>
-      }
+      <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
+        {mapInit && (
+          <>
+            <MapLayers />
+            <MapControls />
+            <MapEvents />
+          </>
+        )}
+      </LoadScript>
     </div>
   );
 };

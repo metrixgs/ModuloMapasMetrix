@@ -1,7 +1,7 @@
 import classNames from "classnames";
 
 type MapControlProps = {
-  active: boolean;
+  active?: boolean;
   children: React.ReactNode;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 

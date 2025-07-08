@@ -1,6 +1,8 @@
 import type { Map, Layer, LocationEvent } from "leaflet";
 import type { FeatureCollection } from "geojson";
 import type { ReactNode } from "react";
+import type { DynamicStringEnumKeysOf } from "flowbite-react/types";
+import type { ModalSizes } from "flowbite-react";
 
 export interface MapStore {
   map: Map | undefined;
@@ -58,10 +60,12 @@ export interface SidebarStore {
 
 export interface ModalStore {
   isOpen: boolean;
+  size: DynamicStringEnumKeysOf<ModalSizes>;
   title: string;
   children: ReactNode;
   open: () => void;
   close: () => void;
+  setSize: (size: DynamicStringEnumKeysOf<ModalSizes>) => void;
   setTitle: (content: string) => void;
   setChildren: (content: ReactNode) => void;
 }
@@ -106,4 +110,10 @@ export interface UserLocationStore {
   startSearch: () => void;
   endSearch: () => void;
   clearLocation: () => void;
+}
+
+export interface StreetViewStore {
+  isStreetViewActive: boolean;
+  activeStreetView: () => void;
+  deactiveStreetView: () => void;
 }
