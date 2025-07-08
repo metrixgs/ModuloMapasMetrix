@@ -38,7 +38,11 @@
         "title": "Edición y medición"
       },
       "location": {
-        "title": "Mi ubicación"
+        "title": "Mi ubicación",
+        "latitude": "Latitud",
+        "longitude": "Longitud",
+        "accuracy": "Precisión",
+        "delete": "Eliminar ubicación"
       },
       "share": {
         "title": "Compartir"

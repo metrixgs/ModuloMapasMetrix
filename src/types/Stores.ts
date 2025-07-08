@@ -1,4 +1,4 @@
-import type { Map, Layer } from "leaflet";
+import type { Map, Layer, LocationEvent } from "leaflet";
 import type { FeatureCollection } from "geojson";
 import type { ReactNode } from "react";
 
@@ -95,4 +95,15 @@ export interface SpatialFilterStore {
   setSquare: (square?: number, squareLayer?: FeatureCollection) => void;
   setProperty: (property?: string, propertyLayer?: FeatureCollection) => void;
   clear: () => void;
+}
+
+export interface UserLocationStore {
+  location?: LocationEvent;
+  loading?: boolean;
+  accuracyLayer?: Layer;
+  centerLayer?: Layer;
+  setLocation: (e: LocationEvent) => void;
+  startSearch: () => void;
+  endSearch: () => void;
+  clearLocation: () => void;
 }
