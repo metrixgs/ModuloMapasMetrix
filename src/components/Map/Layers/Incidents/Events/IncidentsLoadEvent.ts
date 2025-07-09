@@ -1,8 +1,9 @@
 import type { LeafletEvent } from "leaflet";
-import { visibleIncidents } from "./visibleIndicents";
 
-const HandleIncidentsLoadEvent = (e?: LeafletEvent) => {
-  visibleIncidents(e);
-}
+import UpdateVisibleIncidents from "@components/VisibleIncidents/UpdateVisibleIndicents";
+
+const HandleIncidentsLoadEvent = (e: LeafletEvent) => {
+  UpdateVisibleIncidents(e);
+};
 
 export default HandleIncidentsLoadEvent;

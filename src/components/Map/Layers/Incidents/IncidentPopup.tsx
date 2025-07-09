@@ -166,6 +166,7 @@ const IncidentPopup = ({ incident, popup }: IncidentPopupProps) => {
   const {
     setTitle,
     setChildren,
+    setSize,
     open
   } = useModalStore((state) => state);
 
@@ -179,6 +180,7 @@ const IncidentPopup = ({ incident, popup }: IncidentPopupProps) => {
   } = incident;
 
   const handleClickDetails = () => {
+    setSize("2xl");
     setTitle(t("body.incident.modal.title"));
     setChildren(<IncidentModal incident={incident} />);
     open();

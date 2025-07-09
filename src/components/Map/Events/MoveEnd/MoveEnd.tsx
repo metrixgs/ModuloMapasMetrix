@@ -3,28 +3,26 @@ import { useEffect } from "react";
 import type { LeafletEvent } from "leaflet";
 
 import { useMapStore } from "@/stores/useMapStore";
-import { updateMapState } from "./updateMapState";
 
-import { visibleIncidents } from "@components/Map/Layers/Incidents/Events/visibleIndicents";
+import UpdateMapState from "./UpdateMapState";
+import UpdateVisibleIncidents from "@components/VisibleIncidents/UpdateVisibleIndicents";
 
 const MoveEnd = () => {
   const { map } = useMapStore((state) => state);
 
   useEffect(() => {
     const handleMoveEnd = (e: LeafletEvent) => {
-      updateMapState();
-    }
+      UpdateMapState();
+      UpdateVisibleIncidents(e);
+    };
 
-    map?.on("moveend", (e) => {
-      handleMoveEnd(e);
-      visibleIncidents(e);
-    });
+    map?.on("moveend", handleMoveEnd);
     return () => {
       map?.on("moveend", handleMoveEnd);
-    }
-  }, [])
+    };
+  }, [map]);
 
   return null;
-}
+};
 
 export default MoveEnd;

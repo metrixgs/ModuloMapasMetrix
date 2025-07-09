@@ -8,11 +8,11 @@ import { LAYERS } from "@/config.map";
 import { useMapStore } from "@/stores/useMapStore";
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
-export const visibleIncidents = (e?: LeafletEvent) => {
+const UpdateVisibleIncidents = (e: LeafletEvent) => {
   const map = useMapStore.getState().map;
   const layers = useMapLayersStore.getState().layerList;
 
-  const incidents = (layers[LAYERS.incidents.id] as GeoJSON);
+  const incidents = layers[LAYERS.incidents.id] as GeoJSON;
 
   const element = document.getElementById(visibleIncidentsId);
 
@@ -25,17 +25,19 @@ export const visibleIncidents = (e?: LeafletEvent) => {
       bounds.getWest(),
       bounds.getSouth(),
       bounds.getEast(),
-      bounds.getNorth()
+      bounds.getNorth(),
     ]);
 
-    const intersection = collection.features.filter(feature => booleanIntersects(feature, bboxPolygon_));
+    const intersection = collection.features.filter((feature) =>
+      booleanIntersects(feature, bboxPolygon_)
+    );
 
     const count = intersection.length;
-    
+
     if (element) {
       element.innerHTML = `${count} / ${collection.features.length}`;
     }
   }
+};
 
-  
-}
+export default UpdateVisibleIncidents;

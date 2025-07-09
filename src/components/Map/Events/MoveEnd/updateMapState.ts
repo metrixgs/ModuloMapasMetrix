@@ -1,7 +1,7 @@
 import { useMapStateStore } from "@/stores/useMapStateStore";
 import { useMapStore } from "@/stores/useMapStore";
 
-export const updateMapState = () => {
+const UpdateMapState = () => {
   const { map } = useMapStore.getState();
   const { setMapState } = useMapStateStore.getState();
 
@@ -16,3 +16,5 @@ export const updateMapState = () => {
     )
   }
 }
+
+export default UpdateMapState;

@@ -3,16 +3,15 @@ import { useEffect } from "react";
 import type { LocationEvent } from "leaflet";
 
 import { useMapStore } from "@/stores/useMapStore";
-import { useUserLocationStore } from "@/stores/useUserLocationStore";
+
+import UpdateUserLocation from "@components/Map/Controls/Location/updateUserLocation";
 
 const LocationFound = () => {
   const { map } = useMapStore((state) => state);
-  const { setLocation, endSearch } = useUserLocationStore((state) => state);
 
   useEffect(() => {
     const handleLocationFound = (e: LocationEvent) => {
-      setLocation(e);
-      endSearch();
+      UpdateUserLocation(e);
     };
 
     map?.on("locationfound", handleLocationFound);

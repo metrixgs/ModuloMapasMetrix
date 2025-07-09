@@ -4,7 +4,7 @@ import throttle from "lodash.throttle";
 
 import { currentCoordsId } from "@/config.id";
 
-export const updateMouseState = throttle((e: LeafletMouseEvent) => {
+const UpdateMouseCoordinates = throttle((e: LeafletMouseEvent) => {
   const currentCoords = document.getElementById(currentCoordsId);
   if (currentCoords) {
     currentCoords.innerHTML = `${e.latlng.lat.toFixed(6)}, ${e.latlng.lng.toFixed(6)}`
@@ -17,3 +17,5 @@ export const updateMouseState = throttle((e: LeafletMouseEvent) => {
 //     currentCoords.innerHTML = `${e.latlng.lat.toFixed(6)}, ${e.latlng.lng.toFixed(6)}`
 //   }
 // };
+
+export default UpdateMouseCoordinates;

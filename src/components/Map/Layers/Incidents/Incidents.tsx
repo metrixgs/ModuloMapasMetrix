@@ -20,8 +20,6 @@ import { customMarker } from "@components/Map/Icons/customIcons";
 
 import IncidentPopup from "@components/Map/Layers/Incidents/IncidentPopup";
 
-import "./IncidentPopup.css";
-
 import HandleIncidentsLoadEvent from "./Events/IncidentsLoadEvent";
 
 const Incidents = () => {
