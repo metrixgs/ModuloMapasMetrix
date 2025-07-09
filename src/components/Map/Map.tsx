@@ -1,7 +1,12 @@
 import { useRef, useEffect } from "react";
 
+// Leaflet
 import { Map as LeafletMap } from "leaflet";
 import "leaflet/dist/leaflet.css";
+
+// Geoman
+import "@geoman-io/leaflet-geoman-free";
+import "@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css";
 
 import { LoadScript } from "@react-google-maps/api";
 

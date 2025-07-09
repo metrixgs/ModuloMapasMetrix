@@ -11,28 +11,46 @@ import {
   BiEraser,
 } from "react-icons/bi";
 
-import { MapControl } from "@components/Map/Controls/MapControl";
+import { useMapStore } from "@/stores/useMapStore";
 
-const DrawItem = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <div className="w-48 px-2 py-2 flex items-center text-sm dark:text-white hover:cursor-pointer hover:bg-primary-400 dark:hover:bg-primary-500">
-      {children}
-    </div>
-  );
-};
+import { MapControl } from "@components/Map/Controls/MapControl";
+import DrawItem from "./DrawItem";
+
+import DrawRectangle from "./interactions/DrawRectangle";
+import DrawCircle from "./interactions/DrawCircle";
+import DrawPolygon from "./interactions/DrawPolygon";
 
 const DrawContent = () => {
+  const { map } = useMapStore();
   return (
     <div className="flex flex-col py-2">
-      <DrawItem>
+      <DrawItem
+        onClick={() => {
+          if (map) {
+            DrawRectangle(map);
+          }
+        }}
+      >
         <BiShapeSquare className="w-5 h-5 mr-2" />
         Trazo rectángulo
       </DrawItem>
-      <DrawItem>
+      <DrawItem
+        onClick={() => {
+          if (map) {
+            DrawCircle(map);
+          }
+        }}
+      >
         <BiShapeCircle className="w-5 h-5 mr-2" />
         Trazo círculo
       </DrawItem>
-      <DrawItem>
+      <DrawItem
+        onClick={() => {
+          if (map) {
+            DrawPolygon(map);
+          }
+        }}
+      >
         <BiShapePolygon className="w-5 h-5 mr-2" />
         Trazo polígono
       </DrawItem>
@@ -48,7 +66,12 @@ const DrawContent = () => {
         <BiEditAlt className="w-5 h-5 mr-2" />
         Edición de trazo
       </DrawItem>
-      <DrawItem>
+      <DrawItem
+        onClick={() => {
+          const shapes = map?.pm.getGeomanLayers();
+          console.log(shapes);
+        }}
+      >
         <BiEraser className="w-5 h-5 mr-2" />
         Eliminar trazo
       </DrawItem>

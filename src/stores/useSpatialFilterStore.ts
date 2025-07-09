@@ -43,6 +43,7 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
 
     if (stateLayer && map) {
       newStateLayer = geoJSON(stateLayer, {
+        pmIgnore: true,
         style: () => {
           return {
             fillColor: "#267E26",
@@ -95,6 +96,7 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
 
     if (municipalityLayer && map) {
       newMunicipalityLayer = geoJSON(municipalityLayer, {
+        pmIgnore: true,
         style: () => {
           return {
             fillColor: "#7BC11D",
@@ -150,6 +152,7 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
 
     if (hoodLayer && map) {
       newHoodLayer = geoJSON(hoodLayer, {
+        pmIgnore: true,
         style: () => {
           return {
             fillColor: "#000000",
@@ -183,6 +186,7 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
 
     if (squareLayer && map) {
       newSquareLayer = geoJSON(squareLayer, {
+        pmIgnore: true,
         style: () => {
           return {
             fillColor: "#000000",
@@ -213,6 +217,7 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
 
     if (propertyLayer && map) {
       newPropertyLayer = geoJSON(propertyLayer, {
+        pmIgnore: true,
         style: () => {
           return {
             fillColor: "#000000",

@@ -11,6 +11,7 @@
     "postinstall": "flowbite-react patch"
   },
   "dependencies": {
+    "@geoman-io/leaflet-geoman-free": "^2.18.3",
     "@react-google-maps/api": "^2.20.7",
     "@tailwindcss/vite": "^4.1.10",
     "@turf/turf": "^7.2.0",

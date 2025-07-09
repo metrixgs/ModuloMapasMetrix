@@ -30,7 +30,7 @@ const Incidents = () => {
     const geojson = json2geojsonPoint(incidents as object[], "lat", "lng");
     const layer = geoJson(geojson, {
       pointToLayer: (_feature, latlng) => {
-        return marker(latlng, { icon: customMarker });
+        return marker(latlng, { icon: customMarker, pmIgnore: true });
       },
       onEachFeature: (feature, layer) => {
         const popupClass = popup({
@@ -52,6 +52,8 @@ const Incidents = () => {
         });
       },
     });
+
+    layer.options.pmIgnore = true;
 
     // Events
     layer.on("add", HandleIncidentsLoadEvent);
