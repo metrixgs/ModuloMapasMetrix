@@ -1,4 +1,4 @@
-import type { Layer, PM } from "leaflet";
+import type { PM, Layer } from "leaflet";
 
 export interface GeomanCreateEvent {
   shape: PM.SUPPORTED_SHAPES;

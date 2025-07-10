@@ -11,54 +11,41 @@ import {
   BiEraser,
 } from "react-icons/bi";
 
-import { useMapStore } from "@/stores/useMapStore";
+import { useDrawStore } from "@/stores/useDrawStore";
 
 import { MapControl } from "@components/Map/Controls/MapControl";
+
+import MeasureResult from "./MeasureResult";
 import DrawItem from "./DrawItem";
 
-import DrawRectangle from "./interactions/DrawRectangle";
-import DrawCircle from "./interactions/DrawCircle";
-import DrawPolygon from "./interactions/DrawPolygon";
+import CreateRectangle from "./interactions/CreateRectangle";
+import CreateCircle from "./interactions/CreateCircle";
+import CreatePolygon from "./interactions/CreatePolygon";
+import MeasureLine from "./interactions/MeasureLine";
+import MeasureRectangle from "./interactions/MeasureRectangle";
 
 const DrawContent = () => {
-  const { map } = useMapStore();
+  const { clearStore } = useDrawStore((state) => state);
+
   return (
     <div className="flex flex-col py-2">
-      <DrawItem
-        onClick={() => {
-          if (map) {
-            DrawRectangle(map);
-          }
-        }}
-      >
+      <DrawItem onClick={CreateRectangle}>
         <BiShapeSquare className="w-5 h-5 mr-2" />
         Trazo rectángulo
       </DrawItem>
-      <DrawItem
-        onClick={() => {
-          if (map) {
-            DrawCircle(map);
-          }
-        }}
-      >
+      <DrawItem onClick={CreateCircle}>
         <BiShapeCircle className="w-5 h-5 mr-2" />
         Trazo círculo
       </DrawItem>
-      <DrawItem
-        onClick={() => {
-          if (map) {
-            DrawPolygon(map);
-          }
-        }}
-      >
+      <DrawItem onClick={CreatePolygon}>
         <BiShapePolygon className="w-5 h-5 mr-2" />
         Trazo polígono
       </DrawItem>
-      <DrawItem>
+      <DrawItem onClick={MeasureLine}>
         <BiRuler className="w-5 h-5 mr-2" />
         Medición de distancia
       </DrawItem>
-      <DrawItem>
+      <DrawItem onClick={MeasureRectangle}>
         <BiArea className="w-5 h-5 mr-2" />
         Superficie de un área
       </DrawItem>
@@ -66,12 +53,7 @@ const DrawContent = () => {
         <BiEditAlt className="w-5 h-5 mr-2" />
         Edición de trazo
       </DrawItem>
-      <DrawItem
-        onClick={() => {
-          const shapes = map?.pm.getGeomanLayers();
-          console.log(shapes);
-        }}
-      >
+      <DrawItem onClick={clearStore}>
         <BiEraser className="w-5 h-5 mr-2" />
         Eliminar trazo
       </DrawItem>
@@ -81,11 +63,14 @@ const DrawContent = () => {
 
 const Draw = () => {
   return (
-    <Popover placement="left" content={<DrawContent />}>
-      <MapControl>
-        <BiEdit className="w-4 h-4" />
-      </MapControl>
-    </Popover>
+    <>
+      <Popover placement="left" content={<DrawContent />}>
+        <MapControl>
+          <BiEdit className="w-4 h-4" />
+        </MapControl>
+      </Popover>
+      <MeasureResult />
+    </>
   );
 };
 

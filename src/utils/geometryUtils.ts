@@ -1,10 +1,22 @@
-import type { GeoJSON } from "geojson";
+import type { GeoJSON as GeoJSON_ } from "leaflet";
+import type {
+  GeoJSON,
+  Feature
+} from "geojson";
+
+import {
+  featureCollection as tFeatureCollection,
+} from "@turf/turf";
 
 import { useMapStore } from "@/stores/useMapStore";
 
 import { px2mm } from "./uiUtils";
 
-export const json2geojsonPoint = (json: object[], lat: string, lng: string): GeoJSON => {
+export const json2geojsonPoint = (
+  json: object[],
+  lat: string,
+  lng: string
+): GeoJSON => {
   return {
     type: "FeatureCollection",
     features: json.map((item) => ({
@@ -41,4 +53,12 @@ export const getScaleFactor = () => {
   } else {
     return undefined;
   }
-}
+};
+
+export const layers2features = (
+  layers: GeoJSON_[]
+) => {
+  const features = layers.map((layer) => layer.toGeoJSON()) as unknown as Feature[];
+  const collection = tFeatureCollection(features);
+  return collection;
+};

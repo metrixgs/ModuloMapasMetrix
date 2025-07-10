@@ -1,4 +1,4 @@
-import type { Map, Layer, LocationEvent } from "leaflet";
+import type { Map, Layer, LocationEvent, PM, GeoJSON } from "leaflet";
 import type { FeatureCollection } from "geojson";
 import type { ReactNode } from "react";
 import type { DynamicStringEnumKeysOf } from "flowbite-react/types";
@@ -116,4 +116,14 @@ export interface StreetViewStore {
   isStreetViewActive: boolean;
   activeStreetView: () => void;
   deactiveStreetView: () => void;
+}
+
+export interface DrawStore {
+  features?: GeoJSON[];
+  mode?: "measure" | "create" | "edit";
+  shape?: PM.SUPPORTED_SHAPES;
+  changeMode: (mode: "measure" | "create" | "edit") => void;
+  changeShape: (shape: PM.SUPPORTED_SHAPES) => void;
+  addFeature: (layer: GeoJSON) => void;
+  clearStore: () => void;
 }
