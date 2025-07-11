@@ -6,22 +6,19 @@ export const useDrawStore = create<DrawStore>((set, get) => ({
   features: undefined,
   mode: undefined,
   shape: undefined,
+  isEditModeActive: undefined,
   changeMode: (mode) => {
     const { features } = get();
 
     let newFeatures;
 
     if (mode) {
-      if (mode !== "edit") {
-        if (features) {
-          features.forEach((layer) => {
-            layer.remove();
-          });
-        }
-        newFeatures = [];
-      } else {
-        newFeatures = features ? [...features] : [];
+      if (features) {
+        features.forEach((layer) => {
+          layer.remove();
+        });
       }
+      newFeatures = [];
     }
 
     set({ mode: mode, features: newFeatures });
@@ -50,6 +47,11 @@ export const useDrawStore = create<DrawStore>((set, get) => ({
 
     set({ features: newFeatures });
   },
+  replaceFeatures: (layers) => {
+    set({
+      features: layers,
+    });
+  },
   clearStore: () => {
     const { features } = get();
 
@@ -61,4 +63,6 @@ export const useDrawStore = create<DrawStore>((set, get) => ({
 
     set({ shape: undefined, mode: undefined, features: undefined });
   },
+  activeEditMode: () => set({ isEditModeActive: true }),
+  deactiveEditMode: () => set({ isEditModeActive: false }),
 }));

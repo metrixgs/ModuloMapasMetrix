@@ -35,7 +35,37 @@
         }
       },
       "draw": {
-        "title": "Edición y medición"
+        "title": "Edición y medición",
+        "create": {
+          "rectangle": {
+            "title": "Trazo rectángulo"
+          },
+          "circle": {
+            "title": "Trazo círculo"
+          },
+          "polygon": {
+            "title": "Trazo polígono"
+          }
+        },
+        "measure": {
+          "distance": {
+            "title": "Medición de distancia"
+          },
+          "area": {
+            "title": "Superficie de un área"
+          }
+        },
+        "edit": {
+          "active": {
+            "title": "Iniciar edición de trazo"
+          },
+          "deactive": {
+            "title": "Terminar edición"
+          }
+        },
+        "delete": {
+          "title": "Eliminar trazo"
+        }
       },
       "location": {
         "title": "Mi ubicación",

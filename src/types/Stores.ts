@@ -120,10 +120,14 @@ export interface StreetViewStore {
 
 export interface DrawStore {
   features?: GeoJSON[];
-  mode?: "measure" | "create" | "edit";
+  mode?: "measure" | "create";
+  isEditModeActive?: boolean;
   shape?: PM.SUPPORTED_SHAPES;
-  changeMode: (mode: "measure" | "create" | "edit") => void;
+  changeMode: (mode: "measure" | "create") => void;
   changeShape: (shape: PM.SUPPORTED_SHAPES) => void;
   addFeature: (layer: GeoJSON) => void;
+  replaceFeatures: (layers: GeoJSON[]) => void;
   clearStore: () => void;
+  activeEditMode: () => void;
+  deactiveEditMode: () => void;
 }

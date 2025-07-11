@@ -1,6 +1,11 @@
-import type { PM, Layer } from "leaflet";
+import type { PM, Layer, Map } from "leaflet";
 
 export interface GeomanCreateEvent {
   shape: PM.SUPPORTED_SHAPES;
   layer: Layer;
+}
+
+export interface GeomanEditEvent {
+  enabled: boolean;
+  map: Map;
 }
