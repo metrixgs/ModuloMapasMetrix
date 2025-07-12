@@ -28,9 +28,9 @@ const MeasureResult = () => {
       <div className="h-full p-4 flex items-center gap-4 text-black dark:text-white text-sm font-bold">
         <div className="min-w-20 flex flex-col text-center">
           <span>Distancia</span>
-          <span className="font-normal">{length ? length.toFixed(2) + " m" : "N/A"}</span>
+          <span className="font-normal">{length ? parseFloat(length.toFixed(2)).toLocaleString("en-US") + " m" : "N/A"}</span>
         </div>
-        <Clipboard value={`${length ? length + " m" : "N/A"}`} />
+        <Clipboard value={`${length ? length.toLocaleString("en-US") + " m" : "N/A"}`} />
       </div>
     );
   } else if (shape === "Rectangle") {
@@ -38,9 +38,9 @@ const MeasureResult = () => {
       <div className="h-full p-4 flex items-center gap-4 text-black dark:text-white text-sm font-bold">
         <div className="min-w-20 flex flex-col text-center">
           <span>Área</span>
-          <span className="font-normal">{area ? area.toFixed(2) + " m2" : "N/A"}</span>
+          <span className="font-normal">{area ? parseFloat(area.toFixed(2)).toLocaleString("en-US") + " m²" : "N/A"}</span>
         </div>
-        <Clipboard value={`${area ? area + " m2" : "N/A"}`} />
+        <Clipboard value={`${area ? area.toLocaleString("en-US") + " m²" : "N/A"}`} />
       </div>
     );
   }

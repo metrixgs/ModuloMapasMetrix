@@ -4,7 +4,7 @@ import type { LocationEvent } from "leaflet";
 
 import { useMapStore } from "@/stores/useMapStore";
 
-import UpdateUserLocation from "@components/Map/Controls/Location/updateUserLocation";
+import UpdateUserLocation from "@components/Map/Controls/Location/UpdateUserLocation";
 
 const LocationFound = () => {
   const { map } = useMapStore((state) => state);

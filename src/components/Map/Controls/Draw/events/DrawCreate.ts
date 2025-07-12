@@ -4,8 +4,14 @@ import type { GeomanCreateEvent } from "@/types/Geoman";
 
 import { useDrawStore } from "@/stores/useDrawStore";
 
-const DrawCreate = ({ layer }: GeomanCreateEvent) => {
+const DrawCreate = ({ layer, shape }: GeomanCreateEvent) => {
   const { addFeature } = useDrawStore.getState();
+
+  if (shape === "Line") {
+    const geojson = (layer as GeoJSON).toGeoJSON();
+    console.log(geojson);
+  }
+
   addFeature(layer as GeoJSON);
 };
 

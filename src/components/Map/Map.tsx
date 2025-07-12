@@ -33,6 +33,8 @@ const Map = () => {
       zoomControl: false,
     });
 
+    mapClass.pm.setLang("es");
+
     setMap(mapClass);
 
     mapRef.current = mapClass;
