@@ -2,9 +2,10 @@ import { useEffect } from "react";
 import { tileLayer } from "leaflet";
 
 import { LAYERS } from "@/config.map";
-import useMapLayer from "@/hooks/useMapLayer";
+import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
 const CartoDBpositron = () => {
+  const append = useMapLayersStore((state) => state.append);
 
   const load = async () => {
     return tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
@@ -14,14 +15,9 @@ const CartoDBpositron = () => {
     });
   }
 
-  const { loadLayer } = useMapLayer({
-    info: LAYERS.positron,
-    loadFunction: load
-  });
-
   useEffect(() => {
-    loadLayer();
-  }, [loadLayer]);
+    append(LAYERS.positron, load);
+  }, [append]);
 
   return null;
 };

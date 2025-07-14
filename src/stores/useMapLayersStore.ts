@@ -7,23 +7,33 @@ import { useMapStore } from "./useMapStore";
 export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
   layerList: {},
   layerInfo: {},
-  append: (layer, info) => {
+  append: async (info, loadLayerFunction) => {
     const { layerList, layerInfo } = get();
+    const map = useMapStore.getState().map;
 
-    const newLayerList = {
-      [info.id]: layer,
-      ...layerList,
-    };
+    const oldLayer = layerList[info.id];
+    if (oldLayer) return false;
 
-    const newLayerInfo = {
-      [info.id]: info,
-      ...layerInfo,
-    };
+    try {
+      const layer = await loadLayerFunction();
 
-    set({
-      layerList: newLayerList,
-      layerInfo: newLayerInfo,
-    });
+      layerList[info.id] = layer;
+      layerInfo[info.id] = info;
+
+      if (info.active) {
+        map?.addLayer(layer);
+      }
+
+      set({
+        layerList: layerList,
+        layerInfo: layerInfo,
+      });
+
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
   },
   toggleLayer: (id) => {
     const { layerInfo, layerList } = get();

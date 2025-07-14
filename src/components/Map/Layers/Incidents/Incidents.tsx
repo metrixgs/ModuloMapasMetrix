@@ -14,7 +14,7 @@ import { ReadIncidents } from "@/services/Incidents/ReadIncidents";
 
 import { json2geojsonPoint } from "@/utils/geometryUtils";
 
-import useMapLayer from "@/hooks/useMapLayer";
+import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
 import { customMarker } from "@components/Map/Icons/customIcons";
 
@@ -23,6 +23,8 @@ import IncidentPopup from "@components/Map/Layers/Incidents/IncidentPopup";
 import HandleIncidentsLoadEvent from "./Events/IncidentsLoadEvent";
 
 const Incidents = () => {
+  const append = useMapLayersStore((state) => state.append);
+
   const ref = useRef<boolean>(false);
 
   const load = async () => {
@@ -60,16 +62,11 @@ const Incidents = () => {
     return layer;
   };
 
-  const { loadLayer } = useMapLayer({
-    info: LAYERS.incidents,
-    loadFunction: load,
-  });
-
   useEffect(() => {
     if (ref.current) return;
     ref.current = true;
-    loadLayer();
-  }, [loadLayer]);
+    append(LAYERS.incidents, load);
+  }, [append]);
 
   return null;
 };

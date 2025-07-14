@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { tileLayer } from "leaflet";
 
-import useMapLayer from "@/hooks/useMapLayer";
-
 import { LAYERS } from "@/config.map";
+import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
 const Osm = () => {
+  const append = useMapLayersStore((state) => state.append);
+
   const load = async () => {
     return tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
@@ -14,14 +15,9 @@ const Osm = () => {
     });
   };
 
-  const { loadLayer } = useMapLayer({
-    info: LAYERS.osm,
-    loadFunction: load
-  })
-
   useEffect(() => {
-    loadLayer();
-  }, [loadLayer]);
+    append(LAYERS.osm, load);
+  }, [append]);
 
   return null;
 };

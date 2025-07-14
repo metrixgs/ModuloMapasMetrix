@@ -17,10 +17,14 @@ export interface MapStateStore {
   setMapState: (zoom: number, centerLat: number, centerLng: number) => void;
 }
 
+
+/* ====================Layers Manager==================== */
 export interface LayerInfoItem {
   id: string;
   name: string;
   active: boolean;
+  type: "layer" | "filtered";
+  temp: boolean;
 }
 
 export interface LayerList {
@@ -31,14 +35,41 @@ export interface LayerInfo {
   [id: string]: LayerInfoItem;
 }
 
+export interface BaseFilter {
+  id: string;
+  name: string;
+  target: keyof LayerList;
+}
+
+export interface IntersectionFilter extends BaseFilter {
+  type: "intersection";
+  origin: Layer;
+}
+
+export interface TodoFilter extends BaseFilter {
+  type: "TODO";
+}
+
+export type LayerFilterItem = IntersectionFilter | TodoFilter;
+
+export interface LayerFilter {
+  [id: string]: LayerFilterItem;
+}
+
+export type LoadLayerFunction = () => Promise<Layer>;
+
 export interface MapLayersStore {
   layerList: LayerList;
   layerInfo: LayerInfo;
-  append: (layer: Layer, info: LayerInfoItem) => void;
+  append: (
+    info: LayerInfoItem,
+    loadLayerFunction: LoadLayerFunction
+  ) => Promise<boolean>;
   toggleLayer: (id: keyof LayerInfo) => void;
   turnOffLayer: (id: keyof LayerInfo) => void;
   turnOnLayer: (id: keyof LayerInfo) => void;
 }
+/* ====================================================== */
 
 export interface MouseStore {
   mouseLat?: number;
@@ -93,7 +124,10 @@ export interface SpatialFilterStore {
     municipality?: number,
     municipalityLayer?: FeatureCollection
   ) => void;
-  setDelegation: (delegation?: number, delegationLayer?: FeatureCollection) => void;
+  setDelegation: (
+    delegation?: number,
+    delegationLayer?: FeatureCollection
+  ) => void;
   setZip: (zip?: number, zipLayer?: FeatureCollection) => void;
   setHood: (hood?: number, hoodLayer?: FeatureCollection) => void;
   setSquare: (square?: number, squareLayer?: FeatureCollection) => void;

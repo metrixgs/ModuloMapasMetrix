@@ -13,21 +13,29 @@ export const LAYERS: { [key: string]: LayerInfoItem } = {
   incidents: {
     id: "metrix-incidents",
     active: true,
-    name: "Incidentes"
+    name: "Incidentes",
+    temp: false,
+    type: "layer"
   },
   osm: {
     id: "metrix-osm",
     active: false,
-    name: "Open Street Maps"
+    name: "Open Street Maps",
+    temp: false,
+    type: "layer"
   },
   positron: {
     id: "metrix-cartodb-positron",
     active: getTheme() === themeOptions.light, // For light theme
-    name: "CartoDB Positron"
+    name: "CartoDB Positron",
+    temp: false,
+    type: "layer"
   },
   jawg: {
     id: "metrix-jawgmaps",
     active: getTheme() === themeOptions.dark, // For dark theme
-    name: "Jawg Maps"
+    name: "Jawg Maps",
+    temp: false,
+    type: "layer"
   }
 }

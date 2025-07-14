@@ -9,7 +9,6 @@ import { getTheme, setTheme } from "@/utils/themeUtils";
 
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
-
 const ThemeToggle = () => {
 
   const [dark, setDark] = useState<boolean>(getTheme() == themeOptions.dark);
