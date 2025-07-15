@@ -4,13 +4,8 @@ import { useTranslation } from "react-i18next";
 import { GiMexico } from "react-icons/gi";
 import { MdHowToVote } from "react-icons/md";
 
-import TabGeographic from "@components/Map/Controls/Filters/FiltersContent/TabGeographic/TabGeographic";
-
-const TabElectoral = () => {
-  const { t } = useTranslation("global");
-
-  return <p>Electoral</p>;
-};
+import TabGeographic from "@components/Map/Controls/Filters/FiltersContent/TabGeographic";
+import TabElectoral from "@components/Map/Controls/Filters/FiltersContent/TabElectoral";
 
 const FiltersContent = () => {
   const { t } = useTranslation("global");

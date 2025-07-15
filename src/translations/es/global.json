@@ -17,6 +17,10 @@
         "title": "Filtros espaciales",
         "sidebar-title": "FILTROS ESPACIALES",
         "clean-button": "Limpiar filtros",
+        "search": {
+          "title": "Buscar",
+          "no-results": "Sin resultados."
+        },
         "tabs": {
           "geographic": {
             "title": "Geográfica",
@@ -95,7 +99,7 @@
       }
     },
     "incident": {
-      "ticket":"NO. TICKET",
+      "ticket": "NO. TICKET",
       "type": "TIPO",
       "subtype": "SUBTIPO",
       "created": "CREADO",
@@ -119,5 +123,6 @@
         "close-button": "CERRAR"
       }
     }
-  }
+  },
+  "global": {}
 }

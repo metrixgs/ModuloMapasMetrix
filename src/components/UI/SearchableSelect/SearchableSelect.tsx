@@ -1,55 +1,151 @@
-import { useState } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 
-import { Dropdown, DropdownItem, TextInput } from "flowbite-react";
+import classNames from "classnames";
 
-const SearchableSelect = ({ options }: { options: string[] }) => {
-  const [search, setSearch] = useState("");
-  const [selected, setSelected] = useState<string | null>(null);
-  // const [open, setOpen] = useState(false);
+import { Popover, Select, TextInput, type SelectProps } from "flowbite-react";
 
-  const filtered = options.filter((opt) =>
-    opt.toLowerCase().includes(search.toLowerCase())
+interface Option {
+  title: string;
+  value: string;
+}
+
+type SearchableSelectProps = {
+  placeholder?: string;
+  searchPlaceholder: string;
+  noResultPlaceholder: string;
+  options: Option[];
+} & SelectProps;
+
+type SearchableSelectOptionProps = {
+  children: React.ReactNode;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+
+const SearchableSelectOption = ({
+  children,
+  className,
+  ...props
+}: SearchableSelectOptionProps) => {
+  return (
+    <button
+      className={classNames(
+        "w-full max-w-56 px-2 py-2",
+        "flex items-center",
+        "enabled:hover:bg-primary-400 enabled:dark:hover:bg-primary-500 disabled:opacity-50",
+        "text-sm dark:text-white",
+        "enabled:hover:cursor-pointer",
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </button>
   );
+};
+
+const SearchableSelect = ({
+  placeholder,
+  searchPlaceholder,
+  noResultPlaceholder,
+  options,
+  value,
+  onChange,
+  name,
+  ...rest
+}: SearchableSelectProps) => {
+  const [open, setOpen] = useState(false);
+
+  const [search, setSearch] = useState("");
+  const [internalValue, setInternalValue] = useState("");
+
+  const selectedValue = value ?? internalValue;
+  const selectedOption = options.find(
+    (option) => option.value === selectedValue
+  );
+
+  const filtered = options.filter((option) =>
+    option.title.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const handleSelect = (selected: Option) => {
+    setOpen(false);
+    setSearch("");
+    if (!value) setInternalValue(selected.value);
+    if (onChange) {
+      const event = {
+        target: {
+          value: selected.value,
+          name,
+        },
+      } as unknown as ChangeEvent<HTMLSelectElement>;
+      onChange(event);
+    }
+  };
+
+  useEffect(() => {
+    if (value !== undefined) {
+      setInternalValue("");
+    }
+  }, [value]);
 
   return (
-    <div className="min-w-72">
-      <Dropdown
-        label={selected || "Selecciona un país"}
-        dismissOnClick={false}
-      >
-        <div
-          onClick={(e) => e.stopPropagation()}
-          className="px-3 pt-2 pb-1"
-        >
-          <TextInput
-            autoFocus
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Buscar..."
-            onKeyDown={(e) => e.stopPropagation()}
-          />
+    <Popover
+      open={open}
+      onOpenChange={setOpen}
+      arrow={false}
+      content={
+        <div className="min-w-56 flex flex-col gap-2 py-2">
+          <div onClick={(e) => e.stopPropagation()}>
+            <TextInput
+              sizing="sm"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder={searchPlaceholder}
+              onKeyDown={(e) => e.stopPropagation()}
+              className="mx-2"
+            />
+          </div>
+          <div className="w-full max-h-80 overflow-y-auto">
+            {filtered.length > 0 ? (
+              filtered.map((option, index) => (
+                <SearchableSelectOption
+                  key={index}
+                  onClick={() => {
+                    handleSelect(option);
+                  }}
+                >
+                  <p>{option.title}</p>
+                </SearchableSelectOption>
+              ))
+            ) : (
+              <div className="text-sm text-center">{noResultPlaceholder}</div>
+            )}
+          </div>
         </div>
-
-        {filtered.length > 0 ? (
-          filtered.map((option) => (
-            <DropdownItem
-              key={option}
-              onClick={() => {
-                setSelected(option);
-                setSearch("");
-              }}
-            >
-              {option}
-            </DropdownItem>
-          ))
-        ) : (
-          <DropdownItem disabled>
-            No hay resultados
-          </DropdownItem>
+      }
+    >
+      <Select
+        value={selectedValue}
+        onMouseDown={(e) => {
+          e.preventDefault();
+        }}
+        onClick={(e) => {
+          e.preventDefault();
+          setOpen(!open);
+        }}
+        onChange={onChange}
+        {...rest}
+      >
+        {placeholder && (
+          <option value="" hidden>
+            {placeholder}
+          </option>
         )}
-      </Dropdown>
-    </div>
+        <option hidden value={selectedOption?.value}>
+          {selectedOption?.title}
+        </option>
+      </Select>
+    </Popover>
   );
-}
+};
 
 export default SearchableSelect;

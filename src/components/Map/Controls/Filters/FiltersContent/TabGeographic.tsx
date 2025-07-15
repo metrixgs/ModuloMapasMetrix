@@ -2,11 +2,12 @@ import type { ChangeEvent } from "react";
 
 import { useTranslation } from "react-i18next";
 
-import { Label, Select } from "flowbite-react";
+import { Label } from "flowbite-react";
 
 import { BiSolidTrash } from "react-icons/bi";
 
 import Button from "@components/UI/Button";
+import SearchableSelect from "@components/UI/SearchableSelect/SearchableSelect";
 
 import ReadGeojson from "@/services/Filters/Geographic/ReadGeojson";
 
@@ -63,7 +64,7 @@ const TabGeographic = () => {
     setHood,
     setSquare,
     setProperty,
-    clear
+    clear,
   } = useSpatialFilterStore((state) => state);
 
   const countries = level1 as level_1[];
@@ -233,21 +234,21 @@ const TabGeographic = () => {
             {t("body.controls.filters.tabs.geographic.country")}:
           </Label>
         </div>
-        <Select
+        <SearchableSelect
           id={filtersCountryId}
+          placeholder={t(
+            "body.controls.filters.tabs.geographic.country"
+          ).toUpperCase()}
+          searchPlaceholder={t("body.controls.filters.search.title") + "..."}
+          noResultPlaceholder={t("body.controls.filters.search.no-results")}
           sizing="sm"
-          value={country}
+          value={country?.toString()}
           onChange={handleCountry}
-        >
-          <option value="">
-            {t("body.controls.filters.tabs.geographic.country").toUpperCase()}
-          </option>
-          {countries.map((item, index) => (
-            <option key={`country-${index}`} value={item.id}>
-              {item.name}
-            </option>
-          ))}
-        </Select>
+          options={countries.map((option) => ({
+            title: option.name,
+            value: option.id.toString(),
+          }))}
+        />
       </div>
       <div>
         <div className="mb-1 block">
@@ -255,22 +256,22 @@ const TabGeographic = () => {
             {t("body.controls.filters.tabs.geographic.state")}:
           </Label>
         </div>
-        <Select
+        <SearchableSelect
           id={filtersStateId}
+          placeholder={t(
+            "body.controls.filters.tabs.geographic.state"
+          ).toUpperCase()}
+          searchPlaceholder={t("body.controls.filters.search.title") + "..."}
+          noResultPlaceholder={t("body.controls.filters.search.no-results")}
           sizing="sm"
           disabled={!country}
-          value={state}
+          value={state?.toString()}
           onChange={handleState}
-        >
-          <option value="">
-            {t("body.controls.filters.tabs.geographic.state").toUpperCase()}
-          </option>
-          {states.map((item, index) => (
-            <option key={`state-${index}`} value={item.id}>
-              {item.name}
-            </option>
-          ))}
-        </Select>
+          options={states.map((option) => ({
+            title: option.name,
+            value: option.id.toString(),
+          }))}
+        />
       </div>
       <div>
         <div className="mb-1 block">
@@ -278,24 +279,22 @@ const TabGeographic = () => {
             {t("body.controls.filters.tabs.geographic.municipality")}:
           </Label>
         </div>
-        <Select
+        <SearchableSelect
           id={filtersMunicipalityId}
+          placeholder={t(
+            "body.controls.filters.tabs.geographic.municipality"
+          ).toUpperCase()}
+          searchPlaceholder={t("body.controls.filters.search.title") + "..."}
+          noResultPlaceholder={t("body.controls.filters.search.no-results")}
           sizing="sm"
           disabled={!state}
-          value={municipality}
+          value={municipality?.toString()}
           onChange={handleMunicipality}
-        >
-          <option value="">
-            {t(
-              "body.controls.filters.tabs.geographic.municipality"
-            ).toUpperCase()}
-          </option>
-          {municipalities.map((item, index) => (
-            <option key={`municipality-${index}`} value={item.id}>
-              {item.name}
-            </option>
-          ))}
-        </Select>
+          options={municipalities.map((option) => ({
+            title: option.name,
+            value: option.id.toString(),
+          }))}
+        />
       </div>
       <div>
         <div className="mb-1 block">
@@ -303,28 +302,26 @@ const TabGeographic = () => {
             {t("body.controls.filters.tabs.geographic.delegation")}:
           </Label>
         </div>
-        <Select
+        <SearchableSelect
           id={filtersDelegationId}
+          placeholder={t(
+            "body.controls.filters.tabs.geographic.delegation"
+          ).toUpperCase()}
+          searchPlaceholder={t("body.controls.filters.search.title") + "..."}
+          noResultPlaceholder={t("body.controls.filters.search.no-results")}
           sizing="sm"
           disabled={!municipality}
-          value={delegation}
+          value={delegation?.toString()}
           onChange={(e) =>
             !e.target.value
               ? setDelegation(undefined)
               : setDelegation(parseInt(e.target.value))
           }
-        >
-          <option value="">
-            {t(
-              "body.controls.filters.tabs.geographic.delegation"
-            ).toUpperCase()}
-          </option>
-          {delegations.map((item, index) => (
-            <option key={`delegation-${index}`} value={item.id}>
-              {item.name}
-            </option>
-          ))}
-        </Select>
+          options={delegations.map((option) => ({
+            title: option.name,
+            value: option.id.toString(),
+          }))}
+        />
       </div>
       <div>
         <div className="mb-1 block">
@@ -332,26 +329,26 @@ const TabGeographic = () => {
             {t("body.controls.filters.tabs.geographic.zip")}:
           </Label>
         </div>
-        <Select
+        <SearchableSelect
           id={filtersZipcodeId}
+          placeholder={t(
+            "body.controls.filters.tabs.geographic.zip"
+          ).toUpperCase()}
+          searchPlaceholder={t("body.controls.filters.search.title") + "..."}
+          noResultPlaceholder={t("body.controls.filters.search.no-results")}
           sizing="sm"
           disabled={!municipality}
-          value={zip}
+          value={zip?.toString()}
           onChange={(e) =>
             !e.target.value
               ? setZip(undefined)
               : setZip(parseInt(e.target.value))
           }
-        >
-          <option value="">
-            {t("body.controls.filters.tabs.geographic.zip").toUpperCase()}
-          </option>
-          {zips.map((item, index) => (
-            <option key={`zip-${index}`} value={item.id}>
-              {item.name}
-            </option>
-          ))}
-        </Select>
+          options={zips.map((option) => ({
+            title: option.name,
+            value: option.id.toString(),
+          }))}
+        />
       </div>
       <div>
         <div className="mb-1 block">
@@ -359,22 +356,22 @@ const TabGeographic = () => {
             {t("body.controls.filters.tabs.geographic.hood")}:
           </Label>
         </div>
-        <Select
+        <SearchableSelect
           id={filtersHoodId}
+          placeholder={t(
+            "body.controls.filters.tabs.geographic.hood"
+          ).toUpperCase()}
+          searchPlaceholder={t("body.controls.filters.search.title") + "..."}
+          noResultPlaceholder={t("body.controls.filters.search.no-results")}
           sizing="sm"
           disabled={!municipality}
-          value={hood}
+          value={hood?.toString()}
           onChange={handleHood}
-        >
-          <option value="">
-            {t("body.controls.filters.tabs.geographic.hood").toUpperCase()}
-          </option>
-          {hoods.map((item, index) => (
-            <option key={`zip-${index}`} value={item.id}>
-              {item.name}
-            </option>
-          ))}
-        </Select>
+          options={hoods.map((option) => ({
+            title: option.name,
+            value: option.id.toString(),
+          }))}
+        />
       </div>
       <div>
         <div className="mb-1 block">
@@ -382,22 +379,22 @@ const TabGeographic = () => {
             {t("body.controls.filters.tabs.geographic.square")}:
           </Label>
         </div>
-        <Select
+        <SearchableSelect
           id={filtersSquareId}
+          placeholder={t(
+            "body.controls.filters.tabs.geographic.square"
+          ).toUpperCase()}
+          searchPlaceholder={t("body.controls.filters.search.title") + "..."}
+          noResultPlaceholder={t("body.controls.filters.search.no-results")}
           sizing="sm"
           disabled={!hood}
-          value={square}
+          value={square?.toString()}
           onChange={handleSquare}
-        >
-          <option value="">
-            {t("body.controls.filters.tabs.geographic.square").toUpperCase()}
-          </option>
-          {squares.map((item, index) => (
-            <option key={`zip-${index}`} value={item.id}>
-              {item.name}
-            </option>
-          ))}
-        </Select>
+          options={squares.map((option) => ({
+            title: option.name,
+            value: option.id.toString(),
+          }))}
+        />
       </div>
       <div>
         <div className="mb-1 block">
@@ -405,22 +402,22 @@ const TabGeographic = () => {
             {t("body.controls.filters.tabs.geographic.property")}:
           </Label>
         </div>
-        <Select
+        <SearchableSelect
           id={filtersPropertyId}
+          placeholder={t(
+            "body.controls.filters.tabs.geographic.property"
+          ).toUpperCase()}
+          searchPlaceholder={t("body.controls.filters.search.title") + "..."}
+          noResultPlaceholder={t("body.controls.filters.search.no-results")}
           sizing="sm"
           disabled={!square}
-          value={property}
+          value={property?.toString()}
           onChange={handleProperty}
-        >
-          <option value="">
-            {t("body.controls.filters.tabs.geographic.property").toUpperCase()}
-          </option>
-          {properties.map((item, index) => (
-            <option key={`zip-${index}`} value={item.id}>
-              {item.name}
-            </option>
-          ))}
-        </Select>
+          options={properties.map((option) => ({
+            title: option.name,
+            value: option.id.toString(),
+          }))}
+        />
       </div>
       <Button className="h-9 justify-center" onClick={clear}>
         <BiSolidTrash className="h-5 w-5 mr-2" />
