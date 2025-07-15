@@ -54,5 +54,12 @@ export const customTheme = createTheme({
         }
       }
     }
+  },
+  rangeSlider: {
+    field: {
+      input: {
+        base: "w-full cursor-pointer appearance-none rounded-lg bg-gray-200 dark:bg-metrixblack-600"
+      }
+    }
   }
 })

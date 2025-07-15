@@ -41,7 +41,7 @@ const Coordinates = () => {
   };
 
   const CoordinatesContent = (
-    <div className="max-w-64 py-3 px-4 flex flex-col">
+    <div className="max-w-72 py-3 px-4 flex flex-col">
       <Label>{t("body.footer.coordinates.goto-title")}</Label>
       <div className="w-full mt-4 flex gap-2">
         <TextInput

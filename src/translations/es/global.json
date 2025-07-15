@@ -89,7 +89,10 @@
         "goto-helper": "Indique las coordenadas de la forma <latitud, longitud>. Ej. 3, -76"
       },
       "zoom": {
-        "title": "Zoom"
+        "title": "Zoom",
+        "zoom-title": "Indique el nivel de zoom",
+        "zoom-helper": "Indique el nivel de zoom como un número natural.",
+        "zoom-slider-helper": "Deslize para establecer el nivel de zoom deseado."
       },
       "scale": {
         "title": "Escala"

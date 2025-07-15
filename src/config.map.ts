@@ -4,6 +4,9 @@ import type { LayerInfoItem } from "@/types/Stores";
 import { getTheme } from "@/utils/themeUtils";
 import { themeOptions } from "@/config.theme";
 
+export const MIN_ZOOM = 1;
+export const MAX_ZOOM = 20;
+
 export const INITIAL_VIEW = {
   center: latLng(19.4326, -99.1332),
   zoom: 11,
