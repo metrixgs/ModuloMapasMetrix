@@ -24,7 +24,7 @@ import CreateRectangle from "./interactions/CreateRectangle";
 import CreateCircle from "./interactions/CreateCircle";
 import CreatePolygon from "./interactions/CreatePolygon";
 import MeasureLine from "./interactions/MeasureLine";
-import MeasureRectangle from "./interactions/MeasureRectangle";
+import MeasurePolygon from "./interactions/MeasurePolygon";
 import ToggleEdit from "./interactions/ToggleEdit";
 
 const DrawContent = () => {
@@ -52,7 +52,7 @@ const DrawContent = () => {
         <BiRuler className="w-5 h-5 mr-2" />
         { t("body.controls.draw.measure.distance.title") }
       </DrawItem>
-      <DrawItem onClick={MeasureRectangle}>
+      <DrawItem onClick={MeasurePolygon}>
         <BiArea className="w-5 h-5 mr-2" />
         { t("body.controls.draw.measure.area.title") }
       </DrawItem>

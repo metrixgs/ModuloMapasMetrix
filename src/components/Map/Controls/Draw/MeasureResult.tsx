@@ -33,7 +33,7 @@ const MeasureResult = () => {
         <Clipboard value={`${length ? length.toLocaleString("en-US") + " m" : "N/A"}`} />
       </div>
     );
-  } else if (shape === "Rectangle") {
+  } else if (shape === "Polygon") {
     content = (
       <div className="h-full p-4 flex items-center gap-4 text-black dark:text-white text-sm font-bold">
         <div className="min-w-20 flex flex-col text-center">

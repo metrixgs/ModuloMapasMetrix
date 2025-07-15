@@ -1,7 +1,7 @@
 import { useMapStore } from "@/stores/useMapStore";
 import { useDrawStore } from "@/stores/useDrawStore";
 
-const MeasureRectangle = () => {
+const MeasurePolygon = () => {
   const map = useMapStore.getState().map;
 
   const {
@@ -11,7 +11,7 @@ const MeasureRectangle = () => {
     changeMode,
   } = useDrawStore.getState();
 
-  const shape = "Rectangle";
+  const shape = "Polygon";
 
   if (!oldShape) {
     changeShape(shape);
@@ -50,4 +50,4 @@ const MeasureRectangle = () => {
   }
 };
 
-export default MeasureRectangle;
+export default MeasurePolygon;
