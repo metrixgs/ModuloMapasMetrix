@@ -5,7 +5,7 @@ import VisibleIncidents from "@components/VisibleIncidents/VisibleIncidents";
 
 const HomeFooter = () => {
   return (
-    <footer className="h-8 px-2 z-[800] flex gap-28 items-center bg-white dark:bg-metrixblack-800">
+    <footer className="h-8 px-2 z-[800] flex gap-8 items-center bg-white dark:bg-metrixblack-800">
       <Scale />
       <Coordinates />
       <ZoomLevel />

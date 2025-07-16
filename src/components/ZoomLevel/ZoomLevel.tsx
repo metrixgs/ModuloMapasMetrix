@@ -62,7 +62,7 @@ const ZoomLevel = () => {
             className="flex-grow"
             min={MIN_ZOOM}
             max={MAX_ZOOM}
-            value={zoom_}
+            value={zoom}
             onChange={handleChangeSlider}
             sizing="lg"
           />
@@ -76,7 +76,7 @@ const ZoomLevel = () => {
   );
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="min-w-24 flex items-center justify-between">
       <p className="text-xs dark:text-white">
         <span className="font-bold">{t("body.footer.zoom.title")}:</span> {zoom}
       </p>

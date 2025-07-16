@@ -155,10 +155,10 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
         pmIgnore: true,
         style: () => {
           return {
-            fillColor: "#000000",
+            fillColor: "#FF894F",
             stroke: true,
             weight: 0.5,
-            color: "#000000",
+            color: "#FF894F",
             opacity: 1.0,
           };
         },
@@ -189,10 +189,10 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
         pmIgnore: true,
         style: () => {
           return {
-            fillColor: "#000000",
+            fillColor: "#EA5B6F",
             stroke: true,
             weight: 0.5,
-            color: "#000000",
+            color: "#EA5B6F",
             opacity: 1.0,
           };
         },
@@ -220,10 +220,10 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
         pmIgnore: true,
         style: () => {
           return {
-            fillColor: "#000000",
+            fillColor: "#1B3C53",
             stroke: true,
             weight: 0.5,
-            color: "#000000",
+            color: "#1B3C53",
             opacity: 1.0,
           };
         },
