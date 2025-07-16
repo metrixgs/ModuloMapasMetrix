@@ -42,6 +42,7 @@
       "draw": {
         "title": "Edición y medición",
         "create": {
+          "title": "Herramientas de creación",
           "rectangle": {
             "title": "Trazo rectángulo"
           },
@@ -53,6 +54,7 @@
           }
         },
         "measure": {
+          "title": "Herramientas de medición",
           "distance": {
             "title": "Medición de distancia"
           },
@@ -61,6 +63,7 @@
           }
         },
         "edit": {
+          "title": "Herramientas de edición",
           "active": {
             "title": "Iniciar edición de trazo"
           },
