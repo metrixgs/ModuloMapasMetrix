@@ -24,15 +24,18 @@ export const useDrawStore = create<DrawStore>((set, get) => ({
     set({ mode: mode, features: newFeatures });
   },
   changeShape: (shape) => {
-    const { features } = get();
+    const { features, mode } = get();
 
-    if (features) {
-      features.forEach((layer) => {
-        layer.remove();
-      });
+    if (mode && mode === "measure") {
+      if (features) {
+        features.forEach((layer) => {
+          layer.remove();
+        });
+      }
+      set({ shape: shape, features: [] });
+    } else {
+      set({ shape: shape });
     }
-
-    set({ shape: shape, features: [] });
   },
   addFeature: (layer) => {
     const { features } = get();
