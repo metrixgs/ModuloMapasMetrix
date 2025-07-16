@@ -2,6 +2,8 @@ import { ToggleSwitch } from "flowbite-react";
 
 import { BiLayer } from "react-icons/bi";
 
+import { useTranslation } from "react-i18next";
+
 import { MapControl } from "@components/Map/Controls/MapControl";
 
 import { useSidebarStore } from "@/stores/useSidebarStore";
@@ -26,6 +28,8 @@ const SidebarContent = () => {
 }
 
 const Layers = () => {
+  const { t } = useTranslation("global");
+
   const {
     open,
     setTitle,
@@ -34,8 +38,8 @@ const Layers = () => {
   } = useSidebarStore((state) => state);
 
   const handleClick = () => {
-    setTitle("CAPAS");
-    setIcon(<BiLayer />);
+    setTitle(t("body.controls.layers.sidebar-title"));
+    setIcon(<BiLayer className="mr-2" />);
     setChildren(<SidebarContent />);
     open();
   }
