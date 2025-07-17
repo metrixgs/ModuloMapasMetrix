@@ -1,10 +1,12 @@
 import { create } from "zustand";
 
-import type { MapLayersStore } from "@/types/Stores";
+import type { MapLayersStore } from "@/types/Stores/LayersManager";
 
 import { useMapStore } from "./useMapStore";
+import { GROUPS } from "@/config.map";
 
 export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
+  groups: GROUPS,
   layerList: {},
   layerInfo: {},
   append: async (info, loadLayerFunction) => {
@@ -94,4 +96,9 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
 
     set({ layerInfo: newLayerInfo });
   },
+  toggleGroup: (id) => {
+    const { layerInfo, layerList } = get();
+
+
+  }
 }));

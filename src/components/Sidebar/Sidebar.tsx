@@ -14,7 +14,7 @@ const Sidebar = () => {
     >
       <div className="h-full flex flex-col">
         <DrawerHeader title={title} titleIcon={() => icon} />
-        <div className="grow">
+        <div className="grow overflow-y-auto">
           { children }
         </div>
       </div>

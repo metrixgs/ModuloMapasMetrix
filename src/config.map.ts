@@ -1,6 +1,10 @@
 import { latLng } from "leaflet";
 
-import type { LayerInfoItem } from "@/types/Stores";
+import type {
+  LayerInfoItem,
+  LayerInfoGroup
+} from "@/types/Stores/LayersManager";
+
 import { getTheme } from "@/utils/themeUtils";
 import { themeOptions } from "@/config.theme";
 
@@ -18,14 +22,14 @@ export const LAYERS: { [key: string]: LayerInfoItem } = {
     active: true,
     name: "Incidentes",
     temp: false,
-    type: "layer"
+    type: "layer",
   },
   osm: {
     id: "metrix-osm",
     active: false,
     name: "Open Street Maps",
     temp: false,
-    type: "layer"
+    type: "layer",
   },
   positron: {
     id: "metrix-cartodb-positron",
@@ -40,5 +44,26 @@ export const LAYERS: { [key: string]: LayerInfoItem } = {
     name: "Jawg Maps",
     temp: false,
     type: "layer"
+  }
+}
+
+export const GROUPS: LayerInfoGroup = {
+  "metrix-main-group": {
+    id: "metrix-main-group",
+    name: "Capas Principales",
+    active: true,
+    layers: [
+      LAYERS["incidents"].id
+    ]
+  },
+  "metrix-basemap": {
+    id: "metrix-basemaps",
+    name: "Mapas base",
+    active: true,
+    layers: [
+      LAYERS["osm"].id,
+      LAYERS["positron"].id,
+      LAYERS["jawg"].id
+    ]
   }
 }
