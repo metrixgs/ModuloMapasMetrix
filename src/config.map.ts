@@ -56,7 +56,7 @@ export const GROUPS: LayerInfoGroup = {
       LAYERS["incidents"].id
     ]
   },
-  "metrix-basemap": {
+  "metrix-basemaps": {
     id: "metrix-basemaps",
     name: "Mapas base",
     active: true,
@@ -65,5 +65,65 @@ export const GROUPS: LayerInfoGroup = {
       LAYERS["positron"].id,
       LAYERS["jawg"].id
     ]
-  }
+  },
+  // "metrix-basemaps2": {
+  //   id: "metrix-basemaps2",
+  //   name: "Mapas base 2",
+  //   active: true,
+  //   layers: [
+  //     LAYERS["osm"].id,
+  //     LAYERS["positron"].id,
+  //     LAYERS["jawg"].id
+  //   ]
+  // },
+  // "metrix-basemaps3": {
+  //   id: "metrix-basemaps3",
+  //   name: "Mapas base 3",
+  //   active: true,
+  //   layers: [
+  //     LAYERS["osm"].id,
+  //     LAYERS["positron"].id,
+  //     LAYERS["jawg"].id
+  //   ]
+  // },
+  // "metrix-basemaps4": {
+  //   id: "metrix-basemaps4",
+  //   name: "Mapas base 4",
+  //   active: true,
+  //   layers: [
+  //     LAYERS["osm"].id,
+  //     LAYERS["positron"].id,
+  //     LAYERS["jawg"].id
+  //   ]
+  // },
+  // "metrix-basemaps5": {
+  //   id: "metrix-basemaps5",
+  //   name: "Mapas base 5",
+  //   active: true,
+  //   layers: [
+  //     LAYERS["osm"].id,
+  //     LAYERS["positron"].id,
+  //     LAYERS["jawg"].id
+  //   ]
+  // },
+  // "metrix-basemaps6": {
+  //   id: "metrix-basemaps6",
+  //   name: "Mapas base 6",
+  //   active: true,
+  //   layers: [
+  //     LAYERS["osm"].id,
+  //     LAYERS["positron"].id,
+  //     LAYERS["jawg"].id
+  //   ]
+  // },
+  // "metrix-basemaps7": {
+  //   id: "metrix-basemaps7",
+  //   name: "Mapas base 7",
+  //   active: true,
+  //   layers: [
+  //     LAYERS["osm"].id,
+  //     LAYERS["positron"].id,
+  //     LAYERS["jawg"].id
+  //   ]
+  // }
 }

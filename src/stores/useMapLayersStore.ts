@@ -97,8 +97,33 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
     set({ layerInfo: newLayerInfo });
   },
   toggleGroup: (id) => {
-    const { layerInfo, layerList } = get();
+    const { layerInfo, layerList, groups } = get();
+    const map = useMapStore.getState().map;
 
+    const newGroups = { ...groups };
+    const newLayerInfo = { ...layerInfo };
 
-  }
+    const group = groups[id];
+
+    const isActive = group.active;
+
+    if (isActive) {
+      newGroups[id].active = false;
+      newGroups[id].layers.map((layerId) => {
+        layerList[layerId].remove();
+      });
+    } else {
+      newGroups[id].active = true;
+      newGroups[id].layers.map((layerId) => {
+        if (newLayerInfo[layerId].active) {
+          map?.addLayer(layerList[layerId]);
+        }
+      });
+    }
+
+    set({
+      layerInfo: newLayerInfo,
+      groups: newGroups,
+    });
+  },
 }));
