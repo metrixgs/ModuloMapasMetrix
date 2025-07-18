@@ -72,7 +72,16 @@
           }
         },
         "delete": {
-          "title": "Eliminar trazo"
+          "title": "Eliminar elemento",
+          "active": {
+            "title": "Borrar elemento"
+          },
+          "deactive": {
+            "title": "Terminar borrado"
+          }
+        },
+        "delete-all": {
+          "title": "Eliminar todo"
         }
       },
       "location": {

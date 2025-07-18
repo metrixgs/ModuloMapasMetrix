@@ -1,24 +1,29 @@
 import { create } from "zustand";
 
-import type { DrawStore } from "@/types/Stores";
+import type { DrawStore } from "@/types/Stores/Draw";
 
 export const useDrawStore = create<DrawStore>((set, get) => ({
   features: undefined,
-  mode: undefined,
+  mode: "pending",
   shape: undefined,
   isEditModeActive: undefined,
+  isRemovalModeActive: undefined,
   changeMode: (mode) => {
     const { features } = get();
 
     let newFeatures;
 
-    if (mode) {
+    if (mode && mode !== "pending") {
       if (features) {
         features.forEach((layer) => {
           layer.remove();
         });
       }
       newFeatures = [];
+    } else {
+      if (features) {
+        newFeatures = [...features];
+      }
     }
 
     set({ mode: mode, features: newFeatures });
@@ -50,6 +55,26 @@ export const useDrawStore = create<DrawStore>((set, get) => ({
 
     set({ features: newFeatures });
   },
+  removeFeature: (layer) => {
+    const { features } = get();
+
+    if (features) {
+      const newFeatures = [...features];
+
+      features.forEach((old) => {
+        if (old === layer) {
+          const index = newFeatures.indexOf(layer);
+          if (index !== -1) {
+            newFeatures.splice(index, 1);
+          }
+        }
+      });
+
+      set({
+        features: newFeatures,
+      });
+    }
+  },
   replaceFeatures: (layers) => {
     set({
       features: layers,
@@ -68,4 +93,6 @@ export const useDrawStore = create<DrawStore>((set, get) => ({
   },
   activeEditMode: () => set({ isEditModeActive: true }),
   deactiveEditMode: () => set({ isEditModeActive: false }),
+  activeRemovalMode: () => set({ isRemovalModeActive: true }),
+  deactiveRemovalMode: () => set({ isRemovalModeActive: false }),
 }));

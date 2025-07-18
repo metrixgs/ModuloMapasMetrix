@@ -9,3 +9,8 @@ export interface GeomanEditEvent {
   enabled: boolean;
   map: Map;
 }
+
+export interface GeomanRemoveEvent {
+  layer: Layer,
+  shape: PM.SUPPORTED_SHAPES
+}

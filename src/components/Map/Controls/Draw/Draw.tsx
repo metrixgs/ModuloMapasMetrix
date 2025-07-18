@@ -13,6 +13,7 @@ import {
   BiArea,
   BiEditAlt,
   BiEraser,
+  BiTrash
 } from "react-icons/bi";
 
 import { useDrawStore } from "@/stores/useDrawStore";
@@ -28,6 +29,7 @@ import CreatePolygon from "./interactions/CreatePolygon";
 import MeasureLine from "./interactions/MeasureLine";
 import MeasurePolygon from "./interactions/MeasurePolygon";
 import ToggleEdit from "./interactions/ToggleEdit";
+import ToggleDeleteElement from "./interactions/ToggleDeleteElement";
 
 const DrawContent = ({
   setOpen,
@@ -36,11 +38,12 @@ const DrawContent = ({
 }) => {
   const { t } = useTranslation("global");
 
-  const { features, clearStore, isEditModeActive } = useDrawStore(
+  const { features, clearStore, isEditModeActive, isRemovalModeActive } = useDrawStore(
     (state) => state
   );
 
-  const editDisabled = !features;
+  const editDisabled = !features || features.length === 0;
+  const removalDisabled = !features;
 
   return (
     <div className="flex flex-col py-2">
@@ -114,12 +117,26 @@ const DrawContent = ({
       </DrawItem>
       <DrawItem
         onClick={() => {
+          if (!isRemovalModeActive) {
+            setOpen(false);
+          }
+          ToggleDeleteElement();
+        }}
+        disabled={removalDisabled}
+      >
+        <BiEraser className="w-5 h-5 mr-2" />
+        {isRemovalModeActive
+          ? t("body.controls.draw.delete.deactive.title")
+          : t("body.controls.draw.delete.active.title")}
+      </DrawItem>
+      <DrawItem
+        onClick={() => {
           clearStore();
         }}
         disabled={editDisabled}
       >
-        <BiEraser className="w-5 h-5 mr-2" />
-        {t("body.controls.draw.delete.title")}
+        <BiTrash className="w-5 h-5 mr-2" />
+        {t("body.controls.draw.delete-all.title")}
       </DrawItem>
     </div>
   );
