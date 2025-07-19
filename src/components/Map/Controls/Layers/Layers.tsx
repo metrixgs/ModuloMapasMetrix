@@ -1,3 +1,5 @@
+import type { GeoJSON } from "leaflet";
+
 import { useTranslation } from "react-i18next";
 
 import { Label, ToggleSwitch, Checkbox } from "flowbite-react";
@@ -8,15 +10,17 @@ import classNames from "classnames";
 
 import { Accordion } from "@components/UI/Accordion/Accordion";
 import { AccordionItem } from "@components/UI/Accordion/AccordionItem";
-import { MapControl } from "@components/Map/Controls/MapControl";
 
-import { useSidebarStore } from "@/stores/useSidebarStore";
+import { MapControl } from "@components/Map/Controls/MapControl";
+import AttributesTableButton from "@components/AttributesTable/AttributesTableButton";
+
+import { useSidebarLeftStore } from "@/stores/useSidebarLeftStore";
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
 const SidebarContent = () => {
-  const { groups, layerInfo, toggleLayer, toggleGroup } = useMapLayersStore(
-    (state) => state
-  );
+  const { t } = useTranslation("global");
+  const { groups, layerList, layerInfo, toggleLayer, toggleGroup } =
+    useMapLayersStore((state) => state);
 
   return (
     <Accordion>
@@ -39,30 +43,41 @@ const SidebarContent = () => {
             }
           >
             <div
-              className={classNames(
-                "flex flex-col gap-2",
-                {
-                  "opacity-50 pointer-events-none cursor-not-allowed": !activeGroup,
-                }
-              )}
-            >
-              {layers.map((layerId, index) => {
-                const { id, name, active } = layerInfo[layerId];
-                return (
-                  <div key={index} className="flex items-center gap-2">
-                    <Checkbox
-                      id={`layer-${id}`}
-                      className="h-5 w-5"
-                      disabled={!activeGroup}
-                      checked={active}
-                      onChange={() => {
-                        toggleLayer(id);
-                      }}
-                    />
-                    <Label htmlFor={`layer-${id}`}>{name}</Label>
-                  </div>
-                );
+              className={classNames("flex flex-col gap-2", {
+                "opacity-50 pointer-events-none cursor-not-allowed":
+                  !activeGroup,
               })}
+            >
+              {!layers || layers.length === 0 ? (
+                <span className="text-center text-sm text-gray-500 dark:text-gray-200">
+                  <i>{t("body.controls.layers.group-empty")}</i>
+                </span>
+              ) : (
+                layers.map((layerId, index) => {
+                  const { id, name, active, geometry } = layerInfo[layerId];
+                  return (
+                    <div key={index} className="flex items-center gap-2">
+                      <Checkbox
+                        id={`layer-${id}`}
+                        className="h-5 w-5"
+                        disabled={!activeGroup}
+                        checked={active}
+                        onChange={() => {
+                          toggleLayer(id);
+                        }}
+                      />
+                      <Label htmlFor={`layer-${id}`}>{name}</Label>
+                      <div className="grow flex justify-end">
+                        {geometry === "geojson" && (
+                          <AttributesTableButton
+                            layer={layerList[id] as GeoJSON}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  );
+                })
+              )}
             </div>
           </AccordionItem>
         );
@@ -74,7 +89,7 @@ const SidebarContent = () => {
 const Layers = () => {
   const { t } = useTranslation("global");
 
-  const { open, setTitle, setIcon, setChildren } = useSidebarStore(
+  const { open, setTitle, setIcon, setChildren } = useSidebarLeftStore(
     (state) => state
   );
 

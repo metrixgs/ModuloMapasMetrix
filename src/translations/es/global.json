@@ -9,7 +9,8 @@
       },
       "layers": {
         "sidebar-title": "Control Capas",
-        "title": "Capas"
+        "title": "Capas",
+        "group-empty": "No hay capas asociadas a este grupo."
       },
       "bdd": {
         "title": "BDD"

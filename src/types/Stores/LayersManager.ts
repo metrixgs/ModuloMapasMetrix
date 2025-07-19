@@ -1,4 +1,4 @@
-import type { Layer } from "leaflet";
+import type { Layer, GeoJSON } from "leaflet";
 
 export interface LayerInfoGroupItem {
   id: string;
@@ -15,6 +15,7 @@ export interface LayerInfoItem {
   id: string;
   name: string;
   active: boolean;
+  geometry: "geojson" | "tile";
   type: "layer" | "filtered";
   temp: boolean;
 }
@@ -30,12 +31,12 @@ export interface LayerInfo {
 export interface BaseFilter {
   id: string;
   name: string;
-  target: keyof LayerList;
+  target: string; // keyof LayerList;
 }
 
 export interface IntersectionFilter extends BaseFilter {
   type: "intersection";
-  origin: Layer;
+  origin: GeoJSON;
 }
 
 export interface TodoFilter extends BaseFilter {
@@ -54,12 +55,19 @@ export interface MapLayersStore {
   groups: LayerInfoGroup;
   layerList: LayerList;
   layerInfo: LayerInfo;
+  layerFilter: LayerFilter;
   append: (
     info: LayerInfoItem,
     loadLayerFunction: LoadLayerFunction
   ) => Promise<boolean>;
+  appendFilter: (properties: LayerFilterItem) => Promise<boolean>;
+  removeLayer: (id: keyof LayerInfo) => void;
   toggleLayer: (id: keyof LayerInfo) => void;
   turnOffLayer: (id: keyof LayerInfo) => void;
   turnOnLayer: (id: keyof LayerInfo) => void;
   toggleGroup: (id: keyof LayerInfoGroup) => void;
+  assignLayerToGroup: (
+    layerId: keyof LayerInfo,
+    groupId: keyof LayerInfoGroup
+  ) => void;
 }

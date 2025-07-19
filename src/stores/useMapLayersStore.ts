@@ -1,6 +1,13 @@
 import { create } from "zustand";
 
-import type { MapLayersStore } from "@/types/Stores/LayersManager";
+import { geoJson, type GeoJSON } from "leaflet";
+
+import { pointsWithinPolygon } from "@turf/turf";
+
+import type {
+  MapLayersStore,
+  LayerInfoItem,
+} from "@/types/Stores/LayersManager";
 
 import { useMapStore } from "./useMapStore";
 import { GROUPS } from "@/config.map";
@@ -9,6 +16,7 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
   groups: GROUPS,
   layerList: {},
   layerInfo: {},
+  layerFilter: {},
   append: async (info, loadLayerFunction) => {
     const { layerList, layerInfo } = get();
     const map = useMapStore.getState().map;
@@ -37,6 +45,70 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
       return false;
     }
   },
+  appendFilter: async (properties) => {
+    const { layerList, layerInfo, layerFilter, turnOffLayer, append } = get();
+
+    if (properties.type === "intersection") {
+      // Intersection between points and a polygon
+
+      // Checks
+      if (
+        !Object.keys(layerList).includes(properties.target) ||
+        !Object.keys(layerInfo).includes(properties.target)
+      ) {
+        console.warn(`The filter could not be applied. Make sure the target (${properties.target}) exists in the layer registry.`);
+        return false;
+      }
+
+      // Logic
+      try {
+        const newLayerFilter = { ...layerFilter };
+
+        const filterGeoJSON = properties.origin.toGeoJSON();
+
+        const target = layerList[properties.target];
+        const targetGeoJSON = (target as GeoJSON).toGeoJSON();
+
+        const filteredLayerGeoJSON = pointsWithinPolygon(
+          targetGeoJSON,
+          filterGeoJSON
+        );
+        const filteredLayer = geoJson(filteredLayerGeoJSON);
+
+        const filterInfo: LayerInfoItem = {
+          id: properties.id,
+          name: properties.name,
+          active: true,
+          geometry: "geojson",
+          temp: true,
+          type: "filtered",
+        };
+
+        const mount = await append(filterInfo, async () => filteredLayer);
+
+        if (mount) {
+          turnOffLayer(properties.target);
+          newLayerFilter[properties.id] = properties;
+          set({
+            layerFilter: newLayerFilter
+          })
+          return true;
+        } else {
+          console.warn("The filtered layer could not be added to the map.");
+          return false;
+        }
+      } catch (error) {
+        console.error(
+          `The filter could not be applied, an error occurred: ${error}`
+        );
+        return false;
+      }
+    } else {
+      console.warn("The type of filter you want to apply is not listed.");
+      return false;
+    }
+  },
+  removeLayer: (id) => {},
   toggleLayer: (id) => {
     const { layerInfo, layerList } = get();
 
@@ -126,4 +198,5 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
       groups: newGroups,
     });
   },
+  assignLayerToGroup: (layerId, groupId) => {}
 }));

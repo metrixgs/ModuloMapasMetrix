@@ -9,10 +9,11 @@ type MapControlGroupProps = {
   children: React.ReactNode;
 };
 
-export const MapControl = ({ children, active, ...props }: MapControlProps) => {
+export const MapControl = ({ children, active, className, ...props }: MapControlProps) => {
   return (
     <button
       className={classNames(
+        className,
         "h-9 w-9 p-2 rounded shadow text-xs",
         "flex justify-center items-center",
         "hover:cursor-pointer hover:outline-2",

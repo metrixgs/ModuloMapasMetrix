@@ -22,20 +22,23 @@ export const LAYERS: { [key: string]: LayerInfoItem } = {
     active: true,
     name: "Incidentes",
     temp: false,
-    type: "layer",
+    geometry: "geojson",
+    type: "layer"
   },
   osm: {
     id: "metrix-osm",
     active: false,
     name: "Open Street Maps",
     temp: false,
-    type: "layer",
+    geometry: "tile",
+    type: "layer"
   },
   positron: {
     id: "metrix-cartodb-positron",
     active: getTheme() === themeOptions.light, // For light theme
     name: "CartoDB Positron",
     temp: false,
+    geometry: "tile",
     type: "layer"
   },
   jawg: {
@@ -43,6 +46,7 @@ export const LAYERS: { [key: string]: LayerInfoItem } = {
     active: getTheme() === themeOptions.dark, // For dark theme
     name: "Jawg Maps",
     temp: false,
+    geometry: "tile",
     type: "layer"
   }
 }
@@ -66,6 +70,12 @@ export const GROUPS: LayerInfoGroup = {
       LAYERS["jawg"].id
     ]
   },
+  "metrix-filters": {
+    id: "metrix-filters",
+    name: "Filtros",
+    active: true,
+    layers: []
+  }
   // "metrix-basemaps2": {
   //   id: "metrix-basemaps2",
   //   name: "Mapas base 2",
