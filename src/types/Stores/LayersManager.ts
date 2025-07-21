@@ -1,21 +1,22 @@
 import type { Layer, GeoJSON } from "leaflet";
 
-export interface LayerInfoGroupItem {
+export interface LayerGroupItem {
   id: string;
   name: string;
   active: boolean;
-  layers: (keyof LayerInfo)[];
+  layers: (keyof Layers)[];
 }
 
-export interface LayerInfoGroup {
-  [id: string]: LayerInfoGroupItem;
+export interface LayerGroup {
+  [id: string]: LayerGroupItem;
 }
 
-export interface LayerInfoItem {
+export interface LayerItem {
   id: string;
   name: string;
   active: boolean;
-  geometry: "geojson" | "tile";
+  layer?: Layer;
+  format: "geojson" | "tile";
   type: "layer" | "filtered";
   temp: boolean;
 }
@@ -24,8 +25,8 @@ export interface LayerList {
   [id: string]: Layer;
 }
 
-export interface LayerInfo {
-  [id: string]: LayerInfoItem;
+export interface Layers {
+  [id: string]: LayerItem;
 }
 
 export interface BaseFilter {
@@ -52,22 +53,21 @@ export interface LayerFilter {
 export type LoadLayerFunction = () => Promise<Layer>;
 
 export interface MapLayersStore {
-  groups: LayerInfoGroup;
-  layerList: LayerList;
-  layerInfo: LayerInfo;
+  groups: LayerGroup;
+  layers: Layers;
   layerFilter: LayerFilter;
   append: (
-    info: LayerInfoItem,
+    info: LayerItem,
     loadLayerFunction: LoadLayerFunction
   ) => Promise<boolean>;
   appendFilter: (properties: LayerFilterItem) => Promise<boolean>;
-  removeLayer: (id: keyof LayerInfo) => void;
-  toggleLayer: (id: keyof LayerInfo) => void;
-  turnOffLayer: (id: keyof LayerInfo) => void;
-  turnOnLayer: (id: keyof LayerInfo) => void;
-  toggleGroup: (id: keyof LayerInfoGroup) => void;
+  removeLayer: (id: keyof Layers) => void;
+  toggleLayer: (id: keyof Layers) => void;
+  turnOffLayer: (id: keyof Layers) => void;
+  turnOnLayer: (id: keyof Layers) => void;
+  toggleGroup: (id: keyof LayerGroup) => void;
   assignLayerToGroup: (
-    layerId: keyof LayerInfo,
-    groupId: keyof LayerInfoGroup
+    layerId: keyof Layers,
+    groupId: keyof LayerGroup
   ) => void;
 }

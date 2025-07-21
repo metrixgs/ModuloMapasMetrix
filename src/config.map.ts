@@ -1,8 +1,8 @@
 import { latLng } from "leaflet";
 
 import type {
-  LayerInfoItem,
-  LayerInfoGroup
+  LayerItem,
+  LayerGroup
 } from "@/types/Stores/LayersManager";
 
 import { getTheme } from "@/utils/themeUtils";
@@ -16,13 +16,13 @@ export const INITIAL_VIEW = {
   zoom: 11,
 };
 
-export const LAYERS: { [key: string]: LayerInfoItem } = {
+export const LAYERS: { [key: string]: LayerItem } = {
   incidents: {
     id: "metrix-incidents",
     active: true,
     name: "Incidentes",
     temp: false,
-    geometry: "geojson",
+    format: "geojson",
     type: "layer"
   },
   osm: {
@@ -30,7 +30,7 @@ export const LAYERS: { [key: string]: LayerInfoItem } = {
     active: false,
     name: "Open Street Maps",
     temp: false,
-    geometry: "tile",
+    format: "tile",
     type: "layer"
   },
   positron: {
@@ -38,7 +38,7 @@ export const LAYERS: { [key: string]: LayerInfoItem } = {
     active: getTheme() === themeOptions.light, // For light theme
     name: "CartoDB Positron",
     temp: false,
-    geometry: "tile",
+    format: "tile",
     type: "layer"
   },
   jawg: {
@@ -46,12 +46,12 @@ export const LAYERS: { [key: string]: LayerInfoItem } = {
     active: getTheme() === themeOptions.dark, // For dark theme
     name: "Jawg Maps",
     temp: false,
-    geometry: "tile",
+    format: "tile",
     type: "layer"
   }
 }
 
-export const GROUPS: LayerInfoGroup = {
+export const GROUPS: LayerGroup = {
   "metrix-main-group": {
     id: "metrix-main-group",
     name: "Capas Principales",

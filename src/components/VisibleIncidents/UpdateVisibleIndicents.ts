@@ -10,9 +10,9 @@ import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
 const UpdateVisibleIncidents = (e: LeafletEvent) => {
   const map = useMapStore.getState().map;
-  const layers = useMapLayersStore.getState().layerList;
+  const layers = useMapLayersStore.getState().layers;
 
-  const incidents = layers[LAYERS.incidents.id] as GeoJSON;
+  const incidents = layers[LAYERS.incidents.id].layer as GeoJSON;
 
   const element = document.getElementById(visibleIncidentsId);
 

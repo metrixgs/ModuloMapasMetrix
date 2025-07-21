@@ -6,7 +6,7 @@ import { pointsWithinPolygon } from "@turf/turf";
 
 import type {
   MapLayersStore,
-  LayerInfoItem,
+  LayerItem,
 } from "@/types/Stores/LayersManager";
 
 import { useMapStore } from "./useMapStore";
@@ -14,29 +14,29 @@ import { GROUPS } from "@/config.map";
 
 export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
   groups: GROUPS,
-  layerList: {},
-  layerInfo: {},
+  layers: {},
   layerFilter: {},
   append: async (info, loadLayerFunction) => {
-    const { layerList, layerInfo } = get();
+    const { layers } = get();
     const map = useMapStore.getState().map;
 
-    const oldLayer = layerList[info.id];
+    const oldLayer = layers[info.id]?.layer;
     if (oldLayer) return false;
 
     try {
       const layer = await loadLayerFunction();
 
-      layerList[info.id] = layer;
-      layerInfo[info.id] = info;
+      layers[info.id] = {
+        ...info,
+        layer: layer,
+      };
 
       if (info.active) {
         map?.addLayer(layer);
       }
 
       set({
-        layerList: layerList,
-        layerInfo: layerInfo,
+        layers: layers,
       });
 
       return true;
@@ -46,17 +46,21 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
     }
   },
   appendFilter: async (properties) => {
-    const { layerList, layerInfo, layerFilter, turnOffLayer, append } = get();
+    const { layers, layerFilter, turnOffLayer, append } = get();
 
     if (properties.type === "intersection") {
       // Intersection between points and a polygon
 
       // Checks
       if (
-        !Object.keys(layerList).includes(properties.target) ||
-        !Object.keys(layerInfo).includes(properties.target)
+        !Object.keys(layers).includes(properties.target)
       ) {
         console.warn(`The filter could not be applied. Make sure the target (${properties.target}) exists in the layer registry.`);
+        return false;
+      }
+
+      if (!layers[properties.target].layer) {
+        console.warn(`The filter could not be applied. Make sure the target (${properties.target}) has an associated layer.`);
         return false;
       }
 
@@ -66,7 +70,7 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
 
         const filterGeoJSON = properties.origin.toGeoJSON();
 
-        const target = layerList[properties.target];
+        const target = layers[properties.target].layer;
         const targetGeoJSON = (target as GeoJSON).toGeoJSON();
 
         const filteredLayerGeoJSON = pointsWithinPolygon(
@@ -75,11 +79,11 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
         );
         const filteredLayer = geoJson(filteredLayerGeoJSON);
 
-        const filterInfo: LayerInfoItem = {
+        const filterInfo: LayerItem = {
           id: properties.id,
           name: properties.name,
           active: true,
-          geometry: "geojson",
+          format: "geojson",
           temp: true,
           type: "filtered",
         };
@@ -108,72 +112,103 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
       return false;
     }
   },
-  removeLayer: (id) => {},
-  toggleLayer: (id) => {
-    const { layerInfo, layerList } = get();
+  removeLayer: (id) => {
+    const { layers, groups, layerFilter } = get();
 
-    const layer = layerList[id];
-    const newLayerInfo = structuredClone(layerInfo);
+    const layerInfo = layers[id];
+
+    if (layerInfo) {
+      const { id, layer } = layerInfo;
+      
+      for (const key in groups) {
+        const group = groups[key];
+        if (group.layers.includes(id)) {
+          const index = group.layers.indexOf(id);
+          groups[key].layers.splice(index, 1);
+        }
+      }
+
+      if (id in layerFilter) {
+        delete layerFilter[id];
+      }
+
+      if (layer) {
+        layer.remove();
+      }
+
+      delete layers[id];
+      set({
+        layers: layers,
+        groups: groups,
+        layerFilter: layerFilter
+      })
+    }
+  },
+  toggleLayer: (id) => {
+    const { layers } = get();
+
+    const layer = layers[id]?.layer;
+    const newLayers = { ...layers };
 
     if (!layer) return;
-    if (!newLayerInfo[id]) return;
+    if (!newLayers[id]) return;
 
-    const isActive = newLayerInfo[id].active;
+    const isActive = newLayers[id].active;
 
     if (isActive) {
-      newLayerInfo[id].active = false;
+      newLayers[id].active = false;
       layer.remove();
     } else {
-      newLayerInfo[id].active = true;
+      newLayers[id].active = true;
       const { map } = useMapStore.getState();
       map?.addLayer(layer);
     }
 
-    set({ layerInfo: newLayerInfo });
+    set({ layers: newLayers });
   },
   turnOffLayer: (id) => {
-    const { layerInfo, layerList } = get();
+    const { layers } = get();
 
-    const layer = layerList[id];
-    const newLayerInfo = structuredClone(layerInfo);
+    const layer = layers[id].layer;
+    const newLayers = { ...layers };
 
     if (!layer) return;
-    if (!newLayerInfo[id]) return;
+    if (!newLayers[id]) return;
 
-    const isActive = newLayerInfo[id].active;
+    const isActive = newLayers[id].active;
 
     if (isActive) {
-      newLayerInfo[id].active = false;
+      newLayers[id].active = false;
       layer.remove();
     }
 
-    set({ layerInfo: newLayerInfo });
+    set({ layers: newLayers });
   },
   turnOnLayer: (id) => {
-    const { layerInfo, layerList } = get();
+    const { layers } = get();
 
-    const layer = layerList[id];
-    const newLayerInfo = structuredClone(layerInfo);
+    const layer = layers[id].layer;
+    const newLayers = { ...layers };
 
     if (!layer) return;
-    if (!newLayerInfo[id]) return;
+    if (!newLayers[id]) return;
 
-    const isActive = newLayerInfo[id].active;
+    const isActive = newLayers[id].active;
 
     if (!isActive) {
-      newLayerInfo[id].active = true;
+      newLayers[id].active = true;
       const { map } = useMapStore.getState();
       map?.addLayer(layer);
     }
 
-    set({ layerInfo: newLayerInfo });
+    set({ layers: newLayers });
   },
   toggleGroup: (id) => {
-    const { layerInfo, layerList, groups } = get();
+    const { layers, groups } = get();
     const map = useMapStore.getState().map;
 
     const newGroups = { ...groups };
-    const newLayerInfo = { ...layerInfo };
+    const newLayers = { ...layers };
 
     const group = groups[id];
 
@@ -182,21 +217,42 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
     if (isActive) {
       newGroups[id].active = false;
       newGroups[id].layers.map((layerId) => {
-        layerList[layerId].remove();
+        newLayers[layerId].layer?.remove();
       });
     } else {
       newGroups[id].active = true;
       newGroups[id].layers.map((layerId) => {
-        if (newLayerInfo[layerId].active) {
-          map?.addLayer(layerList[layerId]);
+        if (newLayers[layerId].active && newLayers[layerId].layer) {
+          map?.addLayer(newLayers[layerId].layer);
         }
       });
     }
 
     set({
-      layerInfo: newLayerInfo,
+      layers: newLayers,
       groups: newGroups,
     });
   },
-  assignLayerToGroup: (layerId, groupId) => {}
+  assignLayerToGroup: (layerId, groupId) => {
+    const { layers, groups } = get();
+
+    // Checks
+    if (!(layerId in layers)) {
+      console.warn(`The layer "${layerId}" could not be added to the group "${groupId}" because the layer is not registered.`);
+      return;
+    }
+    if (!(groupId in groups)) {
+      console.warn(`The layer "${layerId}" could not be added to the group "${groupId}" because the group does not exist.`);
+      return;
+    }
+    if (groups[groupId].layers.includes(layerId)) {
+      console.warn(`The layer "${layerId}" could not be added to the group "${groupId}" the layer already exists in this group.`);
+      return;
+    }
+
+    groups[groupId].layers.push(layerId);
+    set({
+      groups: groups,
+    })
+  }
 }));

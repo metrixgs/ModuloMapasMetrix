@@ -10,7 +10,15 @@
       "layers": {
         "sidebar-title": "Control Capas",
         "title": "Capas",
-        "group-empty": "No hay capas asociadas a este grupo."
+        "group-empty": "No hay capas asociadas a este grupo.",
+        "layer-menu": {
+          "button-title": "Opciones",
+          "attributes-table": "Tabla de atributos",
+          "download-geojson": "Descargar GeoJSON",
+          "show": "Mostrar capa",
+          "hide": "Ocultar capa",
+          "delete": "Eliminar capa"
+        }
       },
       "bdd": {
         "title": "BDD"
