@@ -140,7 +140,7 @@ const TabGeographic = () => {
       );
 
       const geojson = await ReadGeojson("level_2", item?.geom);
-      setState(parseInt(value), geojson);
+      setState(parseInt(value), item?.name, geojson);
     }
   };
 
@@ -158,7 +158,7 @@ const TabGeographic = () => {
       );
 
       const geojson = await ReadGeojson("level_3", item?.geom);
-      setMunicipality(parseInt(value), geojson);
+      setMunicipality(parseInt(value), item?.name, geojson);
     }
   };
 
@@ -181,7 +181,7 @@ const TabGeographic = () => {
       );
 
       const geojson = await ReadGeojson("level_6", item?.geom);
-      setHood(parseInt(value), geojson);
+      setHood(parseInt(value), item?.name, geojson);
     }
   };
 
@@ -201,7 +201,7 @@ const TabGeographic = () => {
       );
 
       const geojson = await ReadGeojson("level_7", item?.geom);
-      setSquare(parseInt(value), geojson);
+      setSquare(parseInt(value), item?.name, geojson);
     }
   };
 
@@ -222,7 +222,7 @@ const TabGeographic = () => {
       );
 
       const geojson = await ReadGeojson("level_8", item?.geom);
-      setProperty(value, geojson);
+      setProperty(value, item?.name, geojson);
     }
   };
 
@@ -315,7 +315,7 @@ const TabGeographic = () => {
           onChange={(e) =>
             !e.target.value
               ? setDelegation(undefined)
-              : setDelegation(parseInt(e.target.value))
+              : setDelegation(parseInt(e.target.value),undefined,undefined)
           }
           options={delegations.map((option) => ({
             title: option.name,
@@ -342,7 +342,7 @@ const TabGeographic = () => {
           onChange={(e) =>
             !e.target.value
               ? setZip(undefined)
-              : setZip(parseInt(e.target.value))
+              : setZip(parseInt(e.target.value),undefined,undefined)
           }
           options={zips.map((option) => ({
             title: option.name,

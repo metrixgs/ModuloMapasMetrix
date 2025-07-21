@@ -2,9 +2,13 @@ import { create } from "zustand";
 
 import { geoJSON } from "leaflet";
 
-import type { SpatialFilterStore } from "@/types/Stores";
+import type { SpatialFilterStore } from "@/types/Stores/SpatialFilterStore";
+import type { LayerFilterItem } from "@/types/Stores/LayersManager";
 
 import { useMapStore } from "./useMapStore";
+import { useMapLayersStore } from "./useMapLayersStore";
+
+import { LAYERS } from "@/config.map";
 
 export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
   setCountry: (country) => {
@@ -19,7 +23,7 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
       property: undefined,
     });
   },
-  setState: (state, stateLayer) => {
+  setState: async (state, name, stateGeoJSON) => {
     const map = useMapStore.getState().map;
     const {
       stateLayer: stateLayer_,
@@ -41,8 +45,8 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
     if (squareLayer) squareLayer.remove();
     if (propertyLayer) propertyLayer.remove();
 
-    if (stateLayer && map) {
-      newStateLayer = geoJSON(stateLayer, {
+    if (stateGeoJSON && map) {
+      newStateLayer = geoJSON(stateGeoJSON, {
         pmIgnore: true,
         style: () => {
           return {
@@ -55,6 +59,24 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
         },
       }).addTo(map);
       map.flyToBounds(newStateLayer.getBounds());
+
+      const {
+        layerFilter,
+        appendFilter,
+        assignLayerToGroup
+      } = useMapLayersStore.getState();
+      const filterId = `${name?.toLowerCase().replaceAll(" ", "-")}-filter-${Object.keys(layerFilter).length + 1}`;
+      const filterName = `${name?.toLowerCase()} filter ${Object.keys(layerFilter).length + 1}`;
+      const filter: LayerFilterItem = {
+        id: filterId,
+        name: filterName,
+        origin: newStateLayer,
+        target: LAYERS["incidents"].id,
+        type: "intersection"
+      }
+
+      await appendFilter(filter);
+      assignLayerToGroup(filterId, "metrix-filters");
     }
 
     set({
@@ -74,7 +96,7 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
       propertyLayer: undefined,
     });
   },
-  setMunicipality: (municipality, municipalityLayer) => {
+  setMunicipality: async (municipality, name, municipalityLayer) => {
     const map = useMapStore.getState().map;
     const {
       municipalityLayer: municipalityLayer_,
@@ -108,6 +130,24 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
         },
       }).addTo(map);
       map.flyToBounds(newMunicipalityLayer.getBounds());
+
+      const {
+        layerFilter,
+        appendFilter,
+        assignLayerToGroup
+      } = useMapLayersStore.getState();
+      const filterId = `${name?.toLowerCase().replaceAll(" ", "-")}-filter-${Object.keys(layerFilter).length + 1}`;
+      const filterName = `${name?.toLowerCase()} filter ${Object.keys(layerFilter).length + 1}`;
+      const filter: LayerFilterItem = {
+        id: filterId,
+        name: filterName,
+        origin: newMunicipalityLayer,
+        target: LAYERS["incidents"].id,
+        type: "intersection"
+      }
+
+      await appendFilter(filter);
+      assignLayerToGroup(filterId, "metrix-filters");
     }
 
     set({
@@ -125,7 +165,7 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
       propertyLayer: undefined,
     });
   },
-  setDelegation: (delegation) =>
+  setDelegation: (delegation, _name, _delegationGeoJSON ) =>
     set({
       delegation: delegation,
       zip: undefined,
@@ -133,14 +173,14 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
       square: undefined,
       property: undefined,
     }),
-  setZip: (zip) =>
+  setZip: (zip, _name, _zipGeoJSON) =>
     set({
       zip: zip,
       hood: undefined,
       square: undefined,
       property: undefined,
     }),
-  setHood: (hood, hoodLayer) => {
+  setHood: async (hood, name, hoodGeoJSON) => {
     const map = useMapStore.getState().map;
     const { hoodLayer: hoodLayer_, squareLayer, propertyLayer } = get();
 
@@ -150,8 +190,8 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
     if (squareLayer) squareLayer.remove();
     if (propertyLayer) propertyLayer.remove();
 
-    if (hoodLayer && map) {
-      newHoodLayer = geoJSON(hoodLayer, {
+    if (hoodGeoJSON && map) {
+      newHoodLayer = geoJSON(hoodGeoJSON, {
         pmIgnore: true,
         style: () => {
           return {
@@ -164,6 +204,24 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
         },
       }).addTo(map);
       map.flyToBounds(newHoodLayer.getBounds());
+
+      const {
+        layerFilter,
+        appendFilter,
+        assignLayerToGroup
+      } = useMapLayersStore.getState();
+      const filterId = `${name?.toLowerCase().replaceAll(" ", "-")}-filter-${Object.keys(layerFilter).length + 1}`;
+      const filterName = `${name?.toLowerCase()} filter ${Object.keys(layerFilter).length + 1}`;
+      const filter: LayerFilterItem = {
+        id: filterId,
+        name: filterName,
+        origin: newHoodLayer,
+        target: LAYERS["incidents"].id,
+        type: "intersection"
+      }
+
+      await appendFilter(filter);
+      assignLayerToGroup(filterId, "metrix-filters");
     }
 
     set({
@@ -175,7 +233,7 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
       propertyLayer: undefined,
     });
   },
-  setSquare: (square, squareLayer) => {
+  setSquare: async (square, name, squareGeoJSON) => {
     const map = useMapStore.getState().map;
     const { squareLayer: squareLayer_, propertyLayer } = get();
 
@@ -184,8 +242,8 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
     if (squareLayer_) squareLayer_.remove();
     if (propertyLayer) propertyLayer.remove();
 
-    if (squareLayer && map) {
-      newSquareLayer = geoJSON(squareLayer, {
+    if (squareGeoJSON && map) {
+      newSquareLayer = geoJSON(squareGeoJSON, {
         pmIgnore: true,
         style: () => {
           return {
@@ -198,6 +256,24 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
         },
       }).addTo(map);
       map.flyToBounds(newSquareLayer.getBounds());
+
+      const {
+        layerFilter,
+        appendFilter,
+        assignLayerToGroup
+      } = useMapLayersStore.getState();
+      const filterId = `${name?.toLowerCase().replaceAll(" ", "-")}-filter-${Object.keys(layerFilter).length + 1}`;
+      const filterName = `${name?.toLowerCase()} filter ${Object.keys(layerFilter).length + 1}`;
+      const filter: LayerFilterItem = {
+        id: filterId,
+        name: filterName,
+        origin: newSquareLayer,
+        target: LAYERS["incidents"].id,
+        type: "intersection"
+      }
+
+      await appendFilter(filter);
+      assignLayerToGroup(filterId, "metrix-filters");
     }
 
     set({
@@ -207,7 +283,7 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
       propertyLayer: undefined,
     });
   },
-  setProperty: (property, propertyLayer) => {
+  setProperty: async (property, name, propertyGeoJSON) => {
     const map = useMapStore.getState().map;
     const { propertyLayer: propertyLayer_ } = get();
 
@@ -215,8 +291,8 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
 
     if (propertyLayer_) propertyLayer_.remove();
 
-    if (propertyLayer && map) {
-      newPropertyLayer = geoJSON(propertyLayer, {
+    if (propertyGeoJSON && map) {
+      newPropertyLayer = geoJSON(propertyGeoJSON, {
         pmIgnore: true,
         style: () => {
           return {
@@ -229,6 +305,24 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
         },
       }).addTo(map);
       map.flyToBounds(newPropertyLayer.getBounds());
+
+      const {
+        layerFilter,
+        appendFilter,
+        assignLayerToGroup
+      } = useMapLayersStore.getState();
+      const filterId = `${name?.toLowerCase().replaceAll(" ", "-")}-filter-${Object.keys(layerFilter).length + 1}`;
+      const filterName = `${name?.toLowerCase()} filter ${Object.keys(layerFilter).length + 1}`;
+      const filter: LayerFilterItem = {
+        id: filterId,
+        name: filterName,
+        origin: newPropertyLayer,
+        target: LAYERS["incidents"].id,
+        type: "intersection"
+      }
+
+      await appendFilter(filter);
+      assignLayerToGroup(filterId, "metrix-filters");
     }
 
     set({

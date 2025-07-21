@@ -3,10 +3,15 @@ import { useTranslation } from "react-i18next";
 import { BiTable, BiTrash, BiDownload } from "react-icons/bi";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 
+import type { GeoJSON } from "leaflet";
 import type { LayerItem } from "@/types/Stores/LayersManager";
+
+import { useMapLayersStore } from "@/stores/useMapLayersStore";
+
 import Menu from "@components/UI/Menu/Menu";
 import MenuItem from "@components/UI/Menu/MenuItem";
-import { useMapLayersStore } from "@/stores/useMapLayersStore";
+
+import { downloadGeoJSON } from "@/utils/geometryUtils";
 
 interface LayerMenuProps {
   layer: LayerItem
@@ -16,7 +21,14 @@ const LayerMenu = ({ layer }: LayerMenuProps) => {
   const { t } = useTranslation("global");
   const { toggleLayer, removeLayer } = useMapLayersStore((state) => state);
 
-  const { id, active, format, name, temp } = layer;
+  const { id, active, format, name, temp, layer: layerClass } = layer;
+
+  const handleDownloadGeoJSON = () => {
+    if (layerClass) {
+      const geojson = (layerClass as GeoJSON).toGeoJSON();
+      downloadGeoJSON(geojson, `${id}.geojson`);
+    }
+  }
   return (
     <Menu>
       <span
@@ -33,7 +45,7 @@ const LayerMenu = ({ layer }: LayerMenuProps) => {
                 { t("body.controls.layers.layer-menu.attributes-table") }
               </span>
             </MenuItem>
-            <MenuItem>
+            <MenuItem onClick={handleDownloadGeoJSON}>
               <BiDownload className="w-5 h-5 mr-2" />
               <span>
                 { t("body.controls.layers.layer-menu.download-geojson") }
