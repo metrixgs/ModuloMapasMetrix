@@ -12,7 +12,7 @@ export const customTheme = createTheme({
     }
   },
   popover: {
-    base: "absolute z-20 inline-block w-max max-w-[100vw] rounded-lg border border-gray-200 bg-white shadow-sm outline-none dark:border-gray-600 dark:bg-metrixblack-700"
+    base: "absolute z-20 inline-block w-max max-w-[100vw] rounded-2xl border border-gray-200 bg-white shadow-sm outline-none dark:border-gray-600 dark:bg-metrixblack-800"
   },
   drawer: {
     root: {

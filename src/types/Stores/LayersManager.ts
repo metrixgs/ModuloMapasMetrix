@@ -1,3 +1,5 @@
+import type { ColumnDef } from "@tanstack/react-table";
+
 import type { Layer, GeoJSON } from "leaflet";
 
 export interface LayerGroupItem {
@@ -11,15 +13,26 @@ export interface LayerGroup {
   [id: string]: LayerGroupItem;
 }
 
-export interface LayerItem {
+export interface BaseLayerItem {
   id: string;
   name: string;
   active: boolean;
   layer?: Layer;
-  format: "geojson" | "tile";
-  type: "layer" | "filtered";
   temp: boolean;
 }
+
+export interface GeoJSONLayer extends BaseLayerItem {
+  format: "geojson";
+  type: "layer" | "filtered";
+  columns?: ColumnDef<unknown>[];
+}
+
+export interface TileLayer extends BaseLayerItem {
+  format: "tile",
+  type: "layer"
+}
+
+export type LayerItem = GeoJSONLayer | TileLayer;
 
 export interface LayerList {
   [id: string]: Layer;

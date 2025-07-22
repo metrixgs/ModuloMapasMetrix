@@ -1,5 +1,5 @@
-import type { PluralResponseAPI, IncidentAPI } from "@/types/API";
-import type { Incident } from "@/types/Incident";
+import type { PluralResponseAPI } from "@/types/API";
+import type { Incident, IncidentAPI } from "@/types/Incident";
 
 import AdaptedIncident from "./AdaptedIncident";
 

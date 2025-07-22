@@ -5,8 +5,11 @@ import type {
   LayerGroup
 } from "@/types/Stores/LayersManager";
 
+import { INCIDENT_LAYER } from "./types/Incident";
+
 import { getTheme } from "@/utils/themeUtils";
 import { themeOptions } from "@/config.theme";
+
 
 export const MIN_ZOOM = 1;
 export const MAX_ZOOM = 20;
@@ -18,12 +21,16 @@ export const INITIAL_VIEW = {
 
 export const LAYERS: { [key: string]: LayerItem } = {
   incidents: {
-    id: "metrix-incidents",
+    id: INCIDENT_LAYER.id,
     active: true,
-    name: "Incidentes",
+    name: INCIDENT_LAYER.name,
     temp: false,
     format: "geojson",
-    type: "layer"
+    type: "layer",
+    columns: Object.keys(INCIDENT_LAYER.fields).map((field) => ({
+      accessorKey: field,
+      header: INCIDENT_LAYER.fields[field as keyof typeof INCIDENT_LAYER.fields]
+    }))
   },
   osm: {
     id: "metrix-osm",

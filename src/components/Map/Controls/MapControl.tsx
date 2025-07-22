@@ -16,12 +16,14 @@ export const MapControl = ({ children, active, className, ...props }: MapControl
         className,
         "h-9 w-9 p-2 rounded shadow text-xs",
         "flex justify-center items-center",
-        "hover:cursor-pointer hover:outline-2",
-        "dark:text-white hover:outline-primary-500",
+        // "hover:outline-2 hover:outline-primary-500",
+        "hover:cursor-pointer",
+        "dark:text-white",
         {
           "bg-primary-400": active,
           "bg-white dark:bg-metrixblack-800 hover:bg-primary-400": !active
-        }
+        },
+        "transition-colors duration-200"
       )}
       {...props}
     >

@@ -3,6 +3,9 @@
     "title": "METRIX | Interfaz de mapa avanzada"
   },
   "body": {
+    "attributes-table": {
+      "title": "Tabla de atributos"
+    },
     "controls": {
       "fullscreen": {
         "title": "Pantalla completa"
@@ -17,7 +20,8 @@
           "download-geojson": "Descargar GeoJSON",
           "show": "Mostrar capa",
           "hide": "Ocultar capa",
-          "delete": "Eliminar capa"
+          "delete": "Eliminar capa",
+          "focus": "Enfocar"
         }
       },
       "bdd": {

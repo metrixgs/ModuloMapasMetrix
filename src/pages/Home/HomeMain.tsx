@@ -1,6 +1,7 @@
 import Map from "@components/Map/Map";
 import Sidebar from "@components/Sidebar/Sidebar";
 import SidebarLeft from "@components/SidebarLeft/SidebarLeft";
+import BottomDrawer from "@components/BottomDrawer/BottomDrawer";
 
 import Modal from "@components/Modal/Modal";
 
@@ -10,6 +11,7 @@ const HomeMain = () => {
       <Map />
       <Sidebar />
       <SidebarLeft />
+      <BottomDrawer />
       <Modal />
     </main>
   )

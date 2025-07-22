@@ -1,4 +1,4 @@
-import type { IncidentAPI } from "@/types/API";
+import type { IncidentAPI } from "@/types/Incident";
 import type { Incident } from "@/types/Incident";
 
 const AdaptedIncident = (incident: IncidentAPI): Incident => {

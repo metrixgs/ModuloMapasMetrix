@@ -1,4 +1,5 @@
-import type { ReactNode } from "react"
+import classNames from "classnames";
+import type { ReactNode } from "react";
 
 interface MenuProps {
   children: ReactNode;
@@ -6,10 +7,15 @@ interface MenuProps {
 
 const Menu = ({ children }: MenuProps) => {
   return (
-    <div className="flex flex-col py-2 divide-y divide-gray-300 dark:divide-gray-600">
-      { children }
+    <div
+      className={classNames(
+        "flex flex-col py-2 px-2 ",
+        "text-xs font-bold text-gray-700 dark:text-gray-100"
+      )}
+    >
+      {children}
     </div>
   );
-}
+};
 
 export default Menu;

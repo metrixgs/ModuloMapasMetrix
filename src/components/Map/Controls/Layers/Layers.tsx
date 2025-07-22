@@ -25,9 +25,9 @@ const SidebarContent = () => {
 
   return (
     <>
-      <Button onClick={() => {console.log(layers)}}>
+      {/* <Button onClick={() => {console.log(layers)}}>
         log
-      </Button>
+      </Button> */}
       <Accordion>
         {Object.keys(groups).map((groupId, index) => {
           const {
@@ -43,10 +43,9 @@ const SidebarContent = () => {
                 <div className="w-full flex justify-between pr-2">
                   <span>{groupName}</span>
                   <ToggleSwitch
+                    sizing="sm"
                     checked={activeGroup}
-                    onChange={() => {
-                      toggleGroup(groupId);
-                    }}
+                    onChange={() => toggleGroup(groupId)}
                   />
                 </div>
               }
@@ -74,9 +73,7 @@ const SidebarContent = () => {
                           className="h-5 w-5"
                           disabled={!activeGroup}
                           checked={active}
-                          onChange={() => {
-                            toggleLayer(id);
-                          }}
+                          onChange={() => toggleLayer(id)}
                         />
                         <Label htmlFor={`layer-${id}`}>{name}</Label>
                         <div className="grow flex justify-end">

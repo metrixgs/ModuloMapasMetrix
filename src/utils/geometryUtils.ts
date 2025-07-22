@@ -1,7 +1,9 @@
 import type { GeoJSON as GeoJSON_ } from "leaflet";
 import type {
   GeoJSON,
-  Feature
+  Feature,
+  FeatureCollection,
+  Geometry
 } from "geojson";
 
 import {
@@ -79,4 +81,14 @@ export const downloadGeoJSON = (geojson: object, filename="data.geojson") => {
   document.body.removeChild(a);
 
   URL.revokeObjectURL(url);
+}
+
+export const extractGeoJSONProperties = <T>(
+  geojson?: FeatureCollection<Geometry, T>
+): T[] => {
+  if (geojson) {
+    return geojson.features.map((feature) => feature.properties);
+  } else {
+    return [];
+  }
 }

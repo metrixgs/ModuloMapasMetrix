@@ -21,7 +21,9 @@ import { useDrawStore } from "@/stores/useDrawStore";
 import { MapControl } from "@components/Map/Controls/MapControl";
 
 import MeasureResult from "./MeasureResult";
-import DrawItem from "./DrawItem";
+
+import Menu from "@components/UI/Menu/Menu";
+import MenuItem from "@components/UI/Menu/MenuItem";
 
 import CreateRectangle from "./interactions/CreateRectangle";
 import CreateCircle from "./interactions/CreateCircle";
@@ -46,11 +48,11 @@ const DrawContent = ({
   const removalDisabled = !features;
 
   return (
-    <div className="flex flex-col py-2">
-      <span className="text-sm dark:text-white text-center my-1 font-bold">
-        {t("body.controls.draw.create.title")}
+    <Menu>
+      <span className="text-sm pt-1 pb-2 px-2 text-gray-700 dark:text-gray-200 text-center font-bold">
+        <i>{ t("body.controls.draw.create.title") }</i>
       </span>
-      <DrawItem
+      <MenuItem
         onClick={() => {
           setOpen(false);
           CreateRectangle();
@@ -58,8 +60,8 @@ const DrawContent = ({
       >
         <BiShapeSquare className="w-5 h-5 mr-2" />
         {t("body.controls.draw.create.rectangle.title")}
-      </DrawItem>
-      <DrawItem
+      </MenuItem>
+      <MenuItem
         onClick={() => {
           setOpen(false);
           CreateCircle();
@@ -67,8 +69,8 @@ const DrawContent = ({
       >
         <BiShapeCircle className="w-5 h-5 mr-2" />
         {t("body.controls.draw.create.circle.title")}
-      </DrawItem>
-      <DrawItem
+      </MenuItem>
+      <MenuItem
         onClick={() => {
           setOpen(false);
           CreatePolygon();
@@ -76,12 +78,11 @@ const DrawContent = ({
       >
         <BiShapePolygon className="w-5 h-5 mr-2" />
         {t("body.controls.draw.create.polygon.title")}
-      </DrawItem>
-      <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700" />
-      <span className="text-sm dark:text-white text-center mt-3 mb-1 font-bold">
-        {t("body.controls.draw.measure.title")}
+      </MenuItem>
+      <span className="text-sm pt-3 pb-2 px-2 text-gray-700 dark:text-gray-200 text-center font-bold">
+        <i>{ t("body.controls.draw.measure.title") }</i>
       </span>
-      <DrawItem
+      <MenuItem
         onClick={() => {
           setOpen(false);
           MeasureLine();
@@ -89,8 +90,8 @@ const DrawContent = ({
       >
         <BiRuler className="w-5 h-5 mr-2" />
         {t("body.controls.draw.measure.distance.title")}
-      </DrawItem>
-      <DrawItem
+      </MenuItem>
+      <MenuItem
         onClick={() => {
           setOpen(false);
           MeasurePolygon();
@@ -98,12 +99,11 @@ const DrawContent = ({
       >
         <BiArea className="w-5 h-5 mr-2" />
         {t("body.controls.draw.measure.area.title")}
-      </DrawItem>
-      <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700" />
-      <span className="text-sm dark:text-white text-center mt-3 mb-1 font-bold">
-        {t("body.controls.draw.edit.title")}
+      </MenuItem>
+      <span className="text-sm pt-3 pb-2 px-2 text-gray-700 dark:text-gray-200 text-center font-bold">
+        <i>{ t("body.controls.draw.edit.title") }</i>
       </span>
-      <DrawItem
+      <MenuItem
         onClick={() => {
           setOpen(false);
           ToggleEdit();
@@ -114,8 +114,8 @@ const DrawContent = ({
         {isEditModeActive
           ? t("body.controls.draw.edit.deactive.title")
           : t("body.controls.draw.edit.active.title")}
-      </DrawItem>
-      <DrawItem
+      </MenuItem>
+      <MenuItem
         onClick={() => {
           if (!isRemovalModeActive) {
             setOpen(false);
@@ -128,8 +128,8 @@ const DrawContent = ({
         {isRemovalModeActive
           ? t("body.controls.draw.delete.deactive.title")
           : t("body.controls.draw.delete.active.title")}
-      </DrawItem>
-      <DrawItem
+      </MenuItem>
+      <MenuItem
         onClick={() => {
           clearStore();
         }}
@@ -137,8 +137,8 @@ const DrawContent = ({
       >
         <BiTrash className="w-5 h-5 mr-2" />
         {t("body.controls.draw.delete-all.title")}
-      </DrawItem>
-    </div>
+      </MenuItem>
+    </Menu>
   );
 };
 

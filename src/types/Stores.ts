@@ -34,6 +34,12 @@ export interface SidebarStore {
   setIcon: (content: ReactNode) => void;
 }
 
+export interface BottomDrawer extends SidebarStore {
+  isHeaderEnabled: boolean;
+  disableHeader: () => void;
+  enableHeader: () => void;
+}
+
 export interface ModalStore {
   isOpen: boolean;
   size: DynamicStringEnumKeysOf<ModalSizes>;
