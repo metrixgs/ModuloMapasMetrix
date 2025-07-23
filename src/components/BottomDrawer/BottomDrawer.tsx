@@ -13,7 +13,7 @@ const BottomDrawer = () => {
   } = useBottomDrawerStore((state) => state);
   
   return (
-    <Drawer position="bottom" open={isOpen} onClose={close} backdrop={false}>
+    <Drawer position="bottom" open={isOpen} onClose={close} backdrop={false} className="!p-0">
       <div className="h-full flex flex-col">
         {
           isHeaderEnabled && <DrawerHeader title={title} titleIcon={() => icon} />

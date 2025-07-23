@@ -61,5 +61,14 @@ export const customTheme = createTheme({
         base: "w-full cursor-pointer appearance-none rounded-lg bg-gray-200 dark:bg-metrixblack-600"
       }
     }
+  },
+  textInput: {
+    field: {
+      input: {
+        colors: {
+          gray: "border-gray-300 bg-gray-50 text-gray-900 placeholder-gray-500 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-metrixblack-800 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+        }
+      }
+    }
   }
 })

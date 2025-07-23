@@ -4,7 +4,9 @@
   },
   "body": {
     "attributes-table": {
-      "title": "Tabla de atributos"
+      "title": "Tabla de atributos",
+      "title-total-text": "elementos",
+      "search-placeholder": "Escriba para buscar"
     },
     "controls": {
       "fullscreen": {
