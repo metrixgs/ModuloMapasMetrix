@@ -38,6 +38,10 @@ export interface BottomDrawer extends SidebarStore {
   isHeaderEnabled: boolean;
   disableHeader: () => void;
   enableHeader: () => void;
+  isFullscreen: boolean;
+  enableFullscreen: () => void;
+  disableFullscreen: () => void;
+  toggleFullscreen: () => void;
 }
 
 export interface ModalStore {

@@ -65,24 +65,6 @@ export const layers2features = (
   return collection;
 };
 
-export const downloadGeoJSON = (geojson: object, filename="data.geojson") => {
-  const blob = new Blob(
-    [JSON.stringify(geojson, null, 2)], // formateado con 2 espacios
-    { type: "application/geo+json" }
-  );
-
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-
-  URL.revokeObjectURL(url);
-}
-
 export const extractGeoJSONProperties = <T>(
   geojson?: FeatureCollection<Geometry, T>
 ): T[] => {

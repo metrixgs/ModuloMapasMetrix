@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-import { geoJson, type GeoJSON } from "leaflet";
+import { GeoJSON, geoJson, TileLayer } from "leaflet";
 
 import { pointsWithinPolygon } from "@turf/turf";
 
@@ -26,19 +26,34 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
     try {
       const layer = await loadLayerFunction();
 
-      layers[info.id] = {
-        ...info,
-        layer: layer,
-      };
+      if (layer) {
 
-      if (info.active) {
-        map?.addLayer(layer);
+        if (
+          info.format === "geojson" && layer instanceof GeoJSON
+        ) {
+          layers[info.id] = {
+            ...info,
+            layer: layer,
+          };
+        } else if (
+          info.format === "tile" && layer instanceof TileLayer
+        ) {
+          layers[info.id] = {
+            ...info,
+            layer: layer,
+          };
+        } else {
+          throw new Error("The layer type does not match the declared format.");
+        }
+
+        if (info.active) {
+          map?.addLayer(layer);
+        }
+
+        set({
+          layers: layers,
+        });
       }
-
-      set({
-        layers: layers,
-      });
-
       return true;
     } catch (error) {
       console.error(error);
@@ -52,30 +67,56 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
       // Intersection between points and a polygon
 
       // Checks
+
+      //   Target checks
+      const target = layers[properties.target];
+
+      // // The layer id must exist in "layers".
       if (
-        !Object.keys(layers).includes(properties.target)
+        !target
       ) {
         console.warn(`The filter could not be applied. Make sure the target (${properties.target}) exists in the layer registry.`);
         return false;
       }
 
-      if (!layers[properties.target].layer) {
+      // One layer is defined in the layer id of "layers".
+      if (!target.layer) {
         console.warn(`The filter could not be applied. Make sure the target (${properties.target}) has an associated layer.`);
         return false;
       }
+
+      // The target has format "geojson" and is instance of GeoJSON.
+      if (
+        target.format != "geojson" ||
+        !(target.layer instanceof GeoJSON)
+      ) {
+        console.warn(`To apply an "intersection" type filter, the target must be a GeoJSON.`)
+        return false;
+      }
+
+      //   Origin checks
+      const originLayer = properties.origin;
+
+      // // The origin layer must be and instance of GeoJSON.
+      // if (
+      //   !(originLayer instanceof GeoJSON)
+      // ) {
+      //   console.warn(`To apply an "intersection" type filter, the origin must be a GeoJSON.`)
+      //   return false;
+      // }
 
       // Logic
       try {
         const newLayerFilter = { ...layerFilter };
 
-        const filterGeoJSON = properties.origin.toGeoJSON();
+        const originGeoJSON = originLayer.toGeoJSON();
 
-        const target = layers[properties.target].layer;
-        const targetGeoJSON = (target as GeoJSON).toGeoJSON();
+        const targetLayer = target.layer;
+        const targetGeoJSON = targetLayer.toGeoJSON();
 
         const filteredLayerGeoJSON = pointsWithinPolygon(
           targetGeoJSON,
-          filterGeoJSON
+          originGeoJSON
         );
         const filteredLayer = geoJson(filteredLayerGeoJSON);
 
@@ -86,6 +127,7 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
           format: "geojson",
           temp: true,
           type: "filtered",
+          columns: target["columns"]
         };
 
         const mount = await append(filterInfo, async () => filteredLayer);
@@ -101,6 +143,7 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
           console.warn("The filtered layer could not be added to the map.");
           return false;
         }
+
       } catch (error) {
         console.error(
           `The filter could not be applied, an error occurred: ${error}`
@@ -119,7 +162,7 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
 
     if (layerInfo) {
       const { id, layer } = layerInfo;
-      
+
       for (const key in groups) {
         const group = groups[key];
         if (group.layers.includes(id)) {

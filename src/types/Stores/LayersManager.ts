@@ -1,6 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
 
-import type { Layer, GeoJSON } from "leaflet";
+import type { Layer, GeoJSON, TileLayer } from "leaflet";
 
 export interface LayerGroupItem {
   id: string;
@@ -17,22 +17,23 @@ export interface BaseLayerItem {
   id: string;
   name: string;
   active: boolean;
-  layer?: Layer;
   temp: boolean;
 }
 
-export interface GeoJSONLayer extends BaseLayerItem {
+export interface GeoJSONLayerItem extends BaseLayerItem {
   format: "geojson";
   type: "layer" | "filtered";
-  columns?: ColumnDef<unknown>[];
+  layer?: GeoJSON,
+  columns?: ColumnDef<any>[];
 }
 
-export interface TileLayer extends BaseLayerItem {
+export interface TileLayerItem extends BaseLayerItem {
   format: "tile",
-  type: "layer"
+  type: "layer",
+  layer?: TileLayer
 }
 
-export type LayerItem = GeoJSONLayer | TileLayer;
+export type LayerItem = GeoJSONLayerItem | TileLayerItem;
 
 export interface LayerList {
   [id: string]: Layer;
@@ -63,7 +64,7 @@ export interface LayerFilter {
   [id: string]: LayerFilterItem;
 }
 
-export type LoadLayerFunction = () => Promise<Layer>;
+export type LoadLayerFunction = () => Promise<LayerItem["layer"]>;
 
 export interface MapLayersStore {
   groups: LayerGroup;

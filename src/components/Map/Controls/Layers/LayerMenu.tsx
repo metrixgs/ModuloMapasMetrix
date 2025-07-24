@@ -1,12 +1,13 @@
 import { useTranslation } from "react-i18next";
+import { bbox } from "@turf/turf";
 
 import { BiTable, BiTrash, BiDownload } from "react-icons/bi";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import { TbFocusCentered } from "react-icons/tb";
 
-import type { GeoJSON } from "leaflet";
-import type { FeatureCollection, Geometry } from "geojson";
+import { GeoJSON, latLng, latLngBounds } from "leaflet";
 import type { LayerItem } from "@/types/Stores/LayersManager";
+import type { Row } from "@tanstack/react-table";
 
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
 import { useMapStore } from "@/stores/useMapStore";
@@ -18,7 +19,8 @@ import MenuItem from "@components/UI/Menu/MenuItem";
 
 import AttributesTable from "@components/AttributesTable/AttributesTable";
 
-import { downloadGeoJSON, extractGeoJSONProperties } from "@/utils/geometryUtils";
+import { extractGeoJSONProperties } from "@/utils/geometryUtils";
+import { downloadGeoJSON } from "@/utils/downloadUtils";
 
 interface LayerMenuProps {
   layer: LayerItem;
@@ -38,16 +40,36 @@ const LayerMenu = ({ layer }: LayerMenuProps) => {
   const { id, active, format, name, temp, layer: layerClass } = layer;
 
   const handleAttributesTable = () => {
-    if (layer.format === "geojson" && layer.columns) {
+    if (
+      layer.format === "geojson" &&
+      layerClass instanceof GeoJSON &&
+      layer.columns
+    ) {
 
-      const layerGeoJSON = (layerClass as GeoJSON).toGeoJSON();
-      const data = extractGeoJSONProperties(layerGeoJSON as FeatureCollection<Geometry, typeof layer>);
+      const layerGeoJSON = layerClass.toGeoJSON();
 
-      closeSidebarLeft();
-      setTitle(name);
-      disableHeader();
-      setChildren(<AttributesTable data={data} columns={layer.columns} />)
-      open();
+      if (layerGeoJSON.type === "FeatureCollection") {
+        const data = extractGeoJSONProperties(layerGeoJSON);
+
+        const onSelectedRow = async (row: Row<typeof data[0]>) => {
+          const feature = layerGeoJSON.features.find((feature) => feature.properties === row.original);
+          if (feature && map) {
+            const bounds = bbox(feature);
+            const min = latLng(bounds[1], bounds[0]);
+            const max = latLng(bounds[3], bounds[2]);
+            map.flyToBounds(latLngBounds(min, max), {
+              paddingBottomRight: [0, 4 * 72] // Attributes table max height (h-72)
+            });
+          }
+          return;
+        }
+
+        closeSidebarLeft();
+        setTitle(name);
+        disableHeader();
+        setChildren(<AttributesTable data={data} columns={layer.columns} onSelectedRow={onSelectedRow} />)
+        open();
+      }
     }
   };
 

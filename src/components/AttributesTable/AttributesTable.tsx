@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ChangeEvent } from "react";
 
 import { useTranslation } from "react-i18next";
 
@@ -10,6 +10,8 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   type ColumnDef,
+  type Row,
+  type SortingState,
 } from "@tanstack/react-table";
 
 import classNames from "classnames";
@@ -19,6 +21,7 @@ import {
   BiX,
   BiTable,
   BiExpand,
+  BiCollapse,
   BiChevronUp,
   BiChevronDown,
   BiSearchAlt,
@@ -32,17 +35,20 @@ import { useBottomDrawerStore } from "@/stores/useBottomDrawerStore";
 
 import Button from "@components/UI/Button";
 
+import { downloadCSV } from "@/utils/downloadUtils";
+
 type AttributesTableProps<T> = {
   data: T[];
   columns: ColumnDef<T>[];
+  onSelectedRow: (row: Row<T>) => Promise<any>;
 };
 
-const AttributesTable = <T,>({ data, columns }: AttributesTableProps<T>) => {
+const AttributesTable = <T,>({ data, columns, onSelectedRow }: AttributesTableProps<T>) => {
   const { t } = useTranslation("global");
 
-  const { title, close } = useBottomDrawerStore((state) => state);
+  const { title, close, isFullscreen, toggleFullscreen } = useBottomDrawerStore((state) => state);
 
-  const [sorting, setSorting] = useState([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
   const [selectedRow, setSelectedRow] = useState<number | undefined>(undefined);
 
@@ -55,7 +61,7 @@ const AttributesTable = <T,>({ data, columns }: AttributesTableProps<T>) => {
     getPaginationRowModel: getPaginationRowModel(),
     initialState: {
       pagination: {
-        pageSize: 15
+        pageSize: 50
       }
     },
     state: {
@@ -66,8 +72,49 @@ const AttributesTable = <T,>({ data, columns }: AttributesTableProps<T>) => {
     onGlobalFilterChange: setGlobalFilter
   });
 
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    setSelectedRow(undefined);
+    setGlobalFilter(e.target.value);
+  }
+
+  const handlePreviusPage = () => {
+    setSelectedRow(undefined);
+    table.previousPage();
+  }
+
+  const handleNextPage = () => {
+    setSelectedRow(undefined);
+    table.nextPage();
+  }
+
+  const handleDownloadCSV = () => {
+    const columns = table.getAllColumns().filter(col => col.getIsVisible());
+    const rows = table.getRowModel().rows;
+
+    const filteredData = rows.map((row) => {
+      const result: Record<string, any> = {};
+      columns.forEach((col) => {
+        const header = String(col.columnDef.header);
+        const value = row.getValue(col.id);
+        result[header] = value;
+      });
+      return result;
+    });
+
+    downloadCSV(filteredData as object[], `${title}.csv`);
+  }
+
+  const handleFullscreen = () => {
+    toggleFullscreen();
+  }
+
+  const handleClose = () => {
+    setSelectedRow(undefined);
+    close();
+  }
+
   return (
-    <div className="flex flex-col gap-2">
+    <div id="container-hola" className="flex flex-col gap-2 h-full">
       <nav className="px-2 pt-2 flex justify-end items-center gap-2">
         <span className="flex-grow flex items-center font-bold text-gray-700 dark:text-gray-100">
           <BiTable className="mr-2" />
@@ -82,17 +129,14 @@ const AttributesTable = <T,>({ data, columns }: AttributesTableProps<T>) => {
           icon={BiSearchAlt}
           placeholder={t("body.attributes-table.search-placeholder")}
           value={globalFilter}
-          onChange={(e) => {
-            setSelectedRow(undefined);
-            setGlobalFilter(e.target.value);
-          }}
+          onChange={handleSearch}
           sizing="sm"
         />
         <div className="flex items-center">
           <Button
             className="flex justify-center"
             disabled={!table.getCanPreviousPage()}
-            onClick={() => table.previousPage()}
+            onClick={handlePreviusPage}
           >
             <BiChevronLeft className="h-8" />
           </Button>
@@ -102,28 +146,38 @@ const AttributesTable = <T,>({ data, columns }: AttributesTableProps<T>) => {
            <Button
             className="flex justify-center"
             disabled={!table.getCanNextPage()}
-            onClick={() => table.nextPage()}
+            onClick={handleNextPage}
           >
             <BiChevronRight className="h-8" />
           </Button>
         </div>
         <Button
           className="flex justify-center"
-          onClick={() => alert("En desarrollo.")}
+          onClick={handleDownloadCSV}
         >
           <BiDownload className="h-8" />
         </Button>
         <Button
           className="flex justify-center"
-          onClick={() => alert("En desarrollo.")}
+          onClick={handleFullscreen}
         >
-          <BiExpand className="h-8" />
+          {
+            isFullscreen ? <BiCollapse className="h-8" /> : <BiExpand className="h-8" />
+          }
         </Button>
-        <Button className="flex justify-center" onClick={close}>
+        <Button className="flex justify-center" onClick={handleClose}>
           <BiX className="h-8" />
         </Button>
       </nav>
-      <div className="h-72 overflow-auto text-sm text-gray-800 dark:text-gray-100">
+      <div
+        className={classNames(
+          "overflow-auto text-sm text-gray-800 dark:text-gray-100",
+          {
+            "h-full": isFullscreen,
+            "h-72": !isFullscreen
+          }
+        )}
+      >
         <table className="table-fixed w-full">
           <thead
             className={classNames(
@@ -177,7 +231,7 @@ const AttributesTable = <T,>({ data, columns }: AttributesTableProps<T>) => {
                               {
                                 "asc": <BiChevronDown />,
                                 "desc": <BiChevronUp />
-                              }[header.column.getIsSorted() ?? null]
+                              }[header.column.getIsSorted() as "asc" | "desc"] ?? null
                             }
                           </span>
                         </span>
@@ -192,17 +246,19 @@ const AttributesTable = <T,>({ data, columns }: AttributesTableProps<T>) => {
             {
               table.getRowModel().rows.map((row, index) => (
                 <tr key={row.id}
-                  className={classNames({
-                    "bg-primary-400/50 dark:bg-primary-500": selectedRow === index
-                  })}
+                  className={classNames(
+                    {
+                      "bg-primary-400/50 dark:bg-primary-700": selectedRow === index
+                    }
+                  )}
                 >
                   <td
                     onClick={() => {
-                      console.log(row);
                       if (selectedRow === index) {
                         setSelectedRow(undefined);
                       } else {
                         setSelectedRow(index);
+                        onSelectedRow(row);
                       }
                     }}
                     className={classNames(
