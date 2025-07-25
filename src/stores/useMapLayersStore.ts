@@ -187,27 +187,37 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
       })
     }
   },
-  toggleLayer: (id) => {
-    const { layers } = get();
+  toggleLayer: (layerId) => {
+    const { layers, turnOffLayer, turnOnLayer, groups } = get();
 
-    const layer = layers[id]?.layer;
-    const newLayers = { ...layers };
+    const layer = layers[layerId]?.layer;
+    const groupId = Object.keys(groups).find((group) => groups[group].layers.includes(layerId));
+    const group = groupId ? groups[groupId] : undefined;
 
+    
     if (!layer) return;
-    if (!newLayers[id]) return;
+    if (!groupId) return;
+    if (!group) return;
+    if (!(group.layers.includes(layerId))) return;
 
-    const isActive = newLayers[id].active;
+    if (group.type === "checkbox") {
+      const isActive = layers[layerId].active;
 
-    if (isActive) {
-      newLayers[id].active = false;
-      layer.remove();
-    } else {
-      newLayers[id].active = true;
-      const { map } = useMapStore.getState();
-      map?.addLayer(layer);
+      if (isActive) {
+        turnOffLayer(layerId);
+      } else {
+        turnOnLayer(layerId);
+      }
+    } else if (group.type === "radio") {
+      group.layers.forEach((groupLayerId) => {
+
+        if (groupLayerId === layerId) {
+          turnOnLayer(groupLayerId);
+        } else {
+          turnOffLayer(groupLayerId);
+        }
+      })
     }
-
-    set({ layers: newLayers });
   },
   turnOffLayer: (id) => {
     const { layers } = get();

@@ -7,6 +7,8 @@ export interface LayerGroupItem {
   name: string;
   active: boolean;
   layers: (keyof Layers)[];
+  disabled: boolean;
+  type: "checkbox" | "radio";
 }
 
 export interface LayerGroup {
@@ -76,7 +78,7 @@ export interface MapLayersStore {
   ) => Promise<boolean>;
   appendFilter: (properties: LayerFilterItem) => Promise<boolean>;
   removeLayer: (id: keyof Layers) => void;
-  toggleLayer: (id: keyof Layers) => void;
+  toggleLayer: (layerId: keyof Layers) => void;
   turnOffLayer: (id: keyof Layers) => void;
   turnOnLayer: (id: keyof Layers) => void;
   toggleGroup: (id: keyof LayerGroup) => void;

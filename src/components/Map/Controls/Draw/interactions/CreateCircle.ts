@@ -41,10 +41,6 @@ const CreateCircle = () => {
       hintlineStyle: {
         color: "#267E26",
         dashArray: [5, 5]
-      },
-      pathOptions: {
-        fillColor: "#267E26",
-        color: "#267E26"
       }
     });
   }

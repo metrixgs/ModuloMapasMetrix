@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { Label, ToggleSwitch, Checkbox, Popover } from "flowbite-react";
+import { Label, ToggleSwitch, Checkbox, Radio, Popover } from "flowbite-react";
 
 import { BiLayer, BiDotsVerticalRounded } from "react-icons/bi";
 
@@ -19,9 +19,12 @@ import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
 const SidebarContent = () => {
   const { t } = useTranslation("global");
-  const { groups, layers, toggleLayer, toggleGroup } = useMapLayersStore(
-    (state) => state
-  );
+  const {
+    groups,
+    layers,
+    toggleLayer,
+    toggleGroup
+  } = useMapLayersStore((state) => state);
 
   return (
     <>
@@ -34,7 +37,11 @@ const SidebarContent = () => {
             active: activeGroup,
             layers: groupLayers,
             name: groupName,
+            disabled: groupDisabled,
+            type: groupType,
           } = groups[groupId];
+
+          // if (groupLayers.length === 0) return null;
 
           return (
             <AccordionItem
@@ -46,14 +53,14 @@ const SidebarContent = () => {
                     sizing="sm"
                     checked={activeGroup}
                     onChange={() => toggleGroup(groupId)}
+                    disabled={groupDisabled}
                   />
                 </div>
               }
             >
               <div
                 className={classNames("flex flex-col gap-2", {
-                  "opacity-50 pointer-events-none cursor-not-allowed":
-                    !activeGroup,
+                  "opacity-50 pointer-events-none cursor-not-allowed": !activeGroup,
                 })}
               >
                 {!groupLayers || groupLayers.length === 0 ? (
@@ -68,13 +75,28 @@ const SidebarContent = () => {
 
                     return (
                       <div key={index} className="flex items-center gap-2">
-                        <Checkbox
-                          id={`layer-${id}`}
-                          className="h-5 w-5"
-                          disabled={!activeGroup}
-                          checked={active}
-                          onChange={() => toggleLayer(id)}
-                        />
+                        {
+                          {
+                            "radio":
+                              <Radio
+                                id={`layer-${id}`}
+                                name={`layer-${id}`}
+                                value={id}
+                                className="h-5 w-5"
+                                disabled={!activeGroup}
+                                checked={active}
+                                onChange={(e) => toggleLayer(e.target.value)}
+                              />,
+                            "checkbox":
+                              <Checkbox
+                                id={`layer-${id}`}
+                                className="h-5 w-5"
+                                disabled={!activeGroup}
+                                checked={active}
+                                onChange={() => toggleLayer(id)}
+                              />
+                          }[groupType]
+                        }
                         <Label htmlFor={`layer-${id}`}>{name}</Label>
                         <div className="grow flex justify-end">
                           <Popover

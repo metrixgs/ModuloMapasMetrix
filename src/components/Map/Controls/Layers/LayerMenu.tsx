@@ -29,7 +29,7 @@ interface LayerMenuProps {
 const LayerMenu = ({ layer }: LayerMenuProps) => {
   const { t } = useTranslation("global");
 
-  const { toggleLayer, removeLayer } = useMapLayersStore((state) => state);
+  const { toggleLayer, removeLayer, groups } = useMapLayersStore((state) => state);
 
   const { map } = useMapStore((state) => state);
 
@@ -38,6 +38,9 @@ const LayerMenu = ({ layer }: LayerMenuProps) => {
   const { setChildren, open, setTitle, disableHeader } = useBottomDrawerStore((state) => state);
 
   const { id, active, format, name, temp, layer: layerClass } = layer;
+
+  const groupId = Object.keys(groups).find((group) => groups[group].layers.includes(id));
+  const group = groupId ? groups[groupId] : undefined;
 
   const handleAttributesTable = () => {
     if (
@@ -112,19 +115,22 @@ const LayerMenu = ({ layer }: LayerMenuProps) => {
           </MenuItem>
         </>
       )}
-      <MenuItem onClick={() => toggleLayer(id)}>
-        {active ? (
-          <>
-            <FaRegEyeSlash className="w-5 h-5 mr-2" />
-            <span>{t("body.controls.layers.layer-menu.hide")}</span>
-          </>
-        ) : (
-          <>
-            <FaRegEye className="w-5 h-5 mr-2" />
-            <span>{t("body.controls.layers.layer-menu.show")}</span>
-          </>
-        )}
-      </MenuItem>
+      {
+        group && group.type !== "radio" &&
+        <MenuItem onClick={() => toggleLayer(id)}>
+          {active ? (
+            <>
+              <FaRegEyeSlash className="w-5 h-5 mr-2" />
+              <span>{t("body.controls.layers.layer-menu.hide")}</span>
+            </>
+          ) : (
+            <>
+              <FaRegEye className="w-5 h-5 mr-2" />
+              <span>{t("body.controls.layers.layer-menu.show")}</span>
+            </>
+          )}
+        </MenuItem>
+      }
       {temp && (
         <MenuItem onClick={() => removeLayer(id)}>
           <BiTrash className="w-5 h-5 mr-2" />

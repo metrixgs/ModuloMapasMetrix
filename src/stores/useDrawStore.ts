@@ -1,6 +1,13 @@
 import { create } from "zustand";
 
+import { geoJSON } from "leaflet";
+
+import { area, length } from "@turf/turf";
+
 import type { DrawStore } from "@/types/Stores/Draw";
+import type { LayerItem, LoadLayerFunction } from "@/types/Stores/LayersManager";
+
+import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
 export const useDrawStore = create<DrawStore>((set, get) => ({
   features: undefined,
@@ -15,8 +22,8 @@ export const useDrawStore = create<DrawStore>((set, get) => ({
 
     if (mode && mode !== "pending") {
       if (features) {
-        features.forEach((layer) => {
-          layer.remove();
+        features.forEach((feature) => {
+          feature.layer.remove();
         });
       }
       newFeatures = [];
@@ -33,8 +40,8 @@ export const useDrawStore = create<DrawStore>((set, get) => ({
 
     if (mode && mode === "measure") {
       if (features) {
-        features.forEach((layer) => {
-          layer.remove();
+        features.forEach((feature) => {
+          feature.layer.remove();
         });
       }
       set({ shape: shape, features: [] });
@@ -42,28 +49,69 @@ export const useDrawStore = create<DrawStore>((set, get) => ({
       set({ shape: shape });
     }
   },
-  addFeature: (layer) => {
-    const { features } = get();
+  addFeature: async (feature) => {
+    const { features, mode } = get();
+    const { append, assignLayerToGroup } = useMapLayersStore.getState();
 
     let newFeatures;
 
+    feature.layer.remove();
+
     if (features) {
-      newFeatures = [...features, layer];
+      newFeatures = [...features, feature];
     } else {
-      newFeatures = [layer];
+      newFeatures = [feature];
     }
 
+    const layerItem: LayerItem = {
+      id: feature.id,
+      name: feature.name,
+      format: "geojson",
+      active: true,
+      temp: false,
+      type: "layer",
+      columns: [{ accessorKey: "area_m2" }, { accessorKey: "length_m" }]
+    }
+
+    const load: LoadLayerFunction = async () => {
+      const geojson = feature.layer.toGeoJSON();
+      if (geojson.type === "Feature") {
+        geojson.properties["area_m2"] = area(geojson);
+        geojson.properties["length_m"] = length(geojson, { units: "meters" });
+      }
+      return geoJSON(geojson, {
+        style: () => {
+          if (mode === "create") {
+            return {
+              fillColor: "#267E26",
+              color: "#267E26"
+            }
+          } else if (mode === "measure") {
+            return {
+              fillColor: "#7BC11D",
+              color: "#7BC11D"
+            }
+          } else return {};
+        }
+      })
+    }
+
+    await append(layerItem, load);
+
+    assignLayerToGroup(feature.id, "metrix-draws");
     set({ features: newFeatures });
   },
-  removeFeature: (layer) => {
+  removeFeature: (layerId) => {
     const { features } = get();
+    const { removeLayer } = useMapLayersStore.getState();
 
     if (features) {
       const newFeatures = [...features];
 
       features.forEach((old) => {
-        if (old === layer) {
-          const index = newFeatures.indexOf(layer);
+        if (old.id === layerId) {
+          removeLayer(layerId);
+          const index = newFeatures.indexOf(old);
           if (index !== -1) {
             newFeatures.splice(index, 1);
           }
@@ -82,10 +130,11 @@ export const useDrawStore = create<DrawStore>((set, get) => ({
   },
   clearStore: () => {
     const { features } = get();
+    const { removeLayer } = useMapLayersStore.getState();
 
     if (features) {
-      features.forEach((layer) => {
-        layer.remove();
+      features.forEach((feature) => {
+        removeLayer(feature.id);
       });
     }
 

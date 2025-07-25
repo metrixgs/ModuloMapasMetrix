@@ -1,4 +1,4 @@
-import type { GeoJSON } from "leaflet";
+import { GeoJSON } from "leaflet";
 
 import type { GeomanCreateEvent } from "@/types/Geoman";
 
@@ -10,12 +10,26 @@ import { useDrawStore } from "@/stores/useDrawStore";
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
 const DrawCreate = async ({ layer, shape }: GeomanCreateEvent) => {
-  const { addFeature, mode } = useDrawStore.getState();
-  const { layerFilter, appendFilter, assignLayerToGroup } =
-    useMapLayersStore.getState();
+
+  // if (!(layer instanceof GeoJSON)) return;
+
+  const {
+    features,
+    addFeature,
+    mode
+  } = useDrawStore.getState();
+
+  const {
+    layerFilter,
+    appendFilter,
+    assignLayerToGroup,
+  } = useMapLayersStore.getState();
 
   let filterId;
   let filterName;
+
+  let layerItemId = `${shape.toLowerCase()}-${features?.length}`;
+  let layerItemName = `${shape} ${features?.length}`;
 
   if (shape === "Line") {
     const geojson = (layer as GeoJSON).toGeoJSON();
@@ -49,8 +63,13 @@ const DrawCreate = async ({ layer, shape }: GeomanCreateEvent) => {
       assignLayerToGroup(filterId, "metrix-filters");
     }
   }
-
-  addFeature(layer as GeoJSON);
+  
+  addFeature({
+    id: layerItemId,
+    layer: layer as GeoJSON,
+    name: layerItemName,
+    shape: shape
+  });
 };
 
 export default DrawCreate;

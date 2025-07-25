@@ -65,7 +65,9 @@ export const GROUPS: LayerGroup = {
     active: true,
     layers: [
       LAYERS["incidents"].id
-    ]
+    ],
+    disabled: false,
+    type: "checkbox"
   },
   "metrix-basemaps": {
     id: "metrix-basemaps",
@@ -75,14 +77,98 @@ export const GROUPS: LayerGroup = {
       LAYERS["osm"].id,
       LAYERS["positron"].id,
       LAYERS["jawg"].id
-    ]
+    ],
+    disabled: false,
+    type: "radio"
+  },
+  "metrix-administrative-cartography": {
+    id: "metrix-administrative-cartography",
+    name: "Cartografía Administrativa",
+    active: false,
+    layers: [],
+    disabled: true,
+    type: "checkbox"
+  },
+  "metrix-electoral-cartography": {
+    id: "metrix-electoral-cartography",
+    name: "Cartografía Electoral",
+    active: false,
+    layers: [],
+    disabled: true,
+    type: "checkbox"
+  },
+  "metrix-statistics-demographics": {
+    id: "metrix-statistics-demographics",
+    name: "Estadística & Demografía",
+    active: false,
+    layers: [],
+    disabled: true,
+    type: "checkbox"
+  },
+  "metrix-road-infrastructure": {
+    id: "metrix-road-infrastructure",
+    name: "Infraestructura Vial",
+    active: false,
+    layers: [],
+    disabled: true,
+    type: "checkbox"
+  },
+  "metrix-water-infrastructure": {
+    id: "metrix-water-infrastructure",
+    name: "Infraestructura Hídrica",
+    active: false,
+    layers: [],
+    disabled: true,
+    type: "checkbox"
+  },
+  "metrix-election-days": {
+    id: "metrix-election-days",
+    name: "Jornadas Electorales",
+    active: false,
+    layers: [],
+    disabled: true,
+    type: "checkbox"
+  },
+  "metrix-urban-planning": {
+    id: "metrix-urban-planning",
+    name: "Ordenamiento Urbano",
+    active: false,
+    layers: [],
+    disabled: true,
+    type: "checkbox"
+  },
+  "metrix-civil-protection-security": {
+    id: "metrix-civil-protection-security",
+    name: "Protección Civil & Seguridad",
+    active: false,
+    layers: [],
+    disabled: true,
+    type: "checkbox"
+  },
+  "metrix-public-services": {
+    id: "metrix-public-services",
+    name: "Servicios Públicos",
+    active: false,
+    layers: [],
+    disabled: true,
+    type: "checkbox"
   },
   "metrix-filters": {
     id: "metrix-filters",
     name: "Filtros",
     active: true,
-    layers: []
-  }
+    layers: [],
+    disabled: false,
+    type: "checkbox"
+  },
+  "metrix-draws": {
+    id: "metrix-draws",
+    name: "Dibujos",
+    active: true,
+    layers: [],
+    disabled: false,
+    type: "checkbox"
+  },
   // "metrix-basemaps2": {
   //   id: "metrix-basemaps2",
   //   name: "Mapas base 2",
