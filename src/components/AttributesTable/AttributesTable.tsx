@@ -178,7 +178,7 @@ const AttributesTable = <T,>({ data, columns, onSelectedRow }: AttributesTablePr
           }
         )}
       >
-        <table className="table-fixed w-full">
+        <table className="table-fixed">
           <thead
             className={classNames(
               "bg-gray-100 dark:bg-metrixblack-700/50",

@@ -4,9 +4,13 @@ export interface PluralResponseAPI<T> {
   data: T[];
 }
 
-export interface CountryAPI {
-  id: number;
-  fid: number;
-  cve_pais: string;
-  nom_pais: string;
+export interface FeatureAPI<T> {
+  type: "Feature";
+  geometry?: string;
+  properties: T;
+}
+
+export interface FeatureCollectionAPI<T> {
+  type: "FeatureCollection";
+  features: FeatureAPI<T>[];
 }

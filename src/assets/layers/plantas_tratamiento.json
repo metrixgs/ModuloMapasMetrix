@@ -1,0 +1,1327 @@
+{
+  "type": "FeatureCollection",
+  "name": "plantas_tratamiento",
+  "crs": {
+    "type": "name",
+    "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 1,
+        "OID_": 0,
+        "Name": "Deshidratadora La Cascada, S.A.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.414001, 20.563171, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 2,
+        "OID_": 0,
+        "Name": "Pilgrim'S Pride, S.A. De C.V. (Incubadora)",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.454169, 20.530597, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 3,
+        "OID_": 0,
+        "Name": "Colomer México, S.A. De C.V. (Revlon)",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.459261, 20.52873, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 4,
+        "OID_": 0,
+        "Name": "Siemens, S.A. De Cv.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.456543, 20.534831, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 5,
+        "OID_": 0,
+        "Name": "Cordaflex, S.A. De C.V. (Condumex)",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.459001, 20.535714, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 6,
+        "OID_": 0,
+        "Name": "Tetra Pak Querétaro, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.466713, 20.538635, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 7,
+        "OID_": 0,
+        "Name": "Sika Mexicana, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.45602, 20.537777, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 8,
+        "OID_": 0,
+        "Name": "Qualtia Alimentos Operaciones, S. De R.L. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.467214, 20.537979, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 9,
+        "OID_": 0,
+        "Name": "Sparvel, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.459015, 20.531765, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 10,
+        "OID_": 0,
+        "Name": "Química Fina Farmex, S.A. de C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.430262, 20.646116, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 11,
+        "OID_": 0,
+        "Name": "Bundy Refrigeration, S. De R.L. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.459105, 20.532168, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 12,
+        "OID_": 0,
+        "Name": "Bunge Comercial, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.195048, 20.579758, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 13,
+        "OID_": 0,
+        "Name": "Sisttemex, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.457135, 20.536078, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 14,
+        "OID_": 0,
+        "Name": "Industrias Lactel, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.443031, 20.528366, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 15,
+        "OID_": 0,
+        "Name": "Guardian Industries V.P.S. De R.L. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.232721, 20.659404, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 16,
+        "OID_": 0,
+        "Name": "Alen Del Norte, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.240947, 20.620123, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 17,
+        "OID_": 0,
+        "Name": "Casa Distex",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.355726, 20.599638, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 18,
+        "OID_": 0,
+        "Name": "Steeringmex, S. De R.L. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.286848, 20.564976, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 19,
+        "OID_": 0,
+        "Name": "Effem México, Inc. Y Compañías, S. De N.C. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.222448, 20.61908, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 20,
+        "OID_": 0,
+        "Name": "Pilgrim'S Pride S. De R.L. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.266195, 20.548746, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 21,
+        "OID_": 0,
+        "Name": "General Motors De México, S. De R.L. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.215762, 20.607929, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 22,
+        "OID_": 0,
+        "Name": "Servicio Garman Querétaro, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.237175, 20.562127, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 23,
+        "OID_": 0,
+        "Name": "Parque Industrial El Marqués, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.253676, 20.568715, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 24,
+        "OID_": 0,
+        "Name": "Avícola Y Ganadera Del C.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.31398, 20.776631, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 25,
+        "OID_": 0,
+        "Name": "Central Ciclo Combinado El Sauz",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.118282, 20.459623, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 26,
+        "OID_": 0,
+        "Name": "Transmisiones Tsp, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.426081, 20.629163, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 27,
+        "OID_": 0,
+        "Name": "Frigus Bohn, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.436993, 20.620154, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 28,
+        "OID_": 0,
+        "Name": "Calendarios Y Propaganda, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.439012, 20.627732, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 29,
+        "OID_": 0,
+        "Name": "Terminal De Almacenamiento Y Reparto/Tar, Querétaro",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)/Terminal De Almacenamiento Y Reparto",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.430989, 20.620958, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 30,
+        "OID_": 0,
+        "Name": "Liconsa",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.434645, 20.635012, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 31,
+        "OID_": 0,
+        "Name": "Arteva Specialties S. De R.L. De C.V., (Celanese Mexicana)",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.439746, 20.633426, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 32,
+        "OID_": 0,
+        "Name": "Transmisiones Y Equipos Mecánicos, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.428844, 20.631503, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 33,
+        "OID_": 0,
+        "Name": "Industria Envasadora De Querétaro, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.420254, 20.612389, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 34,
+        "OID_": 0,
+        "Name": "Refresco Victoria Del Centro, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.416222, 20.59812, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 35,
+        "OID_": 0,
+        "Name": "Compañía Nestle, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.417775, 20.606927, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 36,
+        "OID_": 0,
+        "Name": "Nestle México, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.406653, 20.609366, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 37,
+        "OID_": 0,
+        "Name": "Vitalub, S.A. De C.V. (Grupo Nieto)",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.370347, 20.586666, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 38,
+        "OID_": 0,
+        "Name": "Uniroyal",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.395406, 20.555192, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 39,
+        "OID_": 0,
+        "Name": "New Holland De México",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.429106, 20.636087, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 40,
+        "OID_": 0,
+        "Name": "Industrias Astral Mabe",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.438435, 20.629583, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 41,
+        "OID_": 0,
+        "Name": "Rexam Beverage Can Americas, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.430375, 20.616776, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 42,
+        "OID_": 0,
+        "Name": "Valeo Sylvania Iluminación S. De R.L. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.369907, 20.590051, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 43,
+        "OID_": 0,
+        "Name": "Hitachi Automotive Systems Querétaro, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.419603, 20.829561, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 44,
+        "OID_": 0,
+        "Name": "Vidriera Querétaro, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.426207, 20.617734, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 45,
+        "OID_": 0,
+        "Name": "Embotelladora Aga Del Centro, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.409054, 20.606234, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 46,
+        "OID_": 0,
+        "Name": "Bticino De México, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.445017, 20.767833, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 47,
+        "OID_": 0,
+        "Name": "Inmobiliaria Proactivos, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.423399, 20.594233, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 48,
+        "OID_": 0,
+        "Name": "Agrogen, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.47313, 20.593685, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 49,
+        "OID_": 0,
+        "Name": "Kellogg´S De México, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.423496, 20.595338, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 50,
+        "OID_": 0,
+        "Name": "Arvin De México, S.A. De C.V. (Faurecia)",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.431085, 20.651848, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 51,
+        "OID_": 0,
+        "Name": "Eaton Technologies S. De R.L. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.435079, 20.821422, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 52,
+        "OID_": 0,
+        "Name": "Narmx Querétaro, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.433256, 20.814945, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 53,
+        "OID_": 0,
+        "Name": "Jafra Manufacturing, S.A. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.423513, 20.832588, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 54,
+        "OID_": 0,
+        "Name": "Crown-Industrias Montacargas, S. De R.L. De C.V.",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.437106, 20.619871, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 55,
+        "OID_": 0,
+        "Name": "Industrias Montacargas, S. De R.L. De C.V",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.432864, 20.817635, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 56,
+        "OID_": 0,
+        "Name": "Frenos Y Mecanismos S.A. De C.V",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 0,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.442596, 20.817933, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 57,
+        "OID_": 0,
+        "Name": "San José de la Peñuela (pública)",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 1,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.152389, 20.642278, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 58,
+        "OID_": 0,
+        "Name": "El Blanco (pública)",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 1,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.106833, 20.606139, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 59,
+        "OID_": 0,
+        "Name": "La Carbonera (pública)",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 1,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": { "type": "Point", "coordinates": [-100.171111, 20.801, 0.0] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 60,
+        "OID_": 0,
+        "Name": "Santa Rosa de Lima (pública)",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 1,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-99.971667, 20.665972, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 61,
+        "OID_": 0,
+        "Name": "Ajuchitlan (pública)",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 1,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.01375, 20.70375, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 62,
+        "OID_": 0,
+        "Name": "Vista Hermosa (pública)",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 1,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.170139, 20.752472, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 63,
+        "OID_": 0,
+        "Name": "Nuevo Álamos (pública)",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 1,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.18575, 20.837556, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 64,
+        "OID_": 0,
+        "Name": "La Esperanza (pública)",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 1,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.108694, 20.637694, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 65,
+        "OID_": 0,
+        "Name": "Galeras (pública)",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 1,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.155389, 20.613861, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 66,
+        "OID_": 0,
+        "Name": "San Ildefonso (pública)",
+        "FolderPath": "Plantas Tratadoras (públicas y privadas)",
+        "SymbolID": 1,
+        "AltMode": -1,
+        "Base": 0.0,
+        "Snippet": null,
+        "PopupInfo": null,
+        "HasLabel": -1,
+        "LabelID": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-100.182694, 20.570361, 0.0]
+      }
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-import type { ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 
 import { useTranslation } from "react-i18next";
 
@@ -6,39 +6,39 @@ import { Label } from "flowbite-react";
 
 import { BiSolidTrash } from "react-icons/bi";
 
+import type { Country } from "@/types/Filters/Country";
+import type { State } from "@/types/Filters/State";
+import type { Municipality } from "@/types/Filters/Municipality";
+// import type { Delegation } from "@/types/Filters/Delegation";
+// import type { Zip } from "@/types/Filters/Zip";
+import type { Hood } from "@/types/Filters/Hood";
+import type { Square } from "@/types/Filters/Square";
+import type { Property } from "@/types/Filters/Property";
+
+import ReadCountries from "@/services/Filters/Geographic/Country/ReadCountries";
+import ReadCountry from "@/services/Filters/Geographic/Country/ReadCountry";
+import ReadStates from "@/services/Filters/Geographic/State/ReadStates";
+import ReadState from "@/services/Filters/Geographic/State/ReadState";
+import ReadMunicipalities from "@/services/Filters/Geographic/Municipality/ReadMunicipalities";
+import ReadMunicipality from "@/services/Filters/Geographic/Municipality/ReadMunicipality";
+import ReadHoods from "@/services/Filters/Geographic/Hood/ReadHoods";
+import ReadHood from "@/services/Filters/Geographic/Hood/ReadHood";
+import ReadSquares from "@/services/Filters/Geographic/Square/ReadSquares";
+import ReadSquare from "@/services/Filters/Geographic/Square/ReadSquare";
+import ReadProperties from "@/services/Filters/Geographic/Property/ReadProperties";
+import ReadProperty from "@/services/Filters/Geographic/Property/ReadProperty";
+
 import Button from "@components/UI/Button";
 import SearchableSelect from "@components/UI/SearchableSelect/SearchableSelect";
 
-import ReadGeojson from "@/services/Filters/Geographic/ReadGeojson";
-
 import { useSpatialFilterStore } from "@/stores/useSpatialFilterStore";
-
-import type {
-  level_1,
-  level_2,
-  level_3,
-  level_4,
-  level_5,
-  level_6,
-  level_7,
-  level_8,
-} from "@/types/GeographicFilter";
-
-import level1 from "@/assets/geographic/level_1.json";
-import level2 from "@/assets/geographic/level_2.json";
-import level3 from "@/assets/geographic/level_3.json";
-import level4 from "@/assets/geographic/level_4.json";
-import level5 from "@/assets/geographic/level_5.json";
-import level6 from "@/assets/geographic/level_6.json";
-import level7 from "@/assets/geographic/level_7.json";
-import level8 from "@/assets/geographic/level_8.json";
 
 import {
   filtersCountryId,
   filtersStateId,
   filtersMunicipalityId,
-  filtersDelegationId,
-  filtersZipcodeId,
+  // filtersDelegationId,
+  // filtersZipcodeId,
   filtersHoodId,
   filtersSquareId,
   filtersPropertyId,
@@ -51,184 +51,235 @@ const TabGeographic = () => {
     country,
     state,
     municipality,
-    delegation,
-    zip,
+    // delegation,
+    // zip,
     hood,
     square,
     property,
     setCountry,
     setState,
     setMunicipality,
-    setDelegation,
-    setZip,
+    // setDelegation,
+    // setZip,
     setHood,
     setSquare,
     setProperty,
     clear,
   } = useSpatialFilterStore((state) => state);
 
-  const countries = level1 as level_1[];
-  const states = (level2 as level_2[]).filter(
-    (item) => item.level_1 === country
-  );
-  const municipalities = (level3 as level_3[]).filter(
-    (item) => item.level_1 === country && item.level_2 === state
-  );
-  const delegations = (level4 as level_4[]).filter(
-    (item) =>
-      item.level_1 === country &&
-      item.level_2 === state &&
-      item.level_3 === municipality
-  );
-  const zips = (level5 as level_5[]).filter(
-    (item) =>
-      item.level_1 === country &&
-      item.level_2 === state &&
-      item.level_3 === municipality &&
-      (delegation === undefined ||
-        (item.level_4 !== undefined && item.level_4 === delegation))
-  );
-  const hoods = (level6 as level_6[]).filter(
-    (item) =>
-      item.level_1 === country &&
-      item.level_2 === state &&
-      item.level_3 === municipality &&
-      (zip === undefined ||
-        (item.level_5 !== undefined && item.level_5 === zip))
-  );
-  const squares = (level7 as level_7[]).filter(
-    (item) =>
-      item.level_1 === country &&
-      item.level_2 === state &&
-      item.level_3 === municipality &&
-      (delegation === undefined ||
-        (item.level_4 !== undefined && item.level_4 === delegation)) &&
-      (zip === undefined ||
-        (item.level_5 !== undefined && item.level_5 === zip)) &&
-      item.level_6 === hood
-  );
-  const properties = (level8 as level_8[]).filter(
-    (item) =>
-      item.level_1 === country &&
-      item.level_2 === state &&
-      item.level_3 === municipality &&
-      (delegation === undefined ||
-        (item.level_4 !== undefined && item.level_4 === delegation)) &&
-      (zip === undefined ||
-        (item.level_5 !== undefined && item.level_5 === zip)) &&
-      item.level_6 === hood &&
-      item.level_7 === square
-  );
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [states, setStates] = useState<State[]>([]);
+  const [municipalities, setMunicipalities] = useState<Municipality[]>([]);
+  // const [delegations, setDelegations] = useState<Delegation[]>([]);
+  // const [zips, setZips] = useState<Zip[]>([]);
+  const [hoods, setHoods] = useState<Hood[]>([]);
+  const [squares, setSquares] = useState<Square[]>([]);
+  const [properties, setProperties] = useState<Property[]>([]);
 
-  const handleCountry = (e: ChangeEvent<HTMLSelectElement>) => {
+  useEffect(() => {
+    const mount = async () => {
+      const countriesResult = await ReadCountries();
+      if (countriesResult) {
+        setCountries(countriesResult);
+      }
+    }
+    mount();
+  }, [])
+
+  const handleCountry = async (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
-    if (!value) {
-      setCountry();
+    const countryObject = countries.find((item) => item.code === value);
+    if (countryObject) {
+      const countryFeature = await ReadCountry(countryObject.id);
+
+      if (countryFeature && countryFeature.geometry) {
+        setCountry(
+          countryObject.code,
+          countryObject.name,
+          {
+            type: "Feature",
+            properties: countryFeature.properties,
+            geometry: JSON.parse(countryFeature.geometry)
+          }
+        )
+      } else {
+        // TODO
+      }
+
+      const statesResult = await ReadStates(countryObject.code);
+      if (statesResult) {
+        setStates(statesResult);
+      } else {
+        // TODO
+      }
     } else {
-      setCountry(parseInt(value));
+      // TODO
     }
   };
 
   const handleState = async (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
-    if (!value) {
-      setState();
-    } else {
-      const id = parseInt(value);
-      const item = states.find(
-        (target) => target.id === id && target.level_1 === country
-      );
+    const stateObject = states.find((item) => item.code === value);
+    if (stateObject) {
+      const stateFeature = await ReadState(stateObject.id);
 
-      const geojson = await ReadGeojson("level_2", item?.geom);
-      setState(parseInt(value), item?.name, geojson);
+      if (stateFeature && stateFeature.geometry) {
+        setState(
+          stateObject.code,
+          stateObject.name,
+          {
+            type: "Feature",
+            properties: stateFeature.properties,
+            geometry: JSON.parse(stateFeature.geometry)
+          }
+        )
+      } else {
+        // TODO
+      }
+
+      const municipalitiesResult = await ReadMunicipalities(stateObject.code);
+      if (municipalitiesResult) {
+        setMunicipalities(municipalitiesResult);
+      } else {
+        // TODO
+      }
+    } else {
+      // TODO
     }
   };
 
   const handleMunicipality = async (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
-    if (!value) {
-      setMunicipality();
-    } else {
-      const id = parseInt(value);
-      const item = municipalities.find(
-        (target) =>
-          target.id === id &&
-          target.level_1 === country &&
-          target.level_2 === state
-      );
+    const municipalityObject = municipalities.find((item) => item.code === value);
+    if (municipalityObject) {
+      const municipalityFeature = await ReadMunicipality(municipalityObject.id);
 
-      const geojson = await ReadGeojson("level_3", item?.geom);
-      setMunicipality(parseInt(value), item?.name, geojson);
+      if (municipalityFeature && municipalityFeature.geometry) {
+        setMunicipality(
+          municipalityObject.code,
+          municipalityObject.name,
+          {
+            type: "Feature",
+            properties: municipalityFeature.properties,
+            geometry: JSON.parse(municipalityFeature.geometry)
+          }
+        )
+      } else {
+        // TODO
+      }
+
+      const hoodsResult = await ReadHoods(municipalityObject.code);
+      if (hoodsResult) {
+        setHoods(hoodsResult);
+      } else {
+        // TODO
+      }
+    } else {
+      // TODO
     }
   };
 
-  // TODO: handleDelegation
+  // const handleDelegation = async (e: ChangeEvent<HTMLSelectElement>) => {
+  //   const value = e.target.value;
+  //   setDelegation(value)
+  // }
 
-  // TODO: handleZip
+  // const handleZip = async (e: ChangeEvent<HTMLSelectElement>) => {
+  //   const value = e.target.value;
+  //   setZip(value);
+  // }
 
   const handleHood = async (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
-    if (!value) {
-      setHood();
-    } else {
-      const id = parseInt(value);
-      const item = hoods.find(
-        (target) =>
-          target.id === id &&
-          target.level_1 === country &&
-          target.level_2 === state &&
-          target.level_3 === municipality
-      );
+    const hoodObject = hoods.find((item) => item.code === value);
+    const municipalityObject = municipalities.find(item => item.code === municipality);
+    if (hoodObject && municipalityObject) {
+      const hoodFeature = await ReadHood(hoodObject.id);
 
-      const geojson = await ReadGeojson("level_6", item?.geom);
-      setHood(parseInt(value), item?.name, geojson);
+      if (hoodFeature && hoodFeature.geometry) {
+        setHood(
+          hoodObject.code,
+          hoodObject.name,
+          {
+            type: "Feature",
+            properties: hoodFeature.properties,
+            geometry: JSON.parse(hoodFeature.geometry)
+          }
+        )
+      } else {
+        // TODO
+      }
+
+      const squaresResult = await ReadSquares(municipalityObject.code);
+      if (squaresResult) {
+        setSquares(squaresResult);
+      } else {
+        // TODO
+      }
+    } else {
+      // TODO
     }
   };
 
   const handleSquare = async (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
-    if (!value) {
-      setSquare();
-    } else {
-      const id = parseInt(value);
-      const item = squares.find(
-        (target) =>
-          target.id === id &&
-          target.level_1 === country &&
-          target.level_2 === state &&
-          target.level_3 === municipality &&
-          target.level_6 === hood
-      );
+    const squareObject = squares.find((item) => item.code === value);
+    if (squareObject) {
+      const squareFeature = await ReadSquare(squareObject.id);
 
-      const geojson = await ReadGeojson("level_7", item?.geom);
-      setSquare(parseInt(value), item?.name, geojson);
+      if (squareFeature && squareFeature.geometry) {
+        setSquare(
+          squareObject.code,
+          squareObject.code,
+          {
+            type: "Feature",
+            properties: squareFeature.properties,
+            geometry: JSON.parse(squareFeature.geometry)
+          }
+        )
+      } else {
+        // TODO
+      }
+
+      const propertiesResult = await ReadProperties(squareObject.code);
+      if (propertiesResult) {
+        setProperties(propertiesResult);
+      } else {
+        // TODO
+      }
+    } else {
+      // TODO
     }
   };
 
   const handleProperty = async (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
-    if (!value) {
-      setProperty();
-    } else {
-      // const id = parseInt(value);
-      const item = properties.find(
-        (target) =>
-          target.id === value &&
-          target.level_1 === country &&
-          target.level_2 === state &&
-          target.level_3 === municipality &&
-          target.level_6 === hood &&
-          target.level_7 === square
-      );
+    const propertyObject = properties.find((item) => item.code === value);
+    if (propertyObject) {
+      const propertyFeature = await ReadProperty(propertyObject.id);
 
-      const geojson = await ReadGeojson("level_8", item?.geom);
-      setProperty(value, item?.name, geojson);
+      if (propertyFeature && propertyFeature.geometry) {
+        setProperty(
+          propertyObject.code,
+          propertyObject.code,
+          {
+            type: "Feature",
+            properties: propertyFeature.properties,
+            geometry: JSON.parse(propertyFeature.geometry)
+          }
+        )
+      } else {
+        // TODO
+      }
+    } else {
+      // TODO
     }
   };
 
   return (
     <div className="max-w-md flex flex-col gap-3">
       <div>
+        {/* Country */}
         <div className="mb-1 block">
           <Label htmlFor={filtersCountryId}>
             {t("body.controls.filters.tabs.geographic.country")}:
@@ -236,21 +287,21 @@ const TabGeographic = () => {
         </div>
         <SearchableSelect
           id={filtersCountryId}
-          placeholder={t(
-            "body.controls.filters.tabs.geographic.country"
-          ).toUpperCase()}
-          searchPlaceholder={t("body.controls.filters.search.title") + "..."}
-          noResultPlaceholder={t("body.controls.filters.search.no-results")}
+          disabled={countries.length === 0}
+          placeholder={ t("body.controls.filters.tabs.geographic.country").toUpperCase() }
+          searchPlaceholder={ t("body.controls.filters.search.title") + "..." }
+          noResultPlaceholder={ t("body.controls.filters.search.no-results") }
           sizing="sm"
-          value={country?.toString()}
+          value={country}
           onChange={handleCountry}
           options={countries.map((option) => ({
             title: option.name,
-            value: option.id.toString(),
+            value: option.code,
           }))}
         />
       </div>
       <div>
+        {/* States */}
         <div className="mb-1 block">
           <Label htmlFor={filtersStateId}>
             {t("body.controls.filters.tabs.geographic.state")}:
@@ -258,46 +309,44 @@ const TabGeographic = () => {
         </div>
         <SearchableSelect
           id={filtersStateId}
-          placeholder={t(
-            "body.controls.filters.tabs.geographic.state"
-          ).toUpperCase()}
-          searchPlaceholder={t("body.controls.filters.search.title") + "..."}
-          noResultPlaceholder={t("body.controls.filters.search.no-results")}
+          disabled={!country || states.length === 0}
+          placeholder={t ("body.controls.filters.tabs.geographic.state").toUpperCase() }
+          searchPlaceholder={ t("body.controls.filters.search.title") + "..." }
+          noResultPlaceholder={ t("body.controls.filters.search.no-results") }
           sizing="sm"
-          disabled={!country}
-          value={state?.toString()}
+          value={state}
           onChange={handleState}
           options={states.map((option) => ({
             title: option.name,
-            value: option.id.toString(),
+            value: option.code,
           }))}
         />
       </div>
       <div>
+        {/* Municipality */}
         <div className="mb-1 block">
           <Label htmlFor={filtersMunicipalityId}>
-            {t("body.controls.filters.tabs.geographic.municipality")}:
+            { t("body.controls.filters.tabs.geographic.municipality") }:
           </Label>
         </div>
         <SearchableSelect
           id={filtersMunicipalityId}
-          placeholder={t(
-            "body.controls.filters.tabs.geographic.municipality"
-          ).toUpperCase()}
-          searchPlaceholder={t("body.controls.filters.search.title") + "..."}
-          noResultPlaceholder={t("body.controls.filters.search.no-results")}
+          placeholder={ t("body.controls.filters.tabs.geographic.municipality").toUpperCase() }
+          searchPlaceholder={ t("body.controls.filters.search.title") + "..." }
+          noResultPlaceholder={ t("body.controls.filters.search.no-results") }
           sizing="sm"
-          disabled={!state}
-          value={municipality?.toString()}
+          disabled={!state || municipalities.length === 0}
+          value={municipality}
           onChange={handleMunicipality}
           options={municipalities.map((option) => ({
             title: option.name,
-            value: option.id.toString(),
+            value: option.code,
           }))}
         />
       </div>
       <div>
-        <div className="mb-1 block">
+        {/* Delegation */}
+        {/* <div className="mb-1 block">
           <Label htmlFor={filtersDelegationId}>
             {t("body.controls.filters.tabs.geographic.delegation")}:
           </Label>
@@ -312,19 +361,16 @@ const TabGeographic = () => {
           sizing="sm"
           disabled={!municipality}
           value={delegation?.toString()}
-          onChange={(e) =>
-            !e.target.value
-              ? setDelegation(undefined)
-              : setDelegation(parseInt(e.target.value),undefined,undefined)
-          }
+          onChange={handleDelegation}
           options={delegations.map((option) => ({
             title: option.name,
             value: option.id.toString(),
           }))}
-        />
+        /> */}
       </div>
       <div>
-        <div className="mb-1 block">
+        {/* Zip */}
+        {/* <div className="mb-1 block">
           <Label htmlFor={filtersZipcodeId}>
             {t("body.controls.filters.tabs.geographic.zip")}:
           </Label>
@@ -339,18 +385,15 @@ const TabGeographic = () => {
           sizing="sm"
           disabled={!municipality}
           value={zip?.toString()}
-          onChange={(e) =>
-            !e.target.value
-              ? setZip(undefined)
-              : setZip(parseInt(e.target.value),undefined,undefined)
-          }
+          onChange={handleZip}
           options={zips.map((option) => ({
             title: option.name,
             value: option.id.toString(),
           }))}
-        />
+        /> */}
       </div>
       <div>
+        {/* Hood */}
         <div className="mb-1 block">
           <Label htmlFor={filtersHoodId}>
             {t("body.controls.filters.tabs.geographic.hood")}:
@@ -358,22 +401,21 @@ const TabGeographic = () => {
         </div>
         <SearchableSelect
           id={filtersHoodId}
-          placeholder={t(
-            "body.controls.filters.tabs.geographic.hood"
-          ).toUpperCase()}
-          searchPlaceholder={t("body.controls.filters.search.title") + "..."}
-          noResultPlaceholder={t("body.controls.filters.search.no-results")}
+          placeholder={ t("body.controls.filters.tabs.geographic.hood").toUpperCase() }
+          searchPlaceholder={ t("body.controls.filters.search.title") + "..." }
+          noResultPlaceholder={ t("body.controls.filters.search.no-results") }
           sizing="sm"
-          disabled={!municipality}
-          value={hood?.toString()}
+          disabled={!municipality || hoods.length === 0}
+          value={hood}
           onChange={handleHood}
           options={hoods.map((option) => ({
             title: option.name,
-            value: option.id.toString(),
+            value: option.code,
           }))}
         />
       </div>
       <div>
+        {/* Square */}
         <div className="mb-1 block">
           <Label htmlFor={filtersSquareId}>
             {t("body.controls.filters.tabs.geographic.square")}:
@@ -381,22 +423,21 @@ const TabGeographic = () => {
         </div>
         <SearchableSelect
           id={filtersSquareId}
-          placeholder={t(
-            "body.controls.filters.tabs.geographic.square"
-          ).toUpperCase()}
-          searchPlaceholder={t("body.controls.filters.search.title") + "..."}
-          noResultPlaceholder={t("body.controls.filters.search.no-results")}
+          placeholder={ t("body.controls.filters.tabs.geographic.square").toUpperCase() }
+          searchPlaceholder={ t("body.controls.filters.search.title") + "..." }
+          noResultPlaceholder={ t("body.controls.filters.search.no-results") }
           sizing="sm"
-          disabled={!hood}
-          value={square?.toString()}
+          disabled={!hood || squares.length === 0}
+          value={square}
           onChange={handleSquare}
           options={squares.map((option) => ({
-            title: option.name,
-            value: option.id.toString(),
+            title: option.code,
+            value: option.code,
           }))}
         />
       </div>
       <div>
+        {/* Property */}
         <div className="mb-1 block">
           <Label htmlFor={filtersPropertyId}>
             {t("body.controls.filters.tabs.geographic.property")}:
@@ -404,18 +445,16 @@ const TabGeographic = () => {
         </div>
         <SearchableSelect
           id={filtersPropertyId}
-          placeholder={t(
-            "body.controls.filters.tabs.geographic.property"
-          ).toUpperCase()}
-          searchPlaceholder={t("body.controls.filters.search.title") + "..."}
-          noResultPlaceholder={t("body.controls.filters.search.no-results")}
+          placeholder={ t("body.controls.filters.tabs.geographic.property").toUpperCase() }
+          searchPlaceholder={ t("body.controls.filters.search.title") + "..." }
+          noResultPlaceholder={ t("body.controls.filters.search.no-results") }
           sizing="sm"
-          disabled={!square}
-          value={property?.toString()}
+          disabled={!square || properties.length === 0}
+          value={property}
           onChange={handleProperty}
           options={properties.map((option) => ({
-            title: option.name,
-            value: option.id.toString(),
+            title: option.code,
+            value: option.code,
           }))}
         />
       </div>

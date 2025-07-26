@@ -43,7 +43,7 @@ export const AccordionItem: FC<AccordionItemProps> = ({ title, children }) => {
             }
           )} />
         </button>
-        <div className="flex-grow">
+        <div className="flex-grow text-sm">
           { title }
         </div>
       </div>

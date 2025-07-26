@@ -84,9 +84,9 @@ export const GROUPS: LayerGroup = {
   "metrix-administrative-cartography": {
     id: "metrix-administrative-cartography",
     name: "Cartografía Administrativa",
-    active: false,
+    active: true,
     layers: [],
-    disabled: true,
+    disabled: false,
     type: "checkbox"
   },
   "metrix-electoral-cartography": {
@@ -116,9 +116,9 @@ export const GROUPS: LayerGroup = {
   "metrix-water-infrastructure": {
     id: "metrix-water-infrastructure",
     name: "Infraestructura Hídrica",
-    active: false,
+    active: true,
     layers: [],
-    disabled: true,
+    disabled: false,
     type: "checkbox"
   },
   "metrix-election-days": {

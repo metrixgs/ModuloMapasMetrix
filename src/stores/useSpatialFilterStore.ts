@@ -11,16 +11,81 @@ import { useMapLayersStore } from "./useMapLayersStore";
 import { LAYERS } from "@/config.map";
 
 export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
-  setCountry: (country) => {
+  setCountry: async (country, name, countryGeoJSON) => {
+    const map = useMapStore.getState().map;
+    const {
+      countryLayer: countryLayer_,
+      stateLayer,
+      municipalityLayer,
+      delegationLayer,
+      zipLayer,
+      hoodLayer,
+      squareLayer,
+      propertyLayer,
+    } = get();
+
+    let newCountryLayer;
+
+    if (countryLayer_) countryLayer_.remove();
+    if (stateLayer) stateLayer.remove();
+    if (municipalityLayer) municipalityLayer.remove();
+    if (delegationLayer) delegationLayer.remove();
+    if (zipLayer) zipLayer.remove();
+    if (hoodLayer) hoodLayer.remove();
+    if (squareLayer) squareLayer.remove();
+    if (propertyLayer) propertyLayer.remove();
+
+    if (countryGeoJSON && map) {
+      newCountryLayer = geoJSON(countryGeoJSON, {
+        pmIgnore: true,
+        style: () => {
+          return {
+            fillColor: "#267E26",
+            stroke: true,
+            weight: 0.5,
+            color: "#267E26",
+            opacity: 1.0,
+          };
+        },
+      }).addTo(map);
+      map.flyToBounds(newCountryLayer.getBounds());
+
+      const {
+        layerFilter,
+        appendFilter,
+        assignLayerToGroup
+      } = useMapLayersStore.getState();
+      const filterId = `${name?.toLowerCase().replaceAll(" ", "-")}-filter-${Object.keys(layerFilter).length + 1}`;
+      const filterName = `${name?.toLowerCase()} filter ${Object.keys(layerFilter).length + 1}`;
+      const filter: LayerFilterItem = {
+        id: filterId,
+        name: filterName,
+        origin: newCountryLayer,
+        target: LAYERS["incidents"].id,
+        type: "intersection"
+      }
+
+      await appendFilter(filter);
+      assignLayerToGroup(filterId, "metrix-filters");
+    }
+
     set({
       country: country,
+      countryLayer: newCountryLayer,
       state: undefined,
+      stateLayer: undefined,
       municipality: undefined,
+      municipalityLayer: undefined,
       delegation: undefined,
+      delegationLayer: undefined,
       zip: undefined,
+      zipLayer: undefined,
       hood: undefined,
+      hoodLayer: undefined,
       square: undefined,
+      squareLayer: undefined,
       property: undefined,
+      propertyLayer: undefined,
     });
   },
   setState: async (state, name, stateGeoJSON) => {
