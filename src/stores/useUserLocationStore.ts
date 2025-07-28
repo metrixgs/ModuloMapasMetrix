@@ -11,7 +11,7 @@ import { useMapStore } from "@/stores/useMapStore";
 
 import type { UserLocationStore } from "@/types/Stores";
 
-import LocationPopup from "@components/Map/Controls/Location/LocationPopup";
+import LocationPopup from "@components/Pages/MapPage/Map/Controls/Location/LocationPopup";
 
 import i18next from "@/translations/index";
 
