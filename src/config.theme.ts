@@ -58,7 +58,7 @@ export const customTheme = createTheme({
   rangeSlider: {
     field: {
       input: {
-        base: "w-full cursor-pointer appearance-none rounded-lg bg-gray-200 dark:bg-metrixblack-600"
+        base: "w-full cursor-pointer appearance-none rounded-lg bg-gray-300 dark:bg-metrixblack-500"
       }
     }
   },
@@ -67,6 +67,15 @@ export const customTheme = createTheme({
       input: {
         colors: {
           gray: "border-gray-300 bg-gray-50 text-gray-900 placeholder-gray-500 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-metrixblack-800 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+        }
+      }
+    }
+  },
+  select: {
+    field: {
+      select: {
+        colors: {
+          gray: "border-gray-300 bg-gray-50 text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-metrixblack-800 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
         }
       }
     }

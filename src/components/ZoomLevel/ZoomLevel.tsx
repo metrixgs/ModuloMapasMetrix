@@ -59,7 +59,7 @@ const ZoomLevel = () => {
         <Label>{t("body.footer.zoom.zoom-title")}</Label>
         <div className="w-full flex gap-2 ">
           <RangeSlider
-            className="flex-grow"
+            className="flex-grow accent-primary-500"
             min={MIN_ZOOM}
             max={MAX_ZOOM}
             value={zoom}

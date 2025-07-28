@@ -61,7 +61,7 @@ const Coordinates = () => {
   );
 
   return (
-    <div className="min-w-64 flex items-center justify-between">
+    <div className="min-w-[calc(4px*68)] flex items-center justify-between">
       <div className="text-xs dark:text-white">
         <span className="font-bold">{t("body.footer.coordinates.title")}:</span>{" "}
         <span id={currentCoordsId}>
