@@ -27,6 +27,7 @@ const CuerposAgua = () => {
     columns: Object.keys(
       (cuerpos_agua as FeatureCollection).features[0].properties
     ).map((prop) => ({
+      header: prop,
       accessorKey: prop,
     })),
   };

@@ -1,6 +1,12 @@
+import SidebarMenu from "@components/Pages/HomePage/SidebarMenu/SidebarMenu";
+import MapList from "@components/Pages/HomePage/MapList/MapList";
+
 const HomePageMain = () => {
   return (
-    <div>HomeMain</div>
+    <main className="flex grow min-h-0">
+      <SidebarMenu />
+      <MapList />
+    </main>
   )
 }
 

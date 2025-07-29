@@ -6,7 +6,7 @@ import MapPageFooter from "./MapPageFooter";
 const MapPage = () => {
 
   return (
-    <div className="w-full min-h-[100dvh] flex flex-col">
+    <div className="w-full h-[100dvh] flex flex-col">
       <Header />
       <MapPageMain />
       <MapPageFooter />

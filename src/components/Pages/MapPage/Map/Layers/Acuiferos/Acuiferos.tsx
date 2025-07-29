@@ -27,6 +27,7 @@ const Acuiferos = () => {
     columns: Object.keys(
       (acuiferos as FeatureCollection).features[0].properties
     ).map((prop) => ({
+      header: prop,
       accessorKey: prop,
     })),
   };

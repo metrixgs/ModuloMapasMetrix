@@ -27,6 +27,7 @@ const ZonaSur = () => {
     columns: Object.keys(
       (zonaSur as FeatureCollection).features[0].properties
     ).map((prop) => ({
+      header: prop,
       accessorKey: prop,
     })),
   };

@@ -27,6 +27,7 @@ const ZonaPoniente = () => {
     columns: Object.keys(
       (zonaPoniente as FeatureCollection).features[0].properties
     ).map((prop) => ({
+      header: prop,
       accessorKey: prop,
     })),
   };

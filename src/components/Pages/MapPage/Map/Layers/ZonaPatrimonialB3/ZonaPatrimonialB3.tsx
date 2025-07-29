@@ -27,6 +27,7 @@ const ZonaPatrimonialB3 = () => {
     columns: Object.keys(
       (zonaPatrimonialB3 as FeatureCollection).features[0].properties
     ).map((prop) => ({
+      header: prop,
       accessorKey: prop,
     })),
   };

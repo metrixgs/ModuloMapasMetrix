@@ -27,6 +27,7 @@ const EspaciosPublicos = () => {
     columns: Object.keys(
       (espacios as FeatureCollection).features[0].properties
     ).map((prop) => ({
+      header: prop,
       accessorKey: prop,
     })),
   };

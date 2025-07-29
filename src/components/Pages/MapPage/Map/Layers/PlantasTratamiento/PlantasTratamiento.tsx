@@ -27,6 +27,7 @@ const PlantasTratamiento = () => {
     columns: Object.keys(
       (plantasTratamiento as FeatureCollection).features[0].properties
     ).map((prop) => ({
+      header: prop,
       accessorKey: prop,
     })),
   };
