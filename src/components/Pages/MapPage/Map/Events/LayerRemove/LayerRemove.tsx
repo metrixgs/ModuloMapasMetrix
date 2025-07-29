@@ -1,28 +1,27 @@
 import { useEffect } from "react";
 
-import type { LeafletEvent } from "leaflet";
+import type { LayerEvent } from "leaflet";
 
 import { useMapStore } from "@/stores/useMapStore";
 
-import UpdateMapState from "./UpdateMapState";
 import UpdateVisibleIncidents from "@components/Pages/MapPage/VisiblePoints/UpdateVisiblePoints";
 
-const MoveEnd = () => {
+const LayerRemove = () => {
   const { map } = useMapStore((state) => state);
 
   useEffect(() => {
-    const handleMoveEnd = (e: LeafletEvent) => {
-      UpdateMapState();
+    const handleLayerRemove = (e: LayerEvent) => {
       UpdateVisibleIncidents(e);
     };
 
-    map?.on("moveend", handleMoveEnd);
+    map?.on("layerremove", handleLayerRemove);
+
     return () => {
-      map?.on("moveend", handleMoveEnd);
+      map?.on("layerremove", handleLayerRemove);
     };
   }, [map]);
 
   return null;
 };
 
-export default MoveEnd;
+export default LayerRemove;

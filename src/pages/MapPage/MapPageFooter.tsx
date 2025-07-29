@@ -1,7 +1,7 @@
 import Scale from "@components/Pages/MapPage/Scale/Scale";
 import Coordinates from "@components/Pages/MapPage/Coordinates/Coordinates";
 import ZoomLevel from "@components/Pages/MapPage/ZoomLevel/ZoomLevel";
-import VisibleIncidents from "@components/Pages/MapPage/VisibleIncidents/VisibleIncidents";
+import VisiblePoints from "@components/Pages/MapPage/VisiblePoints/VisiblePoints";
 
 const MapPageFooter = () => {
   return (
@@ -9,7 +9,7 @@ const MapPageFooter = () => {
       <Scale />
       <Coordinates />
       <ZoomLevel />
-      <VisibleIncidents />
+      <VisiblePoints />
     </footer>
   )
 }

@@ -4,10 +4,7 @@ import { GeoJSON, geoJson, TileLayer } from "leaflet";
 
 import { pointsWithinPolygon } from "@turf/turf";
 
-import type {
-  MapLayersStore,
-  LayerItem,
-} from "@/types/Stores/LayersManager";
+import type { MapLayersStore, LayerItem } from "@/types/Stores/LayersManager";
 
 import { useMapStore } from "./useMapStore";
 import { GROUPS } from "@/config.map";
@@ -27,17 +24,12 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
       const layer = await loadLayerFunction();
 
       if (layer) {
-
-        if (
-          info.format === "geojson" && layer instanceof GeoJSON
-        ) {
+        if (info.format === "geojson" && layer instanceof GeoJSON) {
           layers[info.id] = {
             ...info,
             layer: layer,
           };
-        } else if (
-          info.format === "tile" && layer instanceof TileLayer
-        ) {
+        } else if (info.format === "tile" && layer instanceof TileLayer) {
           layers[info.id] = {
             ...info,
             layer: layer,
@@ -72,25 +64,26 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
       const target = layers[properties.target];
 
       // // The layer id must exist in "layers".
-      if (
-        !target
-      ) {
-        console.warn(`The filter could not be applied. Make sure the target (${properties.target}) exists in the layer registry.`);
+      if (!target) {
+        console.warn(
+          `The filter could not be applied. Make sure the target (${properties.target}) exists in the layer registry.`
+        );
         return false;
       }
 
       // One layer is defined in the layer id of "layers".
       if (!target.layer) {
-        console.warn(`The filter could not be applied. Make sure the target (${properties.target}) has an associated layer.`);
+        console.warn(
+          `The filter could not be applied. Make sure the target (${properties.target}) has an associated layer.`
+        );
         return false;
       }
 
       // The target has format "geojson" and is instance of GeoJSON.
-      if (
-        target.format != "geojson" ||
-        !(target.layer instanceof GeoJSON)
-      ) {
-        console.warn(`To apply an "intersection" type filter, the target must be a GeoJSON.`)
+      if (target.format != "geojson" || !(target.layer instanceof GeoJSON)) {
+        console.warn(
+          `To apply an "intersection" type filter, the target must be a GeoJSON.`
+        );
         return false;
       }
 
@@ -118,7 +111,6 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
           targetGeoJSON,
           originGeoJSON
         );
-        const filteredLayer = geoJson(filteredLayerGeoJSON);
 
         const filterInfo: LayerItem = {
           id: properties.id,
@@ -127,23 +119,27 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
           format: "geojson",
           temp: true,
           type: "filtered",
-          columns: target["columns"]
+          columns: target["columns"],
         };
-
-        const mount = await append(filterInfo, async () => filteredLayer);
+        
+        const mount = await append(filterInfo, async () =>
+          geoJson(filteredLayerGeoJSON, {
+            pointToLayer: targetLayer.options.pointToLayer,
+            onEachFeature: targetLayer.options.onEachFeature
+          })
+        );
 
         if (mount) {
           turnOffLayer(properties.target);
           newLayerFilter[properties.id] = properties;
           set({
-            layerFilter: newLayerFilter
-          })
+            layerFilter: newLayerFilter,
+          });
           return true;
         } else {
           console.warn("The filtered layer could not be added to the map.");
           return false;
         }
-
       } catch (error) {
         console.error(
           `The filter could not be applied, an error occurred: ${error}`
@@ -183,22 +179,23 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
       set({
         layers: layers,
         groups: groups,
-        layerFilter: layerFilter
-      })
+        layerFilter: layerFilter,
+      });
     }
   },
   toggleLayer: (layerId) => {
     const { layers, turnOffLayer, turnOnLayer, groups } = get();
 
     const layer = layers[layerId]?.layer;
-    const groupId = Object.keys(groups).find((group) => groups[group].layers.includes(layerId));
+    const groupId = Object.keys(groups).find((group) =>
+      groups[group].layers.includes(layerId)
+    );
     const group = groupId ? groups[groupId] : undefined;
 
-    
     if (!layer) return;
     if (!groupId) return;
     if (!group) return;
-    if (!(group.layers.includes(layerId))) return;
+    if (!group.layers.includes(layerId)) return;
 
     if (group.type === "checkbox") {
       const isActive = layers[layerId].active;
@@ -210,13 +207,12 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
       }
     } else if (group.type === "radio") {
       group.layers.forEach((groupLayerId) => {
-
         if (groupLayerId === layerId) {
           turnOnLayer(groupLayerId);
         } else {
           turnOffLayer(groupLayerId);
         }
-      })
+      });
     }
   },
   turnOffLayer: (id) => {
@@ -291,21 +287,27 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
 
     // Checks
     if (!(layerId in layers)) {
-      console.warn(`The layer "${layerId}" could not be added to the group "${groupId}" because the layer is not registered.`);
+      console.warn(
+        `The layer "${layerId}" could not be added to the group "${groupId}" because the layer is not registered.`
+      );
       return;
     }
     if (!(groupId in groups)) {
-      console.warn(`The layer "${layerId}" could not be added to the group "${groupId}" because the group does not exist.`);
+      console.warn(
+        `The layer "${layerId}" could not be added to the group "${groupId}" because the group does not exist.`
+      );
       return;
     }
     if (groups[groupId].layers.includes(layerId)) {
-      console.warn(`The layer "${layerId}" could not be added to the group "${groupId}" the layer already exists in this group.`);
+      console.warn(
+        `The layer "${layerId}" could not be added to the group "${groupId}" the layer already exists in this group.`
+      );
       return;
     }
 
     groups[groupId].layers.push(layerId);
     set({
       groups: groups,
-    })
-  }
+    });
+  },
 }));

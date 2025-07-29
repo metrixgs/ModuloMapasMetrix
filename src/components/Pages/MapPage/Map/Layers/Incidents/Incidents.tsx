@@ -16,11 +16,11 @@ import { json2geojsonPoint } from "@/utils/geometryUtils";
 
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
-import { customMarker } from "@components/Pages/MapPage/Map/Icons/customIcons";
+import { primaryCircleMarker } from "@components/Pages/MapPage/Map/Icons/customIcons";
 
 import IncidentPopup from "@components/Pages/MapPage/Map/Layers/Incidents/IncidentPopup";
 
-import HandleIncidentsLoadEvent from "./Events/IncidentsLoadEvent";
+// import HandleIncidentsLoadEvent from "./Events/IncidentsLoadEvent";
 
 const Incidents = () => {
   const append = useMapLayersStore((state) => state.append);
@@ -31,8 +31,9 @@ const Incidents = () => {
     const incidents = await ReadIncidents();
     const geojson = json2geojsonPoint(incidents as object[], "lat", "lng");
     const layer = geoJson(geojson, {
+      pmIgnore: true,
       pointToLayer: (_feature, latlng) => {
-        return marker(latlng, { icon: customMarker, pmIgnore: true });
+        return marker(latlng, { icon: primaryCircleMarker, pmIgnore: true });
       },
       onEachFeature: (feature, layer) => {
         const popupClass = popup({
@@ -58,7 +59,7 @@ const Incidents = () => {
     layer.options.pmIgnore = true;
 
     // Events
-    layer.on("add", HandleIncidentsLoadEvent);
+    // layer.on("add", HandleIncidentsLoadEvent);
     return layer;
   };
 

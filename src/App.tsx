@@ -28,8 +28,9 @@ const App = () => {
       <I18nextProvider i18n={i18next}>
         <ThemeProvider theme={customTheme}>
           <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/map/:id" element={<MapPage />} />
+            <Route path="/" element={<MapPage />} />
+            {/* <Route path="/" element={<HomePage />} />
+            <Route path="/map/:id" element={<MapPage />} /> */}
           </Routes>
           <Sidebar />
           <SidebarLeft />

@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
 
-import { visibleIncidentsId } from "@/config.id";
+import { visiblePointsId } from "@/config.id";
 
-const VisibleIncidents = () => {
+const VisiblePoints = () => {
   const { t } = useTranslation("global");
   return (
     <div className="min-w-32">
@@ -10,10 +10,10 @@ const VisibleIncidents = () => {
         <span className="font-bold">
           {t("body.footer.visible-incidents.title")}:
         </span>{" "}
-        <span id={visibleIncidentsId}></span>
+        <span id={visiblePointsId}></span>
       </p>
     </div>
   );
 };
 
-export default VisibleIncidents;
+export default VisiblePoints;
