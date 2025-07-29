@@ -17,6 +17,7 @@ import ZonaPatrimonialA from "./ZonaPatrimonialA/ZonaPatrimonialA";
 import ZonaPatrimonialB from "./ZonaPatrimonialB/ZonaPatrimonialB";
 import ZonaPatrimonialB3 from "./ZonaPatrimonialB3/ZonaPatrimonialB3";
 import ZonaPoniente from "./ZonaPoniente/ZonaPoniente";
+import ESRISatellite from "./Basemaps/ESRISatellite/ESRISatellite";
 
 const MapLayers = () => {
   return (
@@ -24,6 +25,7 @@ const MapLayers = () => {
       <Jawg />
       <Osm />
       <CartoDBpositron />
+      <ESRISatellite />
       <Incidents />
 
       <Acueducto />

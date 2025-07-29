@@ -55,6 +55,14 @@ export const LAYERS: { [key: string]: LayerItem } = {
     temp: false,
     format: "tile",
     type: "layer"
+  },
+  esri: {
+    id: "esri-satellite",
+    active: false,
+    name: "ESRI Satelite",
+    temp: false,
+    format: "tile",
+    type: "layer"
   }
 }
 
@@ -76,7 +84,8 @@ export const GROUPS: LayerGroup = {
     layers: [
       LAYERS["osm"].id,
       LAYERS["positron"].id,
-      LAYERS["jawg"].id
+      LAYERS["jawg"].id,
+      LAYERS["esri"].id
     ],
     disabled: false,
     type: "radio"
