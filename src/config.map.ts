@@ -30,7 +30,8 @@ export const LAYERS: { [key: string]: LayerItem } = {
     columns: Object.keys(INCIDENT_LAYER.fields).map((field) => ({
       accessorKey: field,
       header: INCIDENT_LAYER.fields[field as keyof typeof INCIDENT_LAYER.fields]
-    }))
+    })),
+    renamed: false
   },
   osm: {
     id: "metrix-osm",
@@ -38,7 +39,8 @@ export const LAYERS: { [key: string]: LayerItem } = {
     name: "Open Street Maps",
     temp: false,
     format: "tile",
-    type: "layer"
+    type: "layer",
+    renamed: false
   },
   positron: {
     id: "metrix-cartodb-positron",
@@ -46,7 +48,8 @@ export const LAYERS: { [key: string]: LayerItem } = {
     name: "CartoDB Positron",
     temp: false,
     format: "tile",
-    type: "layer"
+    type: "layer",
+    renamed: false
   },
   jawg: {
     id: "metrix-jawgmaps",
@@ -54,7 +57,8 @@ export const LAYERS: { [key: string]: LayerItem } = {
     name: "Jawg Maps",
     temp: false,
     format: "tile",
-    type: "layer"
+    type: "layer",
+    renamed: false
   },
   esri: {
     id: "esri-satellite",
@@ -62,7 +66,8 @@ export const LAYERS: { [key: string]: LayerItem } = {
     name: "ESRI Satelite",
     temp: false,
     format: "tile",
-    type: "layer"
+    type: "layer",
+    renamed: false
   }
 }
 

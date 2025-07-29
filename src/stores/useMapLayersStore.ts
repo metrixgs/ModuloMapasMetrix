@@ -120,6 +120,7 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
           temp: true,
           type: "filtered",
           columns: target["columns"],
+          renamed: true
         };
         
         const mount = await append(filterInfo, async () =>
@@ -310,4 +311,17 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
       groups: groups,
     });
   },
+  renameLayer: (id, newName) => {
+    const { layers } = get();
+
+    const layer = layers[id].layer;
+    const newLayers = { ...layers };
+
+    if (!layer) return;
+    if (!newLayers[id]) return;
+
+    newLayers[id].name = newName;
+
+    set({ layers: newLayers });
+  }
 }));

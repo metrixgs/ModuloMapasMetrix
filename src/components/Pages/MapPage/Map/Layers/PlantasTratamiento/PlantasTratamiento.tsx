@@ -36,6 +36,7 @@ const PlantasTratamiento = () => {
       header: prop,
       accessorKey: prop,
     })),
+    renamed: false
   };
 
   useEffect(() => {

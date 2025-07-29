@@ -30,6 +30,7 @@ const ZonaPatrimonialB3 = () => {
       header: prop,
       accessorKey: prop,
     })),
+    renamed: false
   };
 
   useEffect(() => {

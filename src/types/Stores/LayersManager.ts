@@ -20,6 +20,7 @@ export interface BaseLayerItem {
   name: string;
   active: boolean;
   temp: boolean;
+  renamed: boolean;
 }
 
 export interface GeoJSONLayerItem extends BaseLayerItem {
@@ -86,4 +87,5 @@ export interface MapLayersStore {
     layerId: keyof Layers,
     groupId: keyof LayerGroup
   ) => void;
+  renameLayer: (id: keyof Layers, newName: string) => void;
 }

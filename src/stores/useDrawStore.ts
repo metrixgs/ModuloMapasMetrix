@@ -70,7 +70,8 @@ export const useDrawStore = create<DrawStore>((set, get) => ({
       active: true,
       temp: false,
       type: "layer",
-      columns: [{ accessorKey: "area_m2" }, { accessorKey: "length_m" }]
+      columns: [{ accessorKey: "area_m2" }, { accessorKey: "length_m" }],
+      renamed: true
     }
 
     const load: LoadLayerFunction = async () => {

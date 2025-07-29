@@ -30,6 +30,7 @@ const ZonaSur = () => {
       header: prop,
       accessorKey: prop,
     })),
+    renamed: false
   };
 
   useEffect(() => {

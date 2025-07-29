@@ -30,6 +30,7 @@ const ZonaOriente = () => {
       header: prop,
       accessorKey: prop,
     })),
+    renamed: false
   };
 
   useEffect(() => {

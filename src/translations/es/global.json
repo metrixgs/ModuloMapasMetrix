@@ -23,7 +23,12 @@
           "show": "Mostrar capa",
           "hide": "Ocultar capa",
           "delete": "Eliminar capa",
-          "focus": "Enfocar"
+          "focus": "Enfocar",
+          "rename": {
+            "button-title": "Renombrar",
+            "help": "Escriba el nombre de su preferencia que le quiera asignar a la capa.",
+            "apply-button-title": "Aplicar cambios"
+          }
         }
       },
       "bdd": {

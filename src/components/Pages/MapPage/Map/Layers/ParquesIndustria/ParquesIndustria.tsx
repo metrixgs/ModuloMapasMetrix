@@ -30,6 +30,7 @@ const ParquesIndustria = () => {
       header: prop,
       accessorKey: prop,
     })),
+    renamed: false
   };
 
   useEffect(() => {

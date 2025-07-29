@@ -30,6 +30,7 @@ const CuerposAgua = () => {
       header: prop,
       accessorKey: prop,
     })),
+    renamed: false
   };
 
   useEffect(() => {
