@@ -36,6 +36,7 @@ import { useBottomDrawerStore } from "@/stores/useBottomDrawerStore";
 import Button from "@components/UI/Button";
 
 import { downloadCSV } from "@/utils/downloadUtils";
+import SelectColumns from "./SelectColumns";
 
 type AttributesTableProps<T> = {
   data: T[];
@@ -51,6 +52,7 @@ const AttributesTable = <T,>({ data, columns, onSelectedRow }: AttributesTablePr
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
   const [selectedRow, setSelectedRow] = useState<number | undefined>(undefined);
+  const [columnVisibility, setColumnVisibility] = useState({});
 
   const table = useReactTable<T>({
     columns,
@@ -66,10 +68,12 @@ const AttributesTable = <T,>({ data, columns, onSelectedRow }: AttributesTablePr
     },
     state: {
       sorting,
-      globalFilter
+      globalFilter,
+      columnVisibility,
     },
     onSortingChange: setSorting,
-    onGlobalFilterChange: setGlobalFilter
+    onGlobalFilterChange: setGlobalFilter,
+    onColumnVisibilityChange: setColumnVisibility,
   });
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
@@ -89,7 +93,7 @@ const AttributesTable = <T,>({ data, columns, onSelectedRow }: AttributesTablePr
 
   const handleDownloadCSV = () => {
     const columns = table.getAllColumns().filter(col => col.getIsVisible());
-    const rows = table.getRowModel().rows;
+    const rows = table.getPrePaginationRowModel().rows;
 
     const filteredData = rows.map((row) => {
       const result: Record<string, any> = {};
@@ -125,6 +129,7 @@ const AttributesTable = <T,>({ data, columns, onSelectedRow }: AttributesTablePr
             ({ table.getPrePaginationRowModel().rows.length }/{ data.length } { t("body.attributes-table.title-total-text") })
           </span>
         </span>
+        <SelectColumns table={table} />
         <TextInput
           icon={BiSearchAlt}
           placeholder={t("body.attributes-table.search-placeholder")}
@@ -181,7 +186,8 @@ const AttributesTable = <T,>({ data, columns, onSelectedRow }: AttributesTablePr
         <table className="table-fixed">
           <thead
             className={classNames(
-              "bg-gray-100 dark:bg-metrixblack-700/50",
+              "bg-gray-100 dark:bg-metrixblack-700",
+              "sticky top-0"
             )}
           >
             {
@@ -189,7 +195,7 @@ const AttributesTable = <T,>({ data, columns, onSelectedRow }: AttributesTablePr
                 <tr key={headerGroup.id} className="">
                   <th className={classNames(
                     "py-2 px-4 w-16",
-                    "border border-s-0 border-gray-300 dark:border-gray-600",
+                    "border border-s-0 border-t-0 border-gray-300 dark:border-gray-600",
                   )}
                   ></th>
                   {
@@ -200,8 +206,9 @@ const AttributesTable = <T,>({ data, columns, onSelectedRow }: AttributesTablePr
                           "py-2 px-4 w-48",
                           "truncate whitespace-nowrap overflow-hidden",
                           "text-start font-medium",
-                          "border border-gray-300 dark:border-gray-600",
-                          "hover:bg-gray-200 dark:hover:bg-metrixblack-700/70",
+                          "border border-t-0 border-gray-300 dark:border-gray-600",
+                          "bg-gray-100 dark:bg-metrixblack-700",
+                          "hover:bg-gray-200 dark:hover:bg-metrixblack-800/50",
                           "hover:cursor-pointer"
                         )}
                         title={String(header.column.columnDef.header)}
@@ -265,8 +272,8 @@ const AttributesTable = <T,>({ data, columns, onSelectedRow }: AttributesTablePr
                       "py-2 px-4 w-16",
                       "text-start font-medium",
                       "border border-s-0 border-gray-300 dark:border-gray-600",
-                      "bg-gray-100 dark:bg-metrixblack-700/50",
-                      "hover:bg-gray-200 dark:hover:bg-metrixblack-700/70",
+                      "bg-gray-100 dark:bg-metrixblack-700",
+                      "hover:bg-gray-200 dark:hover:bg-metrixblack-800/50",
                       "hover:cursor-pointer"
                     )}
                   >{ index + 1 }</td>
