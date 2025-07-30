@@ -24,6 +24,7 @@ const ZonaPatrimonialB = () => {
     name: "Zona Patrimonial B",
     type: "layer",
     temp: false,
+    geometry: "Polygon",
     columns: Object.keys(
       (zonaPatrimonialB as FeatureCollection).features[0].properties
     ).map((prop) => ({

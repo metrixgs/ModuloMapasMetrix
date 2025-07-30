@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 import { GeoJSON, geoJson, TileLayer } from "leaflet";
 
-import { pointsWithinPolygon } from "@turf/turf";
+import { pointsWithinPolygon, intersect, featureCollection } from "@turf/turf";
 
 import type { MapLayersStore, LayerItem } from "@/types/Stores/LayersManager";
 
@@ -90,55 +90,86 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
       //   Origin checks
       const originLayer = properties.origin;
 
-      // // The origin layer must be and instance of GeoJSON.
-      // if (
-      //   !(originLayer instanceof GeoJSON)
-      // ) {
-      //   console.warn(`To apply an "intersection" type filter, the origin must be a GeoJSON.`)
-      //   return false;
-      // }
-
       // Logic
+      const newLayerFilter = { ...layerFilter };
+      const originGeoJSON = originLayer.toGeoJSON();
+      const targetLayer = target.layer;
+      const targetGeoJSON = targetLayer.toGeoJSON();
+
       try {
-        const newLayerFilter = { ...layerFilter };
+        if (target.geometry === "Point") {
+          const filteredLayerGeoJSON = pointsWithinPolygon(
+            targetGeoJSON,
+            originGeoJSON
+          );
 
-        const originGeoJSON = originLayer.toGeoJSON();
+          const filterInfo: LayerItem = {
+            id: properties.id,
+            name: properties.name,
+            active: true,
+            format: "geojson",
+            temp: true,
+            type: "filtered",
+            geometry: "Point",
+            columns: target["columns"],
+            renamed: true,
+          };
 
-        const targetLayer = target.layer;
-        const targetGeoJSON = targetLayer.toGeoJSON();
+          const mount = await append(filterInfo, async () =>
+            geoJson(filteredLayerGeoJSON, {
+              pointToLayer: targetLayer.options.pointToLayer,
+              onEachFeature: targetLayer.options.onEachFeature,
+            })
+          );
 
-        const filteredLayerGeoJSON = pointsWithinPolygon(
-          targetGeoJSON,
-          originGeoJSON
-        );
+          if (mount) {
+            turnOffLayer(properties.target);
+            newLayerFilter[properties.id] = properties;
+            set({
+              layerFilter: newLayerFilter,
+            });
+            return true;
+          } else {
+            console.warn("The filtered layer could not be added to the map.");
+            return false;
+          }
+        } else if (
+          target.geometry === "Polygon"
+        ) {
+          const filteredLayerGeoJSON = intersect(featureCollection(targetGeoJSON, originGeoJSON));
 
-        const filterInfo: LayerItem = {
-          id: properties.id,
-          name: properties.name,
-          active: true,
-          format: "geojson",
-          temp: true,
-          type: "filtered",
-          columns: target["columns"],
-          renamed: true
-        };
-        
-        const mount = await append(filterInfo, async () =>
-          geoJson(filteredLayerGeoJSON, {
-            pointToLayer: targetLayer.options.pointToLayer,
-            onEachFeature: targetLayer.options.onEachFeature
-          })
-        );
+          const filterInfo: LayerItem = {
+            id: properties.id,
+            name: properties.name,
+            active: true,
+            format: "geojson",
+            temp: true,
+            type: "filtered",
+            geometry: "Polygon",
+            columns: target["columns"],
+            renamed: true,
+          };
 
-        if (mount) {
-          turnOffLayer(properties.target);
-          newLayerFilter[properties.id] = properties;
-          set({
-            layerFilter: newLayerFilter,
-          });
-          return true;
+          const mount = await append(filterInfo, async () =>
+            geoJson(filteredLayerGeoJSON, {
+              pointToLayer: targetLayer.options.pointToLayer,
+              onEachFeature: targetLayer.options.onEachFeature,
+            })
+          );
+
+          if (mount) {
+            turnOffLayer(properties.target);
+            newLayerFilter[properties.id] = properties;
+            set({
+              layerFilter: newLayerFilter,
+            });
+            return true;
+          } else {
+            console.warn("The filtered layer could not be added to the map.");
+            return false;
+          }
         } else {
-          console.warn("The filtered layer could not be added to the map.");
+          console.warn(`The filter could not be applied. The geometry of the "target" has not considered.`)
           return false;
         }
       } catch (error) {
@@ -323,5 +354,5 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
     newLayers[id].name = newName;
 
     set({ layers: newLayers });
-  }
+  },
 }));

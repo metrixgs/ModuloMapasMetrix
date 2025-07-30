@@ -24,6 +24,7 @@ const ZonaOriente = () => {
     name: "Zona Oriente",
     type: "layer",
     temp: false,
+    geometry: "Polygon",
     columns: Object.keys(
       (zonaOriente as FeatureCollection).features[0].properties
     ).map((prop) => ({

@@ -24,6 +24,7 @@ const CuerposAgua = () => {
     name: "Cuerpos de Agua",
     type: "layer",
     temp: false,
+    geometry: "Polygon",
     columns: Object.keys(
       (cuerpos_agua as FeatureCollection).features[0].properties
     ).map((prop) => ({

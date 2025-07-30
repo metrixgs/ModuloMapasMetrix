@@ -24,6 +24,7 @@ const ParquesIndustria = () => {
     name: "Parques Industria",
     type: "layer",
     temp: false,
+    geometry: "Polygon",
     columns: Object.keys(
       (parquesIndustria as FeatureCollection).features[0].properties
     ).map((prop) => ({

@@ -30,6 +30,7 @@ const PlantasTratamiento = () => {
     name: "Plantas Tratamiento",
     type: "layer",
     temp: false,
+    geometry: "Point",
     columns: Object.keys(
       (plantasTratamiento as FeatureCollection).features[0].properties
     ).map((prop) => ({

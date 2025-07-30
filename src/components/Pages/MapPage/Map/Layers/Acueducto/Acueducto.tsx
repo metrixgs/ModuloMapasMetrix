@@ -24,6 +24,7 @@ const Acueducto = () => {
     name: "Acueducto",
     type: "layer",
     temp: false,
+    geometry: "LineString",
     columns: Object.keys(
       (acueducto as FeatureCollection).features[0].properties
     ).map((prop) => ({

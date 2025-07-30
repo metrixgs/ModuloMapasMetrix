@@ -24,6 +24,7 @@ const Acuiferos = () => {
     name: "Acuiferos",
     type: "layer",
     temp: false,
+    geometry: "Polygon",
     columns: Object.keys(
       (acuiferos as FeatureCollection).features[0].properties
     ).map((prop) => ({

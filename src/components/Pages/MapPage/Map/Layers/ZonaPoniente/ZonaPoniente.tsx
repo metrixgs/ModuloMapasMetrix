@@ -24,6 +24,7 @@ const ZonaPoniente = () => {
     name: "Zona Poniente",
     type: "layer",
     temp: false,
+    geometry: "Polygon",
     columns: Object.keys(
       (zonaPoniente as FeatureCollection).features[0].properties
     ).map((prop) => ({

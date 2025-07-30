@@ -26,6 +26,7 @@ export interface BaseLayerItem {
 export interface GeoJSONLayerItem extends BaseLayerItem {
   format: "geojson";
   type: "layer" | "filtered";
+  geometry: "Point" | "Polygon" | "LineString";
   layer?: GeoJSON,
   columns?: ColumnDef<any>[];
 }

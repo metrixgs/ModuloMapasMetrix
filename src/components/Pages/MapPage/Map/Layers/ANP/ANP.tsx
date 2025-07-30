@@ -24,6 +24,7 @@ const ANP = () => {
     name: "ANP",
     type: "layer",
     temp: false,
+    geometry: "Polygon",
     columns: Object.keys(
       (anp as FeatureCollection).features[0].properties
     ).map((prop) => ({

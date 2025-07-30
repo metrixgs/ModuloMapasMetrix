@@ -9,3 +9,7 @@ export const filtersZipcodeId = "metrix-geographic-filters-zipcode";
 export const filtersHoodId = "metrix-geographic-filters-hood";
 export const filtersSquareId = "metrix-geographic-filters-square";
 export const filtersPropertyId = "metrix-geographic-filters-property";
+
+export const filtersIntersectionTargetId = "metrix-intersection-filters-target";
+export const filtersIntersectionMaskId = "metrix-intersection-filters-mask";
+export const filtersIntersectionResultNameId = "metrix-intersection-filters-result-name"

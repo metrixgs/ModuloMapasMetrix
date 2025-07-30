@@ -27,6 +27,7 @@ export const LAYERS: { [key: string]: LayerItem } = {
     temp: false,
     format: "geojson",
     type: "layer",
+    geometry: "Point",
     columns: Object.keys(INCIDENT_LAYER.fields).map((field) => ({
       accessorKey: field,
       header: INCIDENT_LAYER.fields[field as keyof typeof INCIDENT_LAYER.fields]

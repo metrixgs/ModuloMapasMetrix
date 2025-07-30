@@ -24,6 +24,7 @@ const EspaciosPublicos = () => {
     name: "Espacios Públicos",
     type: "layer",
     temp: false,
+    geometry: "Polygon",
     columns: Object.keys(
       (espacios as FeatureCollection).features[0].properties
     ).map((prop) => ({
