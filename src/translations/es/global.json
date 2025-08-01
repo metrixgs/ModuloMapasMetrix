@@ -28,6 +28,10 @@
             "button-title": "Renombrar",
             "help": "Escriba el nombre de su preferencia que le quiera asignar a la capa.",
             "apply-button-title": "Aplicar cambios"
+          },
+          "filter-by-columns": {
+            "button-title": "Filtrar por columnas",
+            "help": "Filtre las entidades de la capa según los valores de sus columnas. Indique la columna que desea filtrar, la operación que desea realizar y el valor del filtro."
           }
         }
       },

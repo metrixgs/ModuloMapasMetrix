@@ -16,7 +16,7 @@ const MeasureResult = () => {
   let area;
   let length;
   if (features && active) {
-    const featureCollection = layers2features(features);
+    const featureCollection = layers2features(features.map((l) => l.layer));
     area = tArea(featureCollection);
     length = tLength(featureCollection, { units: "meters" });
   }

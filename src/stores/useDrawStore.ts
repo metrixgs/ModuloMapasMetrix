@@ -70,6 +70,7 @@ export const useDrawStore = create<DrawStore>((set, get) => ({
       active: true,
       temp: false,
       type: "layer",
+      geometry: "Polygon",
       columns: [{ accessorKey: "area_m2" }, { accessorKey: "length_m" }],
       renamed: true
     }

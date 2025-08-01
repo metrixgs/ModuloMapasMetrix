@@ -10,7 +10,7 @@ import { Accordion } from "@components/UI/Accordion/Accordion";
 import { AccordionItem } from "@components/UI/Accordion/AccordionItem";
 import Button from "@components/UI/Button";
 
-import LayerMenu from "./LayerMenu";
+import LayerMenu from "./LayerMenu/LayerMenu";
 
 import { MapControl } from "@components/Pages/MapPage/Map/Controls/MapControl";
 
