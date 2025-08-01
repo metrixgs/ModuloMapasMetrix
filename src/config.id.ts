@@ -12,4 +12,7 @@ export const filtersPropertyId = "metrix-geographic-filters-property";
 
 export const filtersIntersectionTargetId = "metrix-intersection-filters-target";
 export const filtersIntersectionMaskId = "metrix-intersection-filters-mask";
-export const filtersIntersectionResultNameId = "metrix-intersection-filters-result-name"
+export const filtersIntersectionResultNameId = "metrix-intersection-filters-result-name";
+export const filtersIntersectionFeatureCheckId = "metrix-intersection-filters-feature-check";
+export const filtersIntersectionFeatureColumnId = "metrix-intersection-filtersfeature-column";
+export const filtersIntersectionFeatureFeaturesId = "metrix-intersection-filtersfeature-features"

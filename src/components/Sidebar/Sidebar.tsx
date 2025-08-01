@@ -6,7 +6,7 @@ const Sidebar = () => {
   const { isOpen, close, title, children, icon } = useSidebarStore((state) => state);
   return (
     <Drawer
-      className="h-[calc(100dvh-14*4px)] top-14"
+      className="h-[calc(100dvh-14*4px)] w-94 top-14"
       position="right"
       open={isOpen}
       onClose={close}
