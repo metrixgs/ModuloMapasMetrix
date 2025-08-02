@@ -14,7 +14,9 @@ const ZonaPoniente = () => {
   const { append, assignLayerToGroup } = useMapLayersStore((state) => state);
 
   const load = async () => {
-    return geoJSON(zonaPoniente as FeatureCollection);
+    return geoJSON(zonaPoniente as FeatureCollection, {
+      pmIgnore: true,
+    });
   };
 
   const info: GeoJSONLayerItem = {
@@ -31,7 +33,7 @@ const ZonaPoniente = () => {
       header: prop,
       accessorKey: prop,
     })),
-    renamed: false
+    renamed: false,
   };
 
   useEffect(() => {

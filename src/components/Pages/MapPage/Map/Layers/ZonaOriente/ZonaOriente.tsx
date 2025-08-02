@@ -14,7 +14,9 @@ const ZonaOriente = () => {
   const { append, assignLayerToGroup } = useMapLayersStore((state) => state);
 
   const load = async () => {
-    return geoJSON(zonaOriente as FeatureCollection);
+    return geoJSON(zonaOriente as FeatureCollection, {
+      pmIgnore: true,
+    });
   };
 
   const info: GeoJSONLayerItem = {
@@ -31,7 +33,7 @@ const ZonaOriente = () => {
       header: prop,
       accessorKey: prop,
     })),
-    renamed: false
+    renamed: false,
   };
 
   useEffect(() => {

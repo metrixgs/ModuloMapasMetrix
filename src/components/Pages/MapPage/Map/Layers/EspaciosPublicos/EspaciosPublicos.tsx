@@ -14,7 +14,9 @@ const EspaciosPublicos = () => {
   const { append, assignLayerToGroup } = useMapLayersStore((state) => state);
 
   const load = async () => {
-    return geoJSON(espacios as FeatureCollection);
+    return geoJSON(espacios as FeatureCollection, {
+      pmIgnore: true,
+    });
   };
 
   const info: GeoJSONLayerItem = {
@@ -31,7 +33,7 @@ const EspaciosPublicos = () => {
       header: prop,
       accessorKey: prop,
     })),
-    renamed: false
+    renamed: false,
   };
 
   useEffect(() => {

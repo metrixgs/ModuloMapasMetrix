@@ -23,7 +23,7 @@ import type { IntersectionFilter } from "@/types/Stores/LayersManager";
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
 import Button from "@components/UI/Button";
-import TabDescription from "./TabDescription";
+import ToolDescription from "@components/Pages/MapPage/ToolDescription";
 
 import {
   filtersIntersectionTargetId,
@@ -116,7 +116,7 @@ const TabIntersection = () => {
 
   return (
     <div className="flex flex-col gap-4 p-1">
-      <TabDescription
+      <ToolDescription
         description={t("body.controls.filters.tabs.intersection.description")}
       />
       <div>

@@ -14,7 +14,9 @@ const Acuiferos = () => {
   const { append, assignLayerToGroup } = useMapLayersStore((state) => state);
 
   const load = async () => {
-    return geoJSON(acuiferos as FeatureCollection);
+    return geoJSON(acuiferos as FeatureCollection, {
+      pmIgnore: true,
+    });
   };
 
   const info: GeoJSONLayerItem = {
@@ -31,7 +33,7 @@ const Acuiferos = () => {
       header: prop,
       accessorKey: prop,
     })),
-    renamed: false
+    renamed: false,
   };
 
   useEffect(() => {

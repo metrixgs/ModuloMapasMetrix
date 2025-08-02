@@ -1,0 +1,150 @@
+import type {
+  IntersectionFilter,
+  LayerItem,
+} from "@/types/Stores/LayersManager";
+
+import { useMapLayersStore } from "@/stores/useMapLayersStore";
+
+import { GeoJSON, geoJSON } from "leaflet";
+import { pointsWithinPolygon, featureCollection, intersect } from "@turf/turf";
+
+export const intersectionFilter = async (
+  filter: IntersectionFilter
+): Promise<boolean> => {
+  const {
+    layers,
+    layerFilter,
+    append,
+    turnOffLayer,
+    focusLayer,
+    assignLayerToGroup,
+  } = useMapLayersStore.getState();
+  // Intersection between points and a polygon
+
+  // Checks
+
+  //   Target checks
+  const target = layers[filter.target];
+
+  // // The layer id must exist in "layers".
+  if (!target) {
+    console.warn(
+      `The filter could not be applied. Make sure the target (${filter.target}) exists in the layer registry.`
+    );
+    return false;
+  }
+
+  // One layer is defined in the layer id of "layers".
+  if (!target.layer) {
+    console.warn(
+      `The filter could not be applied. Make sure the target (${filter.target}) has an associated layer.`
+    );
+    return false;
+  }
+
+  // The target has format "geojson" and is instance of GeoJSON.
+  if (target.format != "geojson" || !(target.layer instanceof GeoJSON)) {
+    console.warn(
+      `To apply an "intersection" type filter, the target must be a GeoJSON.`
+    );
+    return false;
+  }
+
+  //   Origin checks
+  const originLayer = filter.origin;
+
+  // Logic
+  const newLayerFilter = { ...layerFilter };
+  const originGeoJSON = originLayer.toGeoJSON();
+  const targetLayer = target.layer;
+  const targetGeoJSON = targetLayer.toGeoJSON();
+
+  try {
+    if (target.geometry === "Point") {
+      const filteredLayerGeoJSON = pointsWithinPolygon(
+        targetGeoJSON,
+        originGeoJSON
+      );
+
+      const filterInfo: LayerItem = {
+        id: filter.id,
+        name: filter.name,
+        active: true,
+        format: "geojson",
+        temp: true,
+        type: "filtered",
+        geometry: "Point",
+        columns: target["columns"],
+        renamed: true,
+      };
+
+      const mount = await append(filterInfo, async () =>
+        geoJSON(filteredLayerGeoJSON, {
+          pointToLayer: targetLayer.options.pointToLayer,
+          onEachFeature: targetLayer.options.onEachFeature,
+        })
+      );
+
+      if (mount) {
+        assignLayerToGroup(filterInfo.id, "metrix-filters");
+        turnOffLayer(filter.target);
+        focusLayer(filter.id);
+        newLayerFilter[filter.id] = filter;
+        useMapLayersStore.setState({
+          layerFilter: newLayerFilter,
+        });
+        return true;
+      } else {
+        console.warn("The filtered layer could not be added to the map.");
+        return false;
+      }
+    } else if (target.geometry === "Polygon") {
+      const filteredLayerGeoJSON = intersect(
+        featureCollection(targetGeoJSON, originGeoJSON)
+      );
+
+      const filterInfo: LayerItem = {
+        id: filter.id,
+        name: filter.name,
+        active: true,
+        format: "geojson",
+        temp: true,
+        type: "filtered",
+        geometry: "Polygon",
+        columns: target["columns"],
+        renamed: true,
+      };
+
+      const mount = await append(filterInfo, async () =>
+        geoJSON(filteredLayerGeoJSON, {
+          pointToLayer: targetLayer.options.pointToLayer,
+          onEachFeature: targetLayer.options.onEachFeature,
+        })
+      );
+
+      if (mount) {
+        assignLayerToGroup(filterInfo.id, "metrix-filters");
+        turnOffLayer(filter.target);
+        focusLayer(filter.id);
+        newLayerFilter[filter.id] = filter;
+        useMapLayersStore.setState({
+          layerFilter: newLayerFilter,
+        });
+        return true;
+      } else {
+        console.warn("The filtered layer could not be added to the map.");
+        return false;
+      }
+    } else {
+      console.warn(
+        `The filter could not be applied. The geometry of the "target" has not considered.`
+      );
+      return false;
+    }
+  } catch (error) {
+    console.error(
+      `The filter could not be applied, an error occurred: ${error}`
+    );
+    return false;
+  }
+};

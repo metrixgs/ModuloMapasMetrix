@@ -14,7 +14,9 @@ const ZonaPatrimonialB = () => {
   const { append, assignLayerToGroup } = useMapLayersStore((state) => state);
 
   const load = async () => {
-    return geoJSON(zonaPatrimonialB as FeatureCollection);
+    return geoJSON(zonaPatrimonialB as FeatureCollection, {
+      pmIgnore: true,
+    });
   };
 
   const info: GeoJSONLayerItem = {
@@ -31,7 +33,7 @@ const ZonaPatrimonialB = () => {
       header: prop,
       accessorKey: prop,
     })),
-    renamed: false
+    renamed: false,
   };
 
   useEffect(() => {

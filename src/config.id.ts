@@ -15,4 +15,7 @@ export const filtersIntersectionMaskId = "metrix-intersection-filters-mask";
 export const filtersIntersectionResultNameId = "metrix-intersection-filters-result-name";
 export const filtersIntersectionFeatureCheckId = "metrix-intersection-filters-feature-check";
 export const filtersIntersectionFeatureColumnId = "metrix-intersection-filtersfeature-column";
-export const filtersIntersectionFeatureFeaturesId = "metrix-intersection-filtersfeature-features"
+export const filtersIntersectionFeatureFeaturesId = "metrix-intersection-filtersfeature-features";
+
+export const layerMenuSelectFeaturesColumnId = "metrix-layer-menu-select-features-column";
+export const layerMenuSelectFeaturesCheckId = "metrix-layer-menu-select-features-check";

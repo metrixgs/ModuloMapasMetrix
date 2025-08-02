@@ -1,13 +1,13 @@
 import { create } from "zustand";
 
-import { GeoJSON, geoJson, TileLayer } from "leaflet";
+import { GeoJSON, TileLayer } from "leaflet";
 
-import { pointsWithinPolygon, intersect, featureCollection } from "@turf/turf";
-
-import type { MapLayersStore, LayerItem } from "@/types/Stores/LayersManager";
+import type { MapLayersStore } from "@/types/Stores/LayersManager";
 
 import { useMapStore } from "./useMapStore";
 import { GROUPS } from "@/config.map";
+import { intersectionFilter } from "./LayersManager/Filters/intersectionFilter";
+import { divideFeaturesFilter } from "./LayersManager/Filters/divideFeaturesFilter";
 
 export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
   groups: GROUPS,
@@ -52,132 +52,16 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
       return false;
     }
   },
-  appendFilter: async (properties) => {
-    const { layers, layerFilter, turnOffLayer, append } = get();
+  appendFilter: async (filter) => {
 
-    if (properties.type === "intersection") {
-      // Intersection between points and a polygon
-
-      // Checks
-
-      //   Target checks
-      const target = layers[properties.target];
-
-      // // The layer id must exist in "layers".
-      if (!target) {
-        console.warn(
-          `The filter could not be applied. Make sure the target (${properties.target}) exists in the layer registry.`
-        );
-        return false;
-      }
-
-      // One layer is defined in the layer id of "layers".
-      if (!target.layer) {
-        console.warn(
-          `The filter could not be applied. Make sure the target (${properties.target}) has an associated layer.`
-        );
-        return false;
-      }
-
-      // The target has format "geojson" and is instance of GeoJSON.
-      if (target.format != "geojson" || !(target.layer instanceof GeoJSON)) {
-        console.warn(
-          `To apply an "intersection" type filter, the target must be a GeoJSON.`
-        );
-        return false;
-      }
-
-      //   Origin checks
-      const originLayer = properties.origin;
-
-      // Logic
-      const newLayerFilter = { ...layerFilter };
-      const originGeoJSON = originLayer.toGeoJSON();
-      const targetLayer = target.layer;
-      const targetGeoJSON = targetLayer.toGeoJSON();
-
-      try {
-        if (target.geometry === "Point") {
-          const filteredLayerGeoJSON = pointsWithinPolygon(
-            targetGeoJSON,
-            originGeoJSON
-          );
-
-          const filterInfo: LayerItem = {
-            id: properties.id,
-            name: properties.name,
-            active: true,
-            format: "geojson",
-            temp: true,
-            type: "filtered",
-            geometry: "Point",
-            columns: target["columns"],
-            renamed: true,
-          };
-
-          const mount = await append(filterInfo, async () =>
-            geoJson(filteredLayerGeoJSON, {
-              pointToLayer: targetLayer.options.pointToLayer,
-              onEachFeature: targetLayer.options.onEachFeature,
-            })
-          );
-
-          if (mount) {
-            turnOffLayer(properties.target);
-            newLayerFilter[properties.id] = properties;
-            set({
-              layerFilter: newLayerFilter,
-            });
-            return true;
-          } else {
-            console.warn("The filtered layer could not be added to the map.");
-            return false;
-          }
-        } else if (
-          target.geometry === "Polygon"
-        ) {
-          const filteredLayerGeoJSON = intersect(featureCollection(targetGeoJSON, originGeoJSON));
-
-          const filterInfo: LayerItem = {
-            id: properties.id,
-            name: properties.name,
-            active: true,
-            format: "geojson",
-            temp: true,
-            type: "filtered",
-            geometry: "Polygon",
-            columns: target["columns"],
-            renamed: true,
-          };
-
-          const mount = await append(filterInfo, async () =>
-            geoJson(filteredLayerGeoJSON, {
-              pointToLayer: targetLayer.options.pointToLayer,
-              onEachFeature: targetLayer.options.onEachFeature,
-            })
-          );
-
-          if (mount) {
-            turnOffLayer(properties.target);
-            newLayerFilter[properties.id] = properties;
-            set({
-              layerFilter: newLayerFilter,
-            });
-            return true;
-          } else {
-            console.warn("The filtered layer could not be added to the map.");
-            return false;
-          }
-        } else {
-          console.warn(`The filter could not be applied. The geometry of the "target" has not considered.`)
-          return false;
-        }
-      } catch (error) {
-        console.error(
-          `The filter could not be applied, an error occurred: ${error}`
-        );
-        return false;
-      }
+    if (filter.type === "intersection") {
+      // Intersection between points and a polygon.
+      const result = await intersectionFilter(filter);
+      return result;
+    } else if (filter.type === "divideFeatures") {
+      // Separate features from a layer based on a selection of their properties.
+      const result = await divideFeaturesFilter(filter);
+      return result;
     } else {
       console.warn("The type of filter you want to apply is not listed.");
       return false;
@@ -314,6 +198,34 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
       groups: newGroups,
     });
   },
+  focusLayer: (id) => {
+    const { layers } = get();
+    
+    const layerItem = layers[id];
+    const map = useMapStore.getState().map;
+
+    if (
+      layerItem &&
+      layerItem.layer &&
+      layerItem.format === "geojson" &&
+      map
+    ) {
+      map.flyToBounds(layerItem.layer.getBounds());
+    }
+  },
+  renameLayer: (id, newName) => {
+    const { layers } = get();
+
+    const layer = layers[id].layer;
+    const newLayers = { ...layers };
+
+    if (!layer) return;
+    if (!newLayers[id]) return;
+
+    newLayers[id].name = newName;
+
+    set({ layers: newLayers });
+  },
   assignLayerToGroup: (layerId, groupId) => {
     const { layers, groups } = get();
 
@@ -341,18 +253,5 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
     set({
       groups: groups,
     });
-  },
-  renameLayer: (id, newName) => {
-    const { layers } = get();
-
-    const layer = layers[id].layer;
-    const newLayers = { ...layers };
-
-    if (!layer) return;
-    if (!newLayers[id]) return;
-
-    newLayers[id].name = newName;
-
-    set({ layers: newLayers });
-  },
+  }
 }));

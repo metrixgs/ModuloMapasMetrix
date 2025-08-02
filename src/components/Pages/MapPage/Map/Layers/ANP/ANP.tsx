@@ -14,7 +14,9 @@ const ANP = () => {
   const { append, assignLayerToGroup } = useMapLayersStore((state) => state);
 
   const load = async () => {
-    return geoJSON(anp as FeatureCollection);
+    return geoJSON(anp as FeatureCollection, {
+      pmIgnore: true
+    });
   };
 
   const info: GeoJSONLayerItem = {

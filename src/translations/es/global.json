@@ -29,9 +29,16 @@
             "help": "Escriba el nombre de su preferencia que le quiera asignar a la capa.",
             "apply-button-title": "Aplicar cambios"
           },
-          "filter-by-columns": {
-            "button-title": "Filtrar por columnas",
-            "help": "Filtre las entidades de la capa según los valores de sus columnas. Indique la columna que desea filtrar, la operación que desea realizar y el valor del filtro."
+          "cut-by-columns": {
+            "button-title": "Separar entidades",
+            "help": "Separe las entidades de la capa según los valores de sus columnas. Indique la columna que desea visualizar y seleccione las entidades que quiere separar.",
+            "feature-column-label": "Columna",
+            "feature-column-placeholder": "Seleccione...",
+            "feature-features-label": "Entidades",
+            "selected": "seleccionados",
+            "no-results": "Sin resultados.",
+            "search": "Buscar",
+            "execute": "Aplicar"
           }
         }
       },

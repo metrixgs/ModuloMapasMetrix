@@ -17,9 +17,13 @@ const PlantasTratamiento = () => {
 
   const load = async () => {
     return geoJSON(plantasTratamiento as FeatureCollection, {
+      pmIgnore: true,
       pointToLayer: (_feature, latlng) => {
-        return marker(latlng, { icon: plantasTratamientoMarker, pmIgnore: true });
-      }
+        return marker(latlng, {
+          icon: plantasTratamientoMarker,
+          pmIgnore: true,
+        });
+      },
     });
   };
 
@@ -37,7 +41,7 @@ const PlantasTratamiento = () => {
       header: prop,
       accessorKey: prop,
     })),
-    renamed: false
+    renamed: false,
   };
 
   useEffect(() => {

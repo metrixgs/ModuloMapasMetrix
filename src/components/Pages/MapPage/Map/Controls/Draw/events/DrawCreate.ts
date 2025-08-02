@@ -22,7 +22,6 @@ const DrawCreate = async ({ layer, shape }: GeomanCreateEvent) => {
   const {
     layerFilter,
     appendFilter,
-    assignLayerToGroup,
   } = useMapLayersStore.getState();
 
   let filterId;
@@ -60,7 +59,6 @@ const DrawCreate = async ({ layer, shape }: GeomanCreateEvent) => {
       };
 
       await appendFilter(filter);
-      assignLayerToGroup(filterId, "metrix-filters");
     }
   }
   

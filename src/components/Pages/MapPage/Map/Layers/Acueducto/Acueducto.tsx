@@ -14,8 +14,10 @@ const Acueducto = () => {
   const { append, assignLayerToGroup } = useMapLayersStore((state) => state);
 
   const load = async () => {
-    return geoJSON(acueducto as FeatureCollection);
-  }
+    return geoJSON(acueducto as FeatureCollection, {
+      pmIgnore: true,
+    });
+  };
 
   const info: GeoJSONLayerItem = {
     id: "metrix-layers-acueducto",
@@ -31,8 +33,8 @@ const Acueducto = () => {
       header: prop,
       accessorKey: prop,
     })),
-    renamed: false
-  }
+    renamed: false,
+  };
 
   useEffect(() => {
     const mount = async () => {
@@ -40,7 +42,7 @@ const Acueducto = () => {
       if (loaded) {
         assignLayerToGroup(info.id, "metrix-water-infrastructure");
       }
-    }
+    };
     mount();
   }, [append]);
 

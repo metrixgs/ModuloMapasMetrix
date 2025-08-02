@@ -58,11 +58,16 @@ export interface IntersectionFilter extends BaseFilter {
   origin: GeoJSON;
 }
 
+export interface DivideFeaturesFilter extends BaseFilter {
+  type: "divideFeatures";
+  selectedProps: string[];
+}
+
 export interface TodoFilter extends BaseFilter {
   type: "TODO";
 }
 
-export type LayerFilterItem = IntersectionFilter | TodoFilter;
+export type LayerFilterItem = IntersectionFilter | DivideFeaturesFilter;
 
 export interface LayerFilter {
   [id: string]: LayerFilterItem;
@@ -83,6 +88,7 @@ export interface MapLayersStore {
   toggleLayer: (layerId: keyof Layers) => void;
   turnOffLayer: (id: keyof Layers) => void;
   turnOnLayer: (id: keyof Layers) => void;
+  focusLayer: (id: keyof Layers) => void;
   toggleGroup: (id: keyof LayerGroup) => void;
   assignLayerToGroup: (
     layerId: keyof Layers,
