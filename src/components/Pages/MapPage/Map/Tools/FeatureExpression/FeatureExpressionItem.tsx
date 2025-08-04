@@ -1,5 +1,7 @@
 import classNames from "classnames";
+
 import { Select, TextInput, ToggleSwitch } from "flowbite-react";
+
 import {
   useEffect,
   useState,
@@ -13,11 +15,14 @@ import {
   type ColumnTypeValue,
   type Operation,
 } from "@/types/Filters/ColumnFilter";
+
 import { operationsByType } from "@/config.filters.column";
 
-interface FilterItemProps {
+import { useTranslation } from "react-i18next";
+
+interface FeatureExpressionItemProps {
   columns: { header: string; type: ColumnTypeValue }[];
-  filter?: object;
+  filter: object;
   setFilter: Dispatch<SetStateAction<object>>;
 }
 
@@ -27,7 +32,15 @@ interface FilterValueState {
   [ColumnType.Boolean]?: boolean;
 }
 
-const FilterItem_ = ({ columns, setFilter }: FilterItemProps) => {
+const FeatureExpressionItem = ({
+  columns,
+  filter,
+  setFilter,
+}: FeatureExpressionItemProps) => {
+  const { t } = useTranslation("global");
+  const tref = "body.tools.feature-expression";
+
+  const [col, setCol] = useState<string>();
   const [colType, setColType] = useState<ColumnTypeValue>("undefined");
   const [operation, setOperation] = useState<Operation | undefined>();
   const [value, setValue] = useState<FilterValueState>({
@@ -37,7 +50,9 @@ const FilterItem_ = ({ columns, setFilter }: FilterItemProps) => {
   });
 
   const handleColumnChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value;
+    const header = e.target.value;
+    const value = columns.find((c) => c.header === header)?.type;
+
     let coltype: ColumnTypeValue;
     if (value === ColumnType.Null) {
       coltype = "null";
@@ -52,29 +67,76 @@ const FilterItem_ = ({ columns, setFilter }: FilterItemProps) => {
     } else {
       coltype = "undefined";
     }
+
+    setCol(header);
     setColType(coltype);
   };
 
   const filterFactory = () => {
-    
-  }
+    const stringValue = value[ColumnType.String];
+    const numberValue = value[ColumnType.Number];
+    const booleanValue = value[ColumnType.Boolean];
+
+    let query = {};
+
+    if (col && colType === "string" && stringValue) {
+      if (operation === "contains") {
+        query = {
+          [col]: new RegExp(stringValue, "i"),
+        };
+      }
+    } else if (col && colType === "number" && numberValue) {
+      if (operation === "equal") {
+        query = {
+          [col]: numberValue,
+        };
+      } else if (operation === "greaterThan") {
+        query = {
+          [col]: {
+            $gt: numberValue
+          }
+        }
+      } else if (operation === "greaterAndEqualThan") {
+        query = {
+          [col]: {
+            $gte: numberValue
+          }
+        }
+      } else if (operation === "lessThan") {
+        query = {
+          [col]: {
+            $lt: numberValue
+          }
+        }
+      } else if (operation === "lessAndEqualThan") {
+        query = {
+          [col]: {
+            $lte: numberValue
+          }
+        }
+      }
+    }
+
+    setFilter(query);
+  };
 
   useEffect(() => {
-
-  });
+    filterFactory();
+  }, [col, operation, value]);
 
   return (
     <div
       className={classNames(
-        "w-full p-1",
-        "flex gap-1",
+        "w-full p-2",
+        "flex flex-col gap-2",
         "border border-gray-200 dark:border-gray-600",
         "rounded-lg"
       )}
     >
       <Select className="min-w-32" sizing="sm" onChange={handleColumnChange}>
+        <option value="">{t(tref + ".target-column-placeholder")} ...</option>
         {columns.map((col, index) => (
-          <option key={index} value={col.type}>
+          <option key={index} value={col.header}>
             {col.header} [{col.type}]
           </option>
         ))}
@@ -90,8 +152,10 @@ const FilterItem_ = ({ columns, setFilter }: FilterItemProps) => {
         }}
         disabled={colType === "null" || colType === "undefined"}
       >
-        <option value="">Operación...</option>
-        {operationsByType[colType].map((operation) => {
+        <option value="">
+          {t(tref + ".target-operation-placeholder")} ...
+        </option>
+        {operationsByType[colType].map((operation, i) => {
           let name: string;
           if (operation === "contains") {
             name = "Contiene";
@@ -108,7 +172,11 @@ const FilterItem_ = ({ columns, setFilter }: FilterItemProps) => {
           } else {
             name = "";
           }
-          return <option value={operation}>{name}</option>;
+          return (
+            <option key={i} value={operation}>
+              {name}
+            </option>
+          );
         })}
       </Select>
       {{
@@ -129,9 +197,12 @@ const FilterItem_ = ({ columns, setFilter }: FilterItemProps) => {
             className="min-w-32"
             sizing="sm"
             disabled={colType === "null" || colType === "undefined"}
-            value={value["string"]}
+            value={value[ColumnType.String]}
             onChange={(e) =>
-              setValue({ ...value, string: String(e.target.value) })
+              setValue({
+                ...value,
+                [ColumnType.String]: String(e.target.value),
+              })
             }
           />
         ),
@@ -150,4 +221,4 @@ const FilterItem_ = ({ columns, setFilter }: FilterItemProps) => {
   );
 };
 
-export default FilterItem;
+export default FeatureExpressionItem;

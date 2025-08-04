@@ -2,12 +2,7 @@ import { useState, type ChangeEvent } from "react";
 
 import classNames from "classnames";
 
-import {
-  Checkbox,
-  Popover,
-  TextInput,
-  Label
-} from "flowbite-react";
+import { Checkbox, Popover, TextInput, Label } from "flowbite-react";
 
 import { BiCaretDown } from "react-icons/bi";
 
@@ -55,7 +50,7 @@ const SearchableCheckbox = ({
   options,
   onChange,
   selected,
-  disabled
+  disabled,
 }: SearchableCheckboxProps) => {
   const [open, setOpen] = useState(false);
 
@@ -65,7 +60,7 @@ const SearchableCheckbox = ({
     try {
       const bool = option.title.toLowerCase().includes(search.toLowerCase());
       return bool;
-    } catch(error) {
+    } catch (error) {
       console.error(option, error);
       return false;
     }
@@ -101,19 +96,24 @@ const SearchableCheckbox = ({
           </div>
           <div className="w-full py-1 px-2 overflow-y-auto">
             {filtered.length > 0 ? (
-              filtered.map((option, index) => (
-                <SearchableCheckboxOption
-                  key={index}
-                  title={option.title}
-                  value={option.value}
-                  checked={selected.includes(option.value)}
-                  onChange={() => {
-                    handleCheck(option);
-                  }}
-                />
-              ))
+              <div>
+                {/* TODO: Select all | Delete all */}
+                {filtered.map((option, index) => (
+                  <SearchableCheckboxOption
+                    key={index}
+                    title={option.title}
+                    value={option.value}
+                    checked={selected.includes(option.value)}
+                    onChange={() => {
+                      handleCheck(option);
+                    }}
+                  />
+                ))}
+              </div>
             ) : (
-              <div className="text-sm text-center">{noResultPlaceholder}</div>
+              <div className="text-sm text-center dark:text-white">
+                {noResultPlaceholder}
+              </div>
             )}
           </div>
         </div>

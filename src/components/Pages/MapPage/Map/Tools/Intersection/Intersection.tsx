@@ -4,13 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import classNames from "classnames";
 
-import {
-  Label,
-  Select,
-  HelperText,
-  TextInput,
-  Checkbox,
-} from "flowbite-react";
+import { Label, Select, HelperText, TextInput, Checkbox } from "flowbite-react";
 
 import { PiIntersectFill } from "react-icons/pi";
 
@@ -23,7 +17,7 @@ import type { IntersectionFilter } from "@/types/Stores/LayersManager";
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
 import Button from "@components/UI/Button";
-import ToolDescription from "@components/Pages/MapPage/ToolDescription";
+import ToolDescription from "@components/Pages/MapPage/Map/Tools/ToolDescription";
 
 import {
   filtersIntersectionTargetId,
@@ -35,7 +29,7 @@ import {
 } from "@/config.id";
 import SearchableCheckbox from "@components/UI/SearchableCheckbox/SearchableCheckbox";
 
-const TabIntersection = () => {
+const Intersection = () => {
   const { t } = useTranslation("global");
   const {
     layers: layersManager,
@@ -116,12 +110,10 @@ const TabIntersection = () => {
 
   return (
     <div className="flex flex-col gap-4 p-1">
-      <ToolDescription
-        description={t("body.controls.filters.tabs.intersection.description")}
-      />
+      <ToolDescription description={t("body.tools.intersection.description")} />
       <div>
         <Label htmlFor={filtersIntersectionTargetId}>
-          {t("body.controls.filters.tabs.intersection.target-label")}* :
+          {t("body.tools.intersection.target-label")}* :
         </Label>
         <Select
           id={filtersIntersectionTargetId}
@@ -130,7 +122,7 @@ const TabIntersection = () => {
           onChange={(e) => setTargetId(e.target.value)}
         >
           <option value="">
-            {t("body.controls.filters.tabs.intersection.target-placeholder")}
+            {t("body.tools.intersection.target-placeholder")} {"..."}
           </option>
           {targetLayerItems.map((layer, index) => {
             const { id, name, geometry } = layer;
@@ -144,17 +136,21 @@ const TabIntersection = () => {
       </div>
       <div>
         <Label htmlFor={filtersIntersectionMaskId}>
-          {t("body.controls.filters.tabs.intersection.mask-label")}* :
+          {t("body.tools.intersection.mask-label")}* :
         </Label>
         <Select
           id={filtersIntersectionMaskId}
           sizing="sm"
           value={maskId}
-          onChange={(e) => setMaskId(e.target.value)}
+          onChange={(e) => {
+            setFilterMaskCol("");
+            setFilteredMaskFeatures([]);
+            setMaskId(e.target.value);
+          }}
           disabled={!targetId}
         >
           <option value="">
-            {t("body.controls.filters.tabs.intersection.mask-placeholder")}
+            {t("body.tools.intersection.mask-placeholder")} {"..."}
           </option>
           {maskLayerItems.map((layer, index) => {
             const { id, name, geometry } = layer;
@@ -167,35 +163,34 @@ const TabIntersection = () => {
         </Select>
       </div>
       <div className="flex flex-col gap-2">
-        <div
-          className={classNames("flex items-center justify-between", {
-            "opacity-50": !maskId,
-          })}
-        >
-          <Label htmlFor={filtersIntersectionFeatureCheckId}>
-            {t("body.controls.filters.tabs.intersection.feature-check-label")}
-          </Label>
-          <Checkbox
-            id={filtersIntersectionFeatureCheckId}
-            disabled={!maskId}
-            checked={filterMask}
-            onChange={() => setFilterMask(!filterMask)}
-          />
+        <div>
+          <div
+            className={classNames("flex items-center justify-between", {
+              "opacity-50": !maskId,
+            })}
+          >
+            <Label htmlFor={filtersIntersectionFeatureCheckId}>
+              {t("body.tools.intersection.feature-check-label")}
+            </Label>
+            <Checkbox
+              id={filtersIntersectionFeatureCheckId}
+              disabled={!maskId}
+              checked={filterMask}
+              onChange={() => setFilterMask(!filterMask)}
+            />
+          </div>
+          <HelperText className="text-xs">
+            {t("body.tools.intersection.feature-help")}
+          </HelperText>
         </div>
-        <HelperText className="text-xs">
-          {t("body.controls.filters.tabs.intersection.feature-help")}
-        </HelperText>
         <div
           className={classNames("flex items-center gap-2", {
-            "hidden": !filterMask,
+            hidden: !filterMask,
           })}
         >
           <div className="w-32">
             <Label htmlFor={filtersIntersectionFeatureColumnId}>
-              {t(
-                "body.controls.filters.tabs.intersection.feature-column-label"
-              )}
-              :
+              {t("body.tools.intersection.feature-column-label")}:
             </Label>
             <Select
               id={filtersIntersectionFeatureColumnId}
@@ -208,9 +203,8 @@ const TabIntersection = () => {
               disabled={!filterMask}
             >
               <option value="">
-                {t(
-                  "body.controls.filters.tabs.intersection.feature-column-placeholder"
-                )}
+                {t("body.tools.intersection.feature-column-placeholder")}{" "}
+                {"..."}
               </option>
               {maskLayerItem && maskLayerItem.columns
                 ? maskLayerItem.columns.map((col, index) => {
@@ -225,18 +219,23 @@ const TabIntersection = () => {
           </div>
           <div className="flex-grow">
             <Label htmlFor={filtersIntersectionFeatureFeaturesId}>
-              {t(
-                "body.controls.filters.tabs.intersection.feature-features-label"
-              )}
-              :
+              {t("body.tools.intersection.feature-features-label")}:
             </Label>
             <SearchableCheckbox
-              placeholder="seleccionados"
-              searchPlaceholder="Buscar..."
-              noResultPlaceholder="Sin resultados"
+              placeholder={t(
+                "body.tools.intersection.feature-features-placeholder"
+              )}
+              searchPlaceholder={
+                t("body.tools.intersection.feature-features-search") + "..."
+              }
+              noResultPlaceholder={t(
+                "body.tools.intersection.feature-features-noresult"
+              )}
               options={maskGeoJSON.features.map((feature) => ({
                 title:
-                  !feature.properties || !filterMaskCol || !feature.properties[filterMaskCol]
+                  !feature.properties ||
+                  !filterMaskCol ||
+                  !feature.properties[filterMaskCol]
                     ? "null"
                     : String(feature.properties[filterMaskCol]),
                 value: JSON.stringify(feature.properties),
@@ -313,7 +312,7 @@ const TabIntersection = () => {
                 <span>
                   {filteredMaskFeatures?.length}{" "}
                   {t(
-                    "body.controls.filters.tabs.intersection.feature-features-placeholder"
+                    "body.tools.intersection.feature-features-placeholder"
                   )}
                 </span>
                 <BiCaretDown className="ms-2" />
@@ -324,14 +323,12 @@ const TabIntersection = () => {
       </div>
       <div>
         <Label htmlFor={filtersIntersectionResultNameId}>
-          {t("body.controls.filters.tabs.intersection.resultname-label")}:
+          {t("body.tools.intersection.resultname-label")}:
         </Label>
         <TextInput
           id={filtersIntersectionResultNameId}
           sizing="sm"
-          placeholder={t(
-            "body.controls.filters.tabs.intersection.resultname-placeholder"
-          )}
+          placeholder={t("body.tools.intersection.resultname-placeholder")}
           value={resultName}
           onChange={(e) => setResultName(e.target.value)}
           disabled={!targetId || !maskId}
@@ -343,10 +340,10 @@ const TabIntersection = () => {
         disabled={!targetId || !maskId}
       >
         <PiIntersectFill className="mr-2" />
-        {t("body.controls.filters.tabs.intersection.execute")}
+        {t("body.tools.intersection.execute")}
       </Button>
     </div>
   );
 };
 
-export default TabIntersection;
+export default Intersection;

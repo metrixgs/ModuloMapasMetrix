@@ -1,7 +1,7 @@
 import SearchableSelect from "@components/UI/SearchableSelect/SearchableSelect";
 import { useState } from "react";
 
-const TabElectoral = () => {
+const Electoral = () => {
   const [value, setValue] = useState("");
 
   console.log(value);
@@ -31,4 +31,4 @@ const TabElectoral = () => {
   );
 };
 
-export default TabElectoral;
+export default Electoral;

@@ -13,7 +13,7 @@ import { useMapLayersStore } from "@/stores/useMapLayersStore";
 import MenuItem from "@components/UI/Menu/MenuItem";
 import SearchableCheckbox from "@components/UI/SearchableCheckbox/SearchableCheckbox";
 import Button from "@components/UI/Button";
-import ToolDescription from "@components/Pages/MapPage/ToolDescription";
+import ToolDescription from "@components/Pages/MapPage/Map/Tools/ToolDescription";
 
 import {
   layerMenuSelectFeaturesCheckId,
@@ -26,9 +26,7 @@ const FilterByColumns = ({
   auxModalState,
   setAuxModalState,
 }: LayerMenuItemActionProps) => {
-  const { appendFilter, assignLayerToGroup } = useMapLayersStore(
-    (state) => state
-  );
+  const { appendFilter } = useMapLayersStore((state) => state);
   const handleFilter = () => {
     if (!auxModalState || !setAuxModalState) return;
 

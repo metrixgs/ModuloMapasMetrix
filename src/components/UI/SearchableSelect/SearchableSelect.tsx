@@ -117,7 +117,7 @@ const SearchableSelect = ({
                 </SearchableSelectOption>
               ))
             ) : (
-              <div className="text-sm text-center">{noResultPlaceholder}</div>
+              <div className="text-sm text-center dark:text-white">{noResultPlaceholder}</div>
             )}
           </div>
         </div>

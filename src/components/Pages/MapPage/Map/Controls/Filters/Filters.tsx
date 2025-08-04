@@ -5,7 +5,7 @@ import { BiFilterAlt } from "react-icons/bi";
 import { MapControl } from "@components/Pages/MapPage/Map/Controls/MapControl";
 import { useSidebarStore } from "@/stores/useSidebarStore";
 
-import FiltersContent from "@components/Pages/MapPage/Map/Controls/Filters/FiltersContent/FiltersContent";
+import FiltersContent from "@components/Pages/MapPage/Map/Controls/Filters/FiltersContent";
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
 const Filters = () => {

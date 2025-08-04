@@ -44,7 +44,7 @@ import {
   filtersPropertyId,
 } from "@/config.id";
 
-const TabGeographic = () => {
+const PoliticalDivision = () => {
   const { t } = useTranslation("global");
 
   const {
@@ -82,9 +82,9 @@ const TabGeographic = () => {
       if (countriesResult) {
         setCountries(countriesResult);
       }
-    }
+    };
     mount();
-  }, [])
+  }, []);
 
   const handleCountry = async (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
@@ -93,15 +93,11 @@ const TabGeographic = () => {
       const countryFeature = await ReadCountry(countryObject.id);
 
       if (countryFeature && countryFeature.geometry) {
-        setCountry(
-          countryObject.code,
-          countryObject.name,
-          {
-            type: "Feature",
-            properties: countryFeature.properties,
-            geometry: JSON.parse(countryFeature.geometry)
-          }
-        )
+        setCountry(countryObject.code, countryObject.name, {
+          type: "Feature",
+          properties: countryFeature.properties,
+          geometry: JSON.parse(countryFeature.geometry),
+        });
       } else {
         // TODO
       }
@@ -124,15 +120,11 @@ const TabGeographic = () => {
       const stateFeature = await ReadState(stateObject.id);
 
       if (stateFeature && stateFeature.geometry) {
-        setState(
-          stateObject.code,
-          stateObject.name,
-          {
-            type: "Feature",
-            properties: stateFeature.properties,
-            geometry: JSON.parse(stateFeature.geometry)
-          }
-        )
+        setState(stateObject.code, stateObject.name, {
+          type: "Feature",
+          properties: stateFeature.properties,
+          geometry: JSON.parse(stateFeature.geometry),
+        });
       } else {
         // TODO
       }
@@ -150,20 +142,18 @@ const TabGeographic = () => {
 
   const handleMunicipality = async (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
-    const municipalityObject = municipalities.find((item) => item.code === value);
+    const municipalityObject = municipalities.find(
+      (item) => item.code === value
+    );
     if (municipalityObject) {
       const municipalityFeature = await ReadMunicipality(municipalityObject.id);
 
       if (municipalityFeature && municipalityFeature.geometry) {
-        setMunicipality(
-          municipalityObject.code,
-          municipalityObject.name,
-          {
-            type: "Feature",
-            properties: municipalityFeature.properties,
-            geometry: JSON.parse(municipalityFeature.geometry)
-          }
-        )
+        setMunicipality(municipalityObject.code, municipalityObject.name, {
+          type: "Feature",
+          properties: municipalityFeature.properties,
+          geometry: JSON.parse(municipalityFeature.geometry),
+        });
       } else {
         // TODO
       }
@@ -192,20 +182,18 @@ const TabGeographic = () => {
   const handleHood = async (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     const hoodObject = hoods.find((item) => item.code === value);
-    const municipalityObject = municipalities.find(item => item.code === municipality);
+    const municipalityObject = municipalities.find(
+      (item) => item.code === municipality
+    );
     if (hoodObject && municipalityObject) {
       const hoodFeature = await ReadHood(hoodObject.id);
 
       if (hoodFeature && hoodFeature.geometry) {
-        setHood(
-          hoodObject.code,
-          hoodObject.name,
-          {
-            type: "Feature",
-            properties: hoodFeature.properties,
-            geometry: JSON.parse(hoodFeature.geometry)
-          }
-        )
+        setHood(hoodObject.code, hoodObject.name, {
+          type: "Feature",
+          properties: hoodFeature.properties,
+          geometry: JSON.parse(hoodFeature.geometry),
+        });
       } else {
         // TODO
       }
@@ -228,15 +216,11 @@ const TabGeographic = () => {
       const squareFeature = await ReadSquare(squareObject.id);
 
       if (squareFeature && squareFeature.geometry) {
-        setSquare(
-          squareObject.code,
-          squareObject.code,
-          {
-            type: "Feature",
-            properties: squareFeature.properties,
-            geometry: JSON.parse(squareFeature.geometry)
-          }
-        )
+        setSquare(squareObject.code, squareObject.code, {
+          type: "Feature",
+          properties: squareFeature.properties,
+          geometry: JSON.parse(squareFeature.geometry),
+        });
       } else {
         // TODO
       }
@@ -259,15 +243,11 @@ const TabGeographic = () => {
       const propertyFeature = await ReadProperty(propertyObject.id);
 
       if (propertyFeature && propertyFeature.geometry) {
-        setProperty(
-          propertyObject.code,
-          propertyObject.code,
-          {
-            type: "Feature",
-            properties: propertyFeature.properties,
-            geometry: JSON.parse(propertyFeature.geometry)
-          }
-        )
+        setProperty(propertyObject.code, propertyObject.code, {
+          type: "Feature",
+          properties: propertyFeature.properties,
+          geometry: JSON.parse(propertyFeature.geometry),
+        });
       } else {
         // TODO
       }
@@ -282,15 +262,15 @@ const TabGeographic = () => {
         {/* Country */}
         <div className="mb-1 block">
           <Label htmlFor={filtersCountryId}>
-            {t("body.controls.filters.tabs.geographic.country")}:
+            {t("body.tools.pol-division.country")}:
           </Label>
         </div>
         <SearchableSelect
           id={filtersCountryId}
           disabled={countries.length === 0}
-          placeholder={ t("body.controls.filters.tabs.geographic.country").toUpperCase() }
-          searchPlaceholder={ t("body.controls.filters.search.title") + "..." }
-          noResultPlaceholder={ t("body.controls.filters.search.no-results") }
+          placeholder={t("body.tools.pol-division.country").toUpperCase()}
+          searchPlaceholder={t("body.controls.filters.search.title") + "..."}
+          noResultPlaceholder={t("body.controls.filters.search.no-results")}
           sizing="sm"
           value={country}
           onChange={handleCountry}
@@ -304,15 +284,15 @@ const TabGeographic = () => {
         {/* States */}
         <div className="mb-1 block">
           <Label htmlFor={filtersStateId}>
-            {t("body.controls.filters.tabs.geographic.state")}:
+            {t("body.tools.pol-division.state")}:
           </Label>
         </div>
         <SearchableSelect
           id={filtersStateId}
           disabled={!country || states.length === 0}
-          placeholder={t ("body.controls.filters.tabs.geographic.state").toUpperCase() }
-          searchPlaceholder={ t("body.controls.filters.search.title") + "..." }
-          noResultPlaceholder={ t("body.controls.filters.search.no-results") }
+          placeholder={t("body.tools.pol-division.state").toUpperCase()}
+          searchPlaceholder={t("body.controls.filters.search.title") + "..."}
+          noResultPlaceholder={t("body.controls.filters.search.no-results")}
           sizing="sm"
           value={state}
           onChange={handleState}
@@ -326,14 +306,14 @@ const TabGeographic = () => {
         {/* Municipality */}
         <div className="mb-1 block">
           <Label htmlFor={filtersMunicipalityId}>
-            { t("body.controls.filters.tabs.geographic.municipality") }:
+            {t("body.tools.pol-division.municipality")}:
           </Label>
         </div>
         <SearchableSelect
           id={filtersMunicipalityId}
-          placeholder={ t("body.controls.filters.tabs.geographic.municipality").toUpperCase() }
-          searchPlaceholder={ t("body.controls.filters.search.title") + "..." }
-          noResultPlaceholder={ t("body.controls.filters.search.no-results") }
+          placeholder={t("body.tools.pol-division.municipality").toUpperCase()}
+          searchPlaceholder={t("body.controls.filters.search.title") + "..."}
+          noResultPlaceholder={t("body.controls.filters.search.no-results")}
           sizing="sm"
           disabled={!state || municipalities.length === 0}
           value={municipality}
@@ -348,13 +328,13 @@ const TabGeographic = () => {
         {/* Delegation */}
         {/* <div className="mb-1 block">
           <Label htmlFor={filtersDelegationId}>
-            {t("body.controls.filters.tabs.geographic.delegation")}:
+            {t("body.tools.pol-division.delegation")}:
           </Label>
         </div>
         <SearchableSelect
           id={filtersDelegationId}
           placeholder={t(
-            "body.controls.filters.tabs.geographic.delegation"
+            "body.tools.pol-division.delegation"
           ).toUpperCase()}
           searchPlaceholder={t("body.controls.filters.search.title") + "..."}
           noResultPlaceholder={t("body.controls.filters.search.no-results")}
@@ -372,13 +352,13 @@ const TabGeographic = () => {
         {/* Zip */}
         {/* <div className="mb-1 block">
           <Label htmlFor={filtersZipcodeId}>
-            {t("body.controls.filters.tabs.geographic.zip")}:
+            {t("body.tools.pol-division.zip")}:
           </Label>
         </div>
         <SearchableSelect
           id={filtersZipcodeId}
           placeholder={t(
-            "body.controls.filters.tabs.geographic.zip"
+            "body.tools.pol-division.zip"
           ).toUpperCase()}
           searchPlaceholder={t("body.controls.filters.search.title") + "..."}
           noResultPlaceholder={t("body.controls.filters.search.no-results")}
@@ -396,14 +376,14 @@ const TabGeographic = () => {
         {/* Hood */}
         <div className="mb-1 block">
           <Label htmlFor={filtersHoodId}>
-            {t("body.controls.filters.tabs.geographic.hood")}:
+            {t("body.tools.pol-division.hood")}:
           </Label>
         </div>
         <SearchableSelect
           id={filtersHoodId}
-          placeholder={ t("body.controls.filters.tabs.geographic.hood").toUpperCase() }
-          searchPlaceholder={ t("body.controls.filters.search.title") + "..." }
-          noResultPlaceholder={ t("body.controls.filters.search.no-results") }
+          placeholder={t("body.tools.pol-division.hood").toUpperCase()}
+          searchPlaceholder={t("body.controls.filters.search.title") + "..."}
+          noResultPlaceholder={t("body.controls.filters.search.no-results")}
           sizing="sm"
           disabled={!municipality || hoods.length === 0}
           value={hood}
@@ -418,14 +398,14 @@ const TabGeographic = () => {
         {/* Square */}
         <div className="mb-1 block">
           <Label htmlFor={filtersSquareId}>
-            {t("body.controls.filters.tabs.geographic.square")}:
+            {t("body.tools.pol-division.square")}:
           </Label>
         </div>
         <SearchableSelect
           id={filtersSquareId}
-          placeholder={ t("body.controls.filters.tabs.geographic.square").toUpperCase() }
-          searchPlaceholder={ t("body.controls.filters.search.title") + "..." }
-          noResultPlaceholder={ t("body.controls.filters.search.no-results") }
+          placeholder={t("body.tools.pol-division.square").toUpperCase()}
+          searchPlaceholder={t("body.controls.filters.search.title") + "..."}
+          noResultPlaceholder={t("body.controls.filters.search.no-results")}
           sizing="sm"
           disabled={!hood || squares.length === 0}
           value={square}
@@ -440,14 +420,14 @@ const TabGeographic = () => {
         {/* Property */}
         <div className="mb-1 block">
           <Label htmlFor={filtersPropertyId}>
-            {t("body.controls.filters.tabs.geographic.property")}:
+            {t("body.tools.pol-division.property")}:
           </Label>
         </div>
         <SearchableSelect
           id={filtersPropertyId}
-          placeholder={ t("body.controls.filters.tabs.geographic.property").toUpperCase() }
-          searchPlaceholder={ t("body.controls.filters.search.title") + "..." }
-          noResultPlaceholder={ t("body.controls.filters.search.no-results") }
+          placeholder={t("body.tools.pol-division.property").toUpperCase()}
+          searchPlaceholder={t("body.controls.filters.search.title") + "..."}
+          noResultPlaceholder={t("body.controls.filters.search.no-results")}
           sizing="sm"
           disabled={!square || properties.length === 0}
           value={property}
@@ -466,4 +446,4 @@ const TabGeographic = () => {
   );
 };
 
-export default TabGeographic;
+export default PoliticalDivision;

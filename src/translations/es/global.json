@@ -8,6 +8,50 @@
       "title-total-text": "elementos",
       "search-placeholder": "Escriba para buscar"
     },
+    "tools": {
+      "pol-division": {
+        "title": "Geográfica",
+        "country": "Seleccione el país",
+        "state": "Seleccione el estado",
+        "municipality": "Seleccione el municipio",
+        "delegation": "Seleccione la delegación",
+        "zip": "Seleccione el código postal",
+        "hood": "Seleccione la colonia",
+        "square": "Seleccione la manzana",
+        "property": "Seleccione el predio"
+      },
+      "electoral": {
+        "title": "Electoral"
+      },
+      "intersection": {
+        "title": "Intersección",
+        "description": "Realice una intersección entre dos capas vectoriales. La capa objetivo debe ser de tipo punto, y la máscara debe ser un polígono.",
+        "target-label": "Capa de entrada (objetivo)",
+        "target-placeholder": "Seleccione el objetivo",
+        "mask-label": "Capa de superposición (máscara)",
+        "mask-placeholder": "Seleccione la máscara",
+        "resultname-label": "Nombre de la capa resultante",
+        "resultname-placeholder": "Nombre del resultado",
+        "feature-check-label": "¿Seleccionar las entidades de la máscara?",
+        "feature-help": "Seleccione las entidades de la máscara sobre las cuales quiere aplicar la intersección. A la izquierda, indique la columna para ubicar las entidades a la derecha.",
+        "feature-column-label": "Columna",
+        "feature-column-placeholder": "Columna",
+        "feature-features-label": "Entidades",
+        "feature-features-placeholder": "seleccionados",
+        "feature-features-search": "Buscar",
+        "feature-features-noresult": "Sin resultados.",
+        "execute": "Aplicar"
+      },
+      "feature-expression": {
+        "title": "Expresiones",
+        "description": "Realice operaciones lógicas con los datos de la capa seleccionada.",
+        "target-label": "Capa de entrada",
+        "target-placeholder": "Seleccione la capa",
+        "target-error": "Por favor seleccione una capa válida.",
+        "target-column-placeholder": "Columna",
+        "target-operation-placeholder": "Operación"
+      }
+    },
     "controls": {
       "fullscreen": {
         "title": "Pantalla completa"
@@ -43,7 +87,8 @@
         }
       },
       "bdd": {
-        "title": "BDD"
+        "button-title": "BDD",
+        "title": "Librería de datos"
       },
       "filters": {
         "title": "Filtros espaciales",
@@ -54,37 +99,10 @@
           "no-results": "Sin resultados."
         },
         "tabs": {
-          "geographic": {
-            "title": "Geográfica",
-            "country": "Seleccione el país",
-            "state": "Seleccione el estado",
-            "municipality": "Seleccione el municipio",
-            "delegation": "Seleccione la delegación",
-            "zip": "Seleccione el código postal",
-            "hood": "Seleccione la colonia",
-            "square": "Seleccione la manzana",
-            "property": "Seleccione el predio"
-          },
-          "electoral": {
-            "title": "Electoral"
-          },
-          "intersection": {
-            "title": "Intersección",
-            "description": "Realice una intersección entre dos capas vectoriales. La capa objetivo debe ser de tipo punto, y la máscara debe ser un polígono.",
-            "target-label": "Capa de entrada (objetivo)",
-            "target-placeholder": "Seleccione la capa objetivo...",
-            "mask-label": "Capa de superposición (máscara)",
-            "mask-placeholder": "Seleccione la capa de máscara...",
-            "resultname-label": "Nombre de la capa resultante",
-            "resultname-placeholder": "Nombre del resultado",
-            "feature-check-label": "¿Seleccionar las entidades de la máscara?",
-            "feature-help": "Seleccione las entidades de la máscara sobre las cuales quiere aplicar la intersección. A la izquierda, indique la columna para ubicar las entidades a la derecha.",
-            "feature-column-label": "Columna",
-            "feature-column-placeholder": "Seleccione...",
-            "feature-features-label": "Entidades",
-            "feature-features-placeholder": "seleccionados",
-            "execute": "Aplicar"
-          }
+          "geographic": "Geográfica",
+          "electoral": "Electoral",
+          "intersection": "Intersección",
+          "feature-expression": "Expresiones"
         }
       },
       "draw": {
