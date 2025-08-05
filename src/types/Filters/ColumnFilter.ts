@@ -38,3 +38,11 @@ export const OperationsByColumnType = {
 
 export type OperationForColumn<T extends keyof typeof OperationsByColumnType> =
   (typeof OperationsByColumnType)[T][number];
+
+export interface QueryChangeEvent {
+  queryId: string,
+  query?: object;
+  col?: string;
+  coltype?: ColumnTypeValue;
+  value?: any
+}

@@ -1,19 +1,12 @@
-import classNames from "classnames";
-
 import { Select, TextInput, ToggleSwitch } from "flowbite-react";
 
-import {
-  useEffect,
-  useState,
-  type ChangeEvent,
-  type Dispatch,
-  type SetStateAction,
-} from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 
 import {
   ColumnType,
   type ColumnTypeValue,
   type Operation,
+  type QueryChangeEvent,
 } from "@/types/Filters/ColumnFilter";
 
 import { operationsByType } from "@/config.filters.column";
@@ -21,9 +14,9 @@ import { operationsByType } from "@/config.filters.column";
 import { useTranslation } from "react-i18next";
 
 interface FeatureExpressionItemProps {
+  queryId: string,
   columns: { header: string; type: ColumnTypeValue }[];
-  filter: object;
-  setFilter: Dispatch<SetStateAction<object>>;
+  onQueryChange: (e: QueryChangeEvent) => void;
 }
 
 interface FilterValueState {
@@ -33,9 +26,9 @@ interface FilterValueState {
 }
 
 const FeatureExpressionItem = ({
+  queryId,
   columns,
-  filter,
-  setFilter,
+  onQueryChange,
 }: FeatureExpressionItemProps) => {
   const { t } = useTranslation("global");
   const tref = "body.tools.feature-expression";
@@ -73,51 +66,63 @@ const FeatureExpressionItem = ({
   };
 
   const filterFactory = () => {
-    const stringValue = value[ColumnType.String];
-    const numberValue = value[ColumnType.Number];
-    const booleanValue = value[ColumnType.Boolean];
+    if (col && colType) {
+      const stringValue = value[ColumnType.String];
+      const numberValue = value[ColumnType.Number];
+      const booleanValue = value[ColumnType.Boolean];
 
-    let query = {};
+      let query = {};
+      let selectedValue;
 
-    if (col && colType === "string" && stringValue) {
-      if (operation === "contains") {
-        query = {
-          [col]: new RegExp(stringValue, "i"),
-        };
+      if (stringValue) {
+        if (operation === "contains") {
+          query = {
+            [col]: new RegExp(stringValue, "i"),
+          };
+        }
+        selectedValue = stringValue;
+      } else if (numberValue) {
+        if (operation === "equal") {
+          query = {
+            [col]: numberValue,
+          };
+        } else if (operation === "greaterThan") {
+          query = {
+            [col]: {
+              $gt: numberValue,
+            },
+          };
+        } else if (operation === "greaterAndEqualThan") {
+          query = {
+            [col]: {
+              $gte: numberValue,
+            },
+          };
+        } else if (operation === "lessThan") {
+          query = {
+            [col]: {
+              $lt: numberValue,
+            },
+          };
+        } else if (operation === "lessAndEqualThan") {
+          query = {
+            [col]: {
+              $lte: numberValue,
+            },
+          };
+        }
+        selectedValue = numberValue;
+      } else if (booleanValue) {
+        if (operation === "equal") {
+          query = {
+            [col]: booleanValue,
+          };
+        }
+        selectedValue = booleanValue;
       }
-    } else if (col && colType === "number" && numberValue) {
-      if (operation === "equal") {
-        query = {
-          [col]: numberValue,
-        };
-      } else if (operation === "greaterThan") {
-        query = {
-          [col]: {
-            $gt: numberValue
-          }
-        }
-      } else if (operation === "greaterAndEqualThan") {
-        query = {
-          [col]: {
-            $gte: numberValue
-          }
-        }
-      } else if (operation === "lessThan") {
-        query = {
-          [col]: {
-            $lt: numberValue
-          }
-        }
-      } else if (operation === "lessAndEqualThan") {
-        query = {
-          [col]: {
-            $lte: numberValue
-          }
-        }
-      }
+
+      onQueryChange({ queryId, col, query, coltype: colType, value: selectedValue });
     }
-
-    setFilter(query);
   };
 
   useEffect(() => {
@@ -125,15 +130,8 @@ const FeatureExpressionItem = ({
   }, [col, operation, value]);
 
   return (
-    <div
-      className={classNames(
-        "w-full p-2",
-        "flex flex-col gap-2",
-        "border border-gray-200 dark:border-gray-600",
-        "rounded-lg"
-      )}
-    >
-      <Select className="min-w-32" sizing="sm" onChange={handleColumnChange}>
+    <div className="w-full flex flex-col gap-2">
+      <Select value={col} className="min-w-32" sizing="sm" onChange={handleColumnChange}>
         <option value="">{t(tref + ".target-column-placeholder")} ...</option>
         {columns.map((col, index) => (
           <option key={index} value={col.header}>
@@ -208,6 +206,7 @@ const FeatureExpressionItem = ({
         ),
         boolean: (
           <ToggleSwitch
+            value={String(value["boolean"])}
             checked={value["boolean"] ? value["boolean"] : false}
             onChange={() =>
               setValue({ ...value, boolean: Boolean(!value["boolean"]) })
