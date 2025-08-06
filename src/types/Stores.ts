@@ -1,4 +1,4 @@
-import type { Map, Layer, LocationEvent } from "leaflet";
+import type { Map, Layer, LocationEvent, LatLngBounds } from "leaflet";
 import type { ReactNode } from "react";
 import type { DynamicStringEnumKeysOf } from "flowbite-react/types";
 import type { ModalSizes } from "flowbite-react";
@@ -13,7 +13,13 @@ export interface MapStateStore {
   zoom?: number;
   centerLat?: number;
   centerLng?: number;
-  setMapState: (zoom: number, centerLat: number, centerLng: number) => void;
+  bounds?: LatLngBounds;
+  setMapState: (
+    zoom?: number,
+    centerLat?: number,
+    centerLng?: number,
+    bounds?: LatLngBounds
+  ) => void;
 }
 
 export interface MouseStore {

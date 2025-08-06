@@ -17,5 +17,8 @@ export const filtersIntersectionFeatureCheckId = "metrix-intersection-filters-fe
 export const filtersIntersectionFeatureColumnId = "metrix-intersection-filtersfeature-column";
 export const filtersIntersectionFeatureFeaturesId = "metrix-intersection-filtersfeature-features";
 
+export const filtersExpressionTargetId = "metrix-expression-filters-target";
+export const filtersExpressionResultNameId = "metrix-expression-filters-result-name"
+
 export const layerMenuSelectFeaturesColumnId = "metrix-layer-menu-select-features-column";
 export const layerMenuSelectFeaturesCheckId = "metrix-layer-menu-select-features-check";

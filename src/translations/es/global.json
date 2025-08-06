@@ -49,7 +49,10 @@
         "target-placeholder": "Seleccione la capa",
         "target-error": "Por favor seleccione una capa válida.",
         "target-column-placeholder": "Columna",
-        "target-operation-placeholder": "Operación"
+        "target-operation-placeholder": "Operación",
+        "resultname-label": "Nombre de la capa resultado",
+        "search-placeholder": "Buscar",
+        "noresult-placeholder": "Sin resultados."
       }
     },
     "controls": {
@@ -82,6 +85,18 @@
             "selected": "seleccionados",
             "no-results": "Sin resultados.",
             "search": "Buscar",
+            "execute": "Aplicar"
+          },
+          "feature-expression": {
+            "title": "Separar por expresiones",
+            "description": "Realice operaciones lógicas con los datos de la capa seleccionada.",
+            "target-label": "Capa de entrada",
+            "target-error": "Por favor seleccione una capa válida.",
+            "target-column-placeholder": "Columna",
+            "target-operation-placeholder": "Operación",
+            "resultname-label": "Nombre de la capa resultado",
+            "search-placeholder": "Buscar",
+            "noresult-placeholder": "Sin resultados.",
             "execute": "Aplicar"
           }
         }

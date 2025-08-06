@@ -9,7 +9,7 @@ const Menu = ({ children }: MenuProps) => {
   return (
     <div
       className={classNames(
-        "flex flex-col py-2 px-2 ",
+        "flex flex-col py-2 px-2",
         "text-xs font-bold text-gray-700 dark:text-gray-100"
       )}
     >

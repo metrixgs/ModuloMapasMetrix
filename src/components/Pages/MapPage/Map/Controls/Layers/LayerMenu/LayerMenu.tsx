@@ -17,6 +17,7 @@ import ShowAttributesLayer from "./Actions/ShowAttributesTable/ShowAttributesTab
 import RenameLayer from "./Actions/RenameLayer/RenameLayer";
 import RemoveLayer from "./Actions/RemoveLayer/RemoveLayer";
 import ToggleLayer from "./Actions/ToggleLayer/ToggleLayer";
+import FilterByExpression from "./Actions/FilterByExpression/FilterByExpression";
 
 interface LayerMenuProps {
   layer: LayerItem;
@@ -53,6 +54,12 @@ const LayerMenu = ({ layer }: LayerMenuProps) => {
             <DownloadGeoJSON targetLayer={layer} translation={t} />
             <FocusLayer targetLayer={layer} translation={t} />
             <FilterByColumns
+              targetLayer={layer}
+              translation={t}
+              auxModalState={auxModalState}
+              setAuxModalState={setAuxModalState}
+            />
+            <FilterByExpression
               targetLayer={layer}
               translation={t}
               auxModalState={auxModalState}

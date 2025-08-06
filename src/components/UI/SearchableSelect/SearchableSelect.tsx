@@ -28,11 +28,18 @@ const SearchableSelectOption = ({
   return (
     <button
       className={classNames(
-        "w-full max-w-56 px-2 py-2",
+        "min-w-52 px-3 py-1",
         "flex items-center",
-        "enabled:hover:bg-primary-400 enabled:dark:hover:bg-primary-500 disabled:opacity-50",
-        "text-sm dark:text-white",
+        "text-xs dark:text-white",
+        "enabled:hover:bg-primary-400 enabled:dark:hover:bg-primary-600 disabled:opacity-50",
+        "transition-colors duration-200",
+        "rounded-lg",
         "enabled:hover:cursor-pointer",
+        // "w-full max-w-56 px-2 py-1",
+        // "flex items-center",
+        // "enabled:hover:bg-primary-400 enabled:dark:hover:bg-primary-500 disabled:opacity-50",
+        // "text-xs dark:text-white",
+        // "enabled:hover:cursor-pointer",
         className
       )}
       {...props}
@@ -104,7 +111,7 @@ const SearchableSelect = ({
               className="mx-2"
             />
           </div>
-          <div className="w-full max-h-80 overflow-y-auto">
+          <div className="w-full max-h-72 overflow-y-auto flex flex-col py-2 px-2">
             {filtered.length > 0 ? (
               filtered.map((option, index) => (
                 <SearchableSelectOption

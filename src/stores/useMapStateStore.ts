@@ -7,10 +7,12 @@ export const useMapStateStore = create<MapStateStore>((set) => ({
   zoom: INITIAL_VIEW.zoom,
   centerLat: INITIAL_VIEW.center.lat,
   centerLng: INITIAL_VIEW.center.lng,
-  setMapState: (zoom, centerLat, centerLng) =>
+  bounds: undefined,
+  setMapState: (zoom, centerLat, centerLng, bounds) =>
     set({
       zoom: zoom,
       centerLat: centerLat,
       centerLng: centerLng,
+      bounds: bounds
     })
 }));

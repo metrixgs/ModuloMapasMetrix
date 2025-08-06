@@ -1,20 +1,23 @@
+import type { FeatureCollection } from "geojson";
+import type { GeoJSONLayerItem, DivideFeaturesFilter } from "@/types/Stores/LayersManager";
+import type { QueryChangeEvent } from "@/types/Filters/ColumnFilter";
+
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import sift from "sift";
 
-import type { FeatureCollection } from "geojson";
-import type {
-  GeoJSONLayerItem,
-  DivideFeaturesFilter,
-} from "@/types/Stores/LayersManager";
-import { type QueryChangeEvent } from "@/types/Filters/ColumnFilter";
-
-import { Label, Select, TextInput } from "flowbite-react";
+import { Label, TextInput } from "flowbite-react";
 import { BiMath, BiPlus, BiTrash } from "react-icons/bi";
 
 import ToolDescription from "../ToolDescription";
 import FeatureExpressionItem from "./FeatureExpressionItem";
 import Button from "@components/UI/Button";
+import SearchableSelect from "@components/UI/SearchableSelect/SearchableSelect";
+
+import {
+  filtersExpressionTargetId,
+  filtersExpressionResultNameId
+} from "@/config.id";
 
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
@@ -31,16 +34,18 @@ const FeatureExpression = () => {
     .map((i) => layers[i])
     .filter((l) => l.format === "geojson");
 
-  const [selectedLayerItem, setSelectedLayerItem] = useState<
-    GeoJSONLayerItem | undefined
-  >();
-  const columns = selectedLayerItem ? selectedLayerItem.columns : undefined;
+  const [
+    selectedLayerItem,
+    setSelectedLayerItem
+  ] = useState<GeoJSONLayerItem>();
+  const columns = selectedLayerItem && selectedLayerItem.columns;
 
-  const [queryItems, setQueryItems] = useState<
-    { [key: string]: object } | undefined
-  >();
+  const [
+    queryItems,
+    setQueryItems
+  ] = useState<{[key: string]: object}>();
 
-  const [resultName, setResultName] = useState<string | undefined>();
+  const [resultName, setResultName] = useState<string>();
 
   const data =
     selectedLayerItem && selectedLayerItem.layer
@@ -55,10 +60,7 @@ const FeatureExpression = () => {
   const handleQueryChange = (e: QueryChangeEvent) => {
     const { queryId, query } = e;
     if (queryItems && query) {
-      setQueryItems({
-        ...queryItems,
-        [queryId]: query,
-      });
+      setQueryItems({ ...queryItems, [queryId]: query });
     }
   };
 
@@ -71,13 +73,12 @@ const FeatureExpression = () => {
   };
 
   const handleExecute = () => {
+    console.log(queryItems);
     if (selectedLayerItem && queryItems) {
       const query = {
         $or: Object.keys(queryItems).map((item) => queryItems[item]),
       };
-      console.log(query);
       const selectedFeatures = data.filter(sift(query));
-      console.log(selectedFeatures)
       const selectedFeaturesString = selectedFeatures.map((i) =>
         JSON.stringify(i)
       );
@@ -89,6 +90,9 @@ const FeatureExpression = () => {
         target: selectedLayerItem.id,
       };
       appendFilter(filterItem);
+
+      console.log(query);
+      console.log(selectedFeatures);
     }
   };
 
@@ -96,8 +100,15 @@ const FeatureExpression = () => {
     <div className="flex flex-col gap-4 p-1">
       <ToolDescription description={t(tref + ".description")} />
       <div>
-        <Label>{t(tref + ".target-label")}</Label>
-        <Select
+        <Label
+          htmlFor={filtersExpressionTargetId}
+        >
+          {t(tref + ".target-label")}*:
+        </Label>
+        <SearchableSelect
+          placeholder={t(tref + ".target-placeholder") + " ..."}
+          noResultPlaceholder={t(tref + ".noresult-placeholder")}
+          searchPlaceholder={t(tref + ".search-placeholder") + " ..."}
           sizing="sm"
           value={selectedLayerItem?.id}
           onChange={(e) => {
@@ -105,15 +116,13 @@ const FeatureExpression = () => {
               (l) => l.id === e.target.value
             );
             setSelectedLayerItem(targetLayerItem);
+            setQueryItems(undefined);
           }}
-        >
-          <option value="">{t(tref + ".target-placeholder")} ...</option>
-          {targetLayerItems.map((l, i) => (
-            <option key={i} value={l.id}>
-              {l.name} ({l.geometry})
-            </option>
-          ))}
-        </Select>
+          options={targetLayerItems.map((l) => ({
+            title: `${l.name} (${l.geometry})`,
+            value: l.id
+          }))}
+        />
       </div>
       <div>
         {selectedLayerItem && columns && fieldTypes ? (
@@ -131,9 +140,7 @@ const FeatureExpression = () => {
                   />
                   <Button
                     className="justify-center"
-                    onClick={() => {
-                      handleDeleteQueryItem(item);
-                    }}
+                    onClick={() => { handleDeleteQueryItem(item) }}
                   >
                     <BiTrash />
                   </Button>
@@ -142,13 +149,10 @@ const FeatureExpression = () => {
             <Button
               className="h-8 w-fit justify-center"
               onClick={() =>
-                setQueryItems({
-                  ...queryItems,
-                  [crypto.randomUUID()]: {},
-                })
+                setQueryItems({ ...queryItems, [crypto.randomUUID()]: {} })
               }
             >
-              <BiPlus className="" />
+              <BiPlus />
             </Button>
           </div>
         ) : (
@@ -158,16 +162,21 @@ const FeatureExpression = () => {
         )}
       </div>
       <div>
-        <Label>Nombre del resultado</Label>
+        <Label htmlFor={filtersExpressionResultNameId}>
+          { t(tref + ".resultname-label") }:
+        </Label>
         <TextInput
+          id={filtersExpressionResultNameId}
           value={resultName}
           onChange={(e) => setResultName(e.target.value)}
           sizing="sm"
+          disabled={!selectedLayerItem || !queryItems || Object.keys(queryItems).length === 0}
         />
       </div>
       <Button
         className="h-8 mt-2 text-sm font-bold justify-center"
         onClick={handleExecute}
+        disabled={!selectedLayerItem || !queryItems || Object.keys(queryItems).length === 0}
       >
         <BiMath className="mr-2" />
         {t("body.tools.intersection.execute")}

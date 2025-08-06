@@ -7,12 +7,14 @@ const UpdateMapState = () => {
 
   const center = map?.getCenter();
   const zoom = map?.getZoom();
+  const bounds = map?.getBounds();
 
   if (center && zoom) {
     setMapState(
       zoom,
       center.lat,
-      center.lng
+      center.lng,
+      bounds
     )
   }
 }
