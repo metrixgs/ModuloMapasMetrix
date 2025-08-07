@@ -5,12 +5,11 @@ import { GeoJSON, TileLayer } from "leaflet";
 import type { MapLayersStore } from "@/types/Stores/LayersManager";
 
 import { useMapStore } from "./useMapStore";
-import { GROUPS } from "@/config.map";
 import { intersectionFilter } from "./LayersManager/Filters/intersectionFilter";
 import { divideFeaturesFilter } from "./LayersManager/Filters/divideFeaturesFilter";
 
 export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
-  groups: GROUPS,
+  groups: {},
   layers: {},
   layerFilter: {},
   append: async (info, loadLayerFunction) => {
@@ -53,7 +52,6 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
     }
   },
   appendFilter: async (filter) => {
-
     if (filter.type === "intersection") {
       // Intersection between points and a polygon.
       const result = await intersectionFilter(filter);
@@ -71,15 +69,16 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
     const { layers, groups, layerFilter } = get();
 
     const layerInfo = layers[id];
+    const newGroups = { ...groups };
 
     if (layerInfo) {
       const { id, layer } = layerInfo;
 
-      for (const key in groups) {
-        const group = groups[key];
-        if (group.layers.includes(id)) {
-          const index = group.layers.indexOf(id);
-          groups[key].layers.splice(index, 1);
+      for (const key in newGroups) {
+        const layers = newGroups[key].layers;
+        if (layers && layers.includes(id)) {
+          const index = layers.indexOf(id);
+          layers.splice(index, 1);
         }
       }
 
@@ -94,7 +93,7 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
       delete layers[id];
       set({
         layers: layers,
-        groups: groups,
+        groups: newGroups,
         layerFilter: layerFilter,
       });
     }
@@ -103,14 +102,16 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
     const { layers, turnOffLayer, turnOnLayer, groups } = get();
 
     const layer = layers[layerId]?.layer;
-    const groupId = Object.keys(groups).find((group) =>
-      groups[group].layers.includes(layerId)
+
+    const groupId = Object.keys(groups).find(
+      (group) => groups[group].layers && groups[group].layers.includes(layerId)
     );
     const group = groupId ? groups[groupId] : undefined;
 
     if (!layer) return;
     if (!groupId) return;
     if (!group) return;
+    if (!group.layers) return;
     if (!group.layers.includes(layerId)) return;
 
     if (group.type === "checkbox") {
@@ -168,12 +169,37 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
 
     set({ layers: newLayers });
   },
+  focusLayer: (id) => {
+    const { layers } = get();
+
+    const layerItem = layers[id];
+    const map = useMapStore.getState().map;
+
+    if (layerItem && layerItem.layer && layerItem.format === "geojson" && map) {
+      map.flyToBounds(layerItem.layer.getBounds());
+    }
+  },
+  renameLayer: (id, newName) => {
+    const { layers } = get();
+
+    const layer = layers[id].layer;
+    const newLayers = { ...layers };
+
+    if (!layer) return;
+    if (!newLayers[id]) return;
+
+    newLayers[id].name = newName;
+
+    set({ layers: newLayers });
+  },
   toggleGroup: (id) => {
     const { layers, groups } = get();
     const map = useMapStore.getState().map;
 
     const newGroups = { ...groups };
     const newLayers = { ...layers };
+
+    if (!newGroups[id].layers) return;
 
     const group = groups[id];
 
@@ -198,36 +224,10 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
       groups: newGroups,
     });
   },
-  focusLayer: (id) => {
-    const { layers } = get();
-    
-    const layerItem = layers[id];
-    const map = useMapStore.getState().map;
-
-    if (
-      layerItem &&
-      layerItem.layer &&
-      layerItem.format === "geojson" &&
-      map
-    ) {
-      map.flyToBounds(layerItem.layer.getBounds());
-    }
-  },
-  renameLayer: (id, newName) => {
-    const { layers } = get();
-
-    const layer = layers[id].layer;
-    const newLayers = { ...layers };
-
-    if (!layer) return;
-    if (!newLayers[id]) return;
-
-    newLayers[id].name = newName;
-
-    set({ layers: newLayers });
-  },
   assignLayerToGroup: (layerId, groupId) => {
     const { layers, groups } = get();
+
+    const newGroups = { ...groups };
 
     // Checks
     if (!(layerId in layers)) {
@@ -242,16 +242,34 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
       );
       return;
     }
-    if (groups[groupId].layers.includes(layerId)) {
+    if (groups[groupId].layers && groups[groupId].layers.includes(layerId)) {
       console.warn(
         `The layer "${layerId}" could not be added to the group "${groupId}" the layer already exists in this group.`
       );
       return;
     }
 
-    groups[groupId].layers.push(layerId);
+    if (newGroups[groupId].layers) {
+      newGroups[groupId].layers.push(layerId);
+    } else {
+      newGroups[groupId].layers = [layerId];
+    }
     set({
-      groups: groups,
+      groups: newGroups,
     });
-  }
+  },
+  createGroup: async (group) => {
+    const { groups } = get();
+    if (Object.keys(groups).includes(group.id)) {
+      return false;
+    } else {
+      const newGroups = { ...groups };
+      newGroups[group.id] = group;
+      set({
+        groups: newGroups,
+      });
+      return true;
+    }
+  },
+  deleteGroup: (groupId) => {},
 }));

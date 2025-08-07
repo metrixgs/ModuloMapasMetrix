@@ -5,7 +5,7 @@ import { BiUser } from "react-icons/bi";
 import { useModalStore } from "@/stores/useModalStore";
 
 import { MapControl } from "@components/Pages/MapPage/Map/Controls/MapControl";
-import BddContent from "./BddContent";
+import BddContent from "@components/Pages/MapPage/Bdd/BddContent";
 
 const Bdd = () => {
   const { t } = useTranslation("global");

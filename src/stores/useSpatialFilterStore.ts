@@ -8,7 +8,7 @@ import type { LayerFilterItem } from "@/types/Stores/LayersManager";
 import { useMapStore } from "./useMapStore";
 import { useMapLayersStore } from "./useMapLayersStore";
 
-import { LAYERS } from "@/config.map";
+import { INITIAL_LAYERS } from "@/config.map";
 
 export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
   setCountry: async (country, name, countryGeoJSON) => {
@@ -61,7 +61,7 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
         id: filterId,
         name: filterName,
         origin: newCountryLayer,
-        target: LAYERS["incidents"].id,
+        target: INITIAL_LAYERS["incidents"].id,
         type: "intersection"
       }
 
@@ -136,7 +136,7 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
         id: filterId,
         name: filterName,
         origin: newStateLayer,
-        target: LAYERS["incidents"].id,
+        target: INITIAL_LAYERS["incidents"].id,
         type: "intersection"
       }
 
@@ -207,7 +207,7 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
         id: filterId,
         name: filterName,
         origin: newMunicipalityLayer,
-        target: LAYERS["incidents"].id,
+        target: INITIAL_LAYERS["incidents"].id,
         type: "intersection"
       }
 
@@ -281,7 +281,7 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
         id: filterId,
         name: filterName,
         origin: newHoodLayer,
-        target: LAYERS["incidents"].id,
+        target: INITIAL_LAYERS["incidents"].id,
         type: "intersection"
       }
 
@@ -333,7 +333,7 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
         id: filterId,
         name: filterName,
         origin: newSquareLayer,
-        target: LAYERS["incidents"].id,
+        target: INITIAL_LAYERS["incidents"].id,
         type: "intersection"
       }
 
@@ -382,7 +382,7 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
         id: filterId,
         name: filterName,
         origin: newPropertyLayer,
-        target: LAYERS["incidents"].id,
+        target: INITIAL_LAYERS["incidents"].id,
         type: "intersection"
       }
 

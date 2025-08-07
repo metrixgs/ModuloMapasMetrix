@@ -6,7 +6,7 @@ export interface LayerGroupItem {
   id: string;
   name: string;
   active: boolean;
-  layers: (keyof Layers)[];
+  layers?: (keyof Layers)[];
   disabled: boolean;
   type: "checkbox" | "radio";
 }
@@ -21,6 +21,10 @@ export interface BaseLayerItem {
   active: boolean;
   temp: boolean;
   renamed: boolean;
+  groupId?: string;
+  groupName?: string;
+  source: "api" | "geoserver";
+  endpoint: string;
 }
 
 export interface GeoJSONLayerItem extends BaseLayerItem {
@@ -89,10 +93,12 @@ export interface MapLayersStore {
   turnOffLayer: (id: keyof Layers) => void;
   turnOnLayer: (id: keyof Layers) => void;
   focusLayer: (id: keyof Layers) => void;
+  renameLayer: (id: keyof Layers, newName: string) => void;
   toggleGroup: (id: keyof LayerGroup) => void;
   assignLayerToGroup: (
     layerId: keyof Layers,
     groupId: keyof LayerGroup
   ) => void;
-  renameLayer: (id: keyof Layers, newName: string) => void;
+  createGroup: (group: LayerGroupItem) => Promise<boolean>;
+  deleteGroup: (groudId: keyof LayerGroup) => void;
 }

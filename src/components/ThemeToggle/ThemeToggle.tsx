@@ -3,30 +3,30 @@ import { useState } from "react"
 import Button from "@components/UI/Button";
 
 import { themeOptions } from "@/config.theme";
-import { LAYERS } from "@/config.map";
+// import { INITIAL_LAYERS } from "@/config.map";
 
 import { getTheme, setTheme } from "@/utils/themeUtils";
 
-import { useMapLayersStore } from "@/stores/useMapLayersStore";
+// import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
 const ThemeToggle = () => {
 
   const [dark, setDark] = useState<boolean>(getTheme() == themeOptions.dark);
 
-  const { turnOffLayer, turnOnLayer } = useMapLayersStore((state) => state);
+  // const { turnOffLayer, turnOnLayer } = useMapLayersStore((state) => state);
 
   const toggleTheme = () => {
     const current = getTheme();
 
     if (current == themeOptions.dark) {
       setTheme(themeOptions.light);
-      turnOffLayer(LAYERS.jawg.id);
-      turnOnLayer(LAYERS.positron.id);
+      // turnOffLayer(INITIAL_LAYERS.jawg.id);
+      // turnOnLayer(INITIAL_LAYERS.positron.id);
       setDark(false);
     } else {
       setTheme(themeOptions.dark);
-      turnOffLayer(LAYERS.positron.id);
-      turnOnLayer(LAYERS.jawg.id);
+      // turnOffLayer(INITIAL_LAYERS.positron.id);
+      // turnOnLayer(INITIAL_LAYERS.jawg.id);
       setDark(true);
     }
   }

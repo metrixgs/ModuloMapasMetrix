@@ -4,7 +4,7 @@ import type { GeomanCreateEvent } from "@/types/Geoman";
 
 import type { LayerFilterItem } from "@/types/Stores/LayersManager";
 
-import { LAYERS } from "@/config.map";
+import { INITIAL_LAYERS } from "@/config.map";
 
 import { useDrawStore } from "@/stores/useDrawStore";
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
@@ -54,7 +54,7 @@ const DrawCreate = async ({ layer, shape }: GeomanCreateEvent) => {
         id: filterId,
         name: filterName,
         origin: layer as GeoJSON,
-        target: LAYERS["incidents"].id,
+        target: INITIAL_LAYERS["incidents"].id,
         type: "intersection",
       };
 
