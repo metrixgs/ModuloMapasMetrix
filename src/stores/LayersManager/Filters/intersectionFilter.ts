@@ -8,6 +8,8 @@ import { useMapLayersStore } from "@/stores/useMapLayersStore";
 import { GeoJSON, geoJSON } from "leaflet";
 import { pointsWithinPolygon, featureCollection, intersect } from "@turf/turf";
 
+import { FILTER_GROUP } from "@/config.map";
+
 export const intersectionFilter = async (
   filter: IntersectionFilter
 ): Promise<boolean> => {
@@ -76,6 +78,9 @@ export const intersectionFilter = async (
         geometry: "Point",
         columns: target["columns"],
         renamed: true,
+        source: {
+          sourceType: "generated",
+        }
       };
 
       const mount = await append(filterInfo, async () =>
@@ -86,7 +91,7 @@ export const intersectionFilter = async (
       );
 
       if (mount) {
-        assignLayerToGroup(filterInfo.id, "metrix-filters");
+        assignLayerToGroup(filterInfo.id, FILTER_GROUP.id);
         turnOffLayer(filter.target);
         focusLayer(filter.id);
         newLayerFilter[filter.id] = filter;
@@ -113,6 +118,9 @@ export const intersectionFilter = async (
         geometry: "Polygon",
         columns: target["columns"],
         renamed: true,
+        source: {
+          sourceType: "generated",
+        }
       };
 
       const mount = await append(filterInfo, async () =>
@@ -123,7 +131,7 @@ export const intersectionFilter = async (
       );
 
       if (mount) {
-        assignLayerToGroup(filterInfo.id, "metrix-filters");
+        assignLayerToGroup(filterInfo.id, FILTER_GROUP.id);
         turnOffLayer(filter.target);
         focusLayer(filter.id);
         newLayerFilter[filter.id] = filter;

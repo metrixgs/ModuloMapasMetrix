@@ -8,6 +8,8 @@ import { useMapStore } from "./useMapStore";
 import { intersectionFilter } from "./LayersManager/Filters/intersectionFilter";
 import { divideFeaturesFilter } from "./LayersManager/Filters/divideFeaturesFilter";
 
+import { FILTER_GROUP } from "@/config.map";
+
 export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
   groups: {},
   layers: {},
@@ -52,6 +54,8 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
     }
   },
   appendFilter: async (filter) => {
+    const { createGroup } = get();
+    await createGroup(FILTER_GROUP);
     if (filter.type === "intersection") {
       // Intersection between points and a polygon.
       const result = await intersectionFilter(filter);

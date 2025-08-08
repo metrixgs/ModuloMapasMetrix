@@ -4,41 +4,38 @@ import { INITIAL_LAYERS } from "@/config.map";
 
 import { AVAILABLE_GROUPS } from "@/config.map.layers";
 
-import { useMapLayersStore } from "@/stores/useMapLayersStore";
-
-import LoadTileLayer from "../LoadFunctions/LoadTileLayer";
+import AddLayer from "../AddLayer/AddLayer";
 
 const InitialLayers = () => {
-  const {
-    append,
-    createGroup,
-    assignLayerToGroup
-  } = useMapLayersStore((state) => state);
-
   const mountInitialLayers = async () => {
-    for (const el of INITIAL_LAYERS) {
-      if (el.format === "tile") {
-        
-        const loadFunction = await LoadTileLayer(el);
-        const layerLoaded = await append(el, loadFunction);
+    for (const l of INITIAL_LAYERS) {
+      const group = l.groupId ? AVAILABLE_GROUPS[l.groupId] : undefined;
 
-        const group = el.groupId ? AVAILABLE_GROUPS[el.groupId] : undefined;
-        
-        if (layerLoaded) {
-          if (group) {
-            await createGroup(group);
-            assignLayerToGroup(el.id, group.id);
+      if (group) {
+        const result = await AddLayer({
+          layer: l,
+          group: group,
+        });
+      } else {
+        const result = await AddLayer({
+          layer: l,
+          group: {
+            id: crypto.randomUUID(),
+            name: "Temp group",
+            type: "checkbox",
+            active: true,
+            disabled: false,
           }
-        }
+        })
       }
     }
-  }
+  };
 
   useEffect(() => {
     mountInitialLayers();
-  }, [])
+  }, []);
 
   return null;
-}
+};
 
 export default InitialLayers;

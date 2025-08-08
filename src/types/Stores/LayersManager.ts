@@ -9,10 +9,32 @@ export interface LayerGroupItem {
   layers?: (keyof Layers)[];
   disabled: boolean;
   type: "checkbox" | "radio";
+  icon?: string;
 }
 
 export interface LayerGroup {
   [id: string]: LayerGroupItem;
+}
+
+export interface GeneratedLayerSource {
+  sourceType: "generated";
+}
+
+export interface GeoserverLayerSource {
+  sourceType: "geoserver";
+  serverUrl: string;
+  workpace: string;
+  name: string;
+}
+
+export interface TileLayerSource {
+  sourceType: "tile";
+  endpoint: string;
+}
+
+export interface APILayerSource {
+  sourceType: "api";
+  endpoint: string;
 }
 
 export interface BaseLayerItem {
@@ -23,22 +45,25 @@ export interface BaseLayerItem {
   renamed: boolean;
   groupId?: string;
   groupName?: string;
-  source: "api" | "geoserver";
-  endpoint: string;
+  source:
+    | GeneratedLayerSource
+    | GeoserverLayerSource
+    | TileLayerSource
+    | APILayerSource;
 }
 
 export interface GeoJSONLayerItem extends BaseLayerItem {
   format: "geojson";
   type: "layer" | "filtered";
   geometry: "Point" | "Polygon" | "LineString";
-  layer?: GeoJSON,
+  layer?: GeoJSON;
   columns?: ColumnDef<any>[];
 }
 
 export interface TileLayerItem extends BaseLayerItem {
-  format: "tile",
-  type: "layer",
-  layer?: TileLayer
+  format: "tile";
+  type: "layer";
+  layer?: TileLayer;
 }
 
 export type LayerItem = GeoJSONLayerItem | TileLayerItem;

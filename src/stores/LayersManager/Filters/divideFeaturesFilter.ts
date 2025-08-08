@@ -8,6 +8,8 @@ import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
 import { GeoJSON, geoJSON } from "leaflet";
 
+import { FILTER_GROUP } from "@/config.map";
+
 export const divideFeaturesFilter = async (
   filter: DivideFeaturesFilter
 ): Promise<boolean> => {
@@ -85,7 +87,7 @@ export const divideFeaturesFilter = async (
   );
 
   if (mount) {
-    assignLayerToGroup(filterInfo.id, "metrix-filters");
+    assignLayerToGroup(filterInfo.id, FILTER_GROUP.id);
     turnOffLayer(filter.target);
     focusLayer(filter.id);
     newLayerFilter[filter.id] = filter;

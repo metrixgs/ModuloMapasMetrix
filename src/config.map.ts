@@ -1,6 +1,6 @@
 import { latLng } from "leaflet";
 
-import type { LayerItem } from "@/types/Stores/LayersManager";
+import type { LayerItem, LayerGroupItem } from "@/types/Stores/LayersManager";
 
 import { getTheme } from "@/utils/themeUtils";
 import { themeOptions } from "@/config.theme";
@@ -11,6 +11,15 @@ export const MAX_ZOOM = 20;
 export const INITIAL_VIEW = {
   center: latLng(19.4326, -99.1332),
   zoom: 11,
+};
+
+export const FILTER_GROUP: LayerGroupItem = {
+  id: "metrix-filters",
+  name: "Filtros",
+  active: true,
+  disabled: false,
+  type: "checkbox",
+  icon: "bi/BiCategory",
 };
 
 export const INITIAL_LAYERS: LayerItem[] = [
@@ -24,9 +33,11 @@ export const INITIAL_LAYERS: LayerItem[] = [
     renamed: false,
     groupId: "metrix-basemaps",
     groupName: "Mapas base",
-    source: "api",
-    endpoint:
-      "https://tile.jawg.io/6ce62bcb-c195-4d31-a3ce-421b1d40f3bd/{z}/{x}/{y}{r}.png?access-token=xpGCLKVCsTyKo9B2QbcI9mKUWCpJdS4PEpT1rsVCeZoENPdujT3KjjiEe9YLIwCO",
+    source: {
+      sourceType: "tile",
+      endpoint:
+        "https://tile.jawg.io/6ce62bcb-c195-4d31-a3ce-421b1d40f3bd/{z}/{x}/{y}{r}.png?access-token=xpGCLKVCsTyKo9B2QbcI9mKUWCpJdS4PEpT1rsVCeZoENPdujT3KjjiEe9YLIwCO",
+    },
   },
   {
     id: "metrix-cartodb-positron",
@@ -38,7 +49,10 @@ export const INITIAL_LAYERS: LayerItem[] = [
     renamed: false,
     groupId: "metrix-basemaps",
     groupName: "Mapas base",
-    source: "api",
-    endpoint: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+    source: {
+      sourceType: "tile",
+      endpoint:
+        "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+    },
   },
 ];
