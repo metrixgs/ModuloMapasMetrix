@@ -35,6 +35,9 @@ export interface TileLayerSource {
 export interface APILayerSource {
   sourceType: "api";
   endpoint: string;
+  geom?: string;
+  latitude?: string;
+  longitude?: string;
 }
 
 export interface BaseLayerItem {
@@ -45,6 +48,8 @@ export interface BaseLayerItem {
   renamed: boolean;
   groupId?: string;
   groupName?: string;
+  thumbnail?: string;
+  description?: string;
   source:
     | GeneratedLayerSource
     | GeoserverLayerSource

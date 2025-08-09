@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { Modal, ModalBody, ModalHeader } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader, Popover } from "flowbite-react";
+import { BiChevronDown, BiFilterAlt } from "react-icons/bi";
 
 import type { LayerItem } from "@/types/Stores/LayersManager";
 import type { LayerMenuAuxModalState } from "@/types/LayerMenu";
@@ -18,6 +19,7 @@ import RenameLayer from "./Actions/RenameLayer/RenameLayer";
 import RemoveLayer from "./Actions/RemoveLayer/RemoveLayer";
 import ToggleLayer from "./Actions/ToggleLayer/ToggleLayer";
 import FilterByExpression from "./Actions/FilterByExpression/FilterByExpression";
+import MenuItem from "@components/UI/Menu/MenuItem";
 
 interface LayerMenuProps {
   layer: LayerItem;
@@ -53,18 +55,37 @@ const LayerMenu = ({ layer }: LayerMenuProps) => {
             )}
             <DownloadGeoJSON targetLayer={layer} translation={t} />
             <FocusLayer targetLayer={layer} translation={t} />
-            <FilterByColumns
-              targetLayer={layer}
-              translation={t}
-              auxModalState={auxModalState}
-              setAuxModalState={setAuxModalState}
-            />
-            <FilterByExpression
-              targetLayer={layer}
-              translation={t}
-              auxModalState={auxModalState}
-              setAuxModalState={setAuxModalState}
-            />
+            <Popover
+              trigger="hover"
+              arrow={false}
+              content={
+                <Menu>
+                  <span className="text-sm pb-2 px-2 text-center font-bold">
+                    <i>{t("body.controls.layers.layer-menu.filters.title")}</i>
+                  </span>
+                  <FilterByColumns
+                    targetLayer={layer}
+                    translation={t}
+                    auxModalState={auxModalState}
+                    setAuxModalState={setAuxModalState}
+                  />
+                  <FilterByExpression
+                    targetLayer={layer}
+                    translation={t}
+                    auxModalState={auxModalState}
+                    setAuxModalState={setAuxModalState}
+                  />
+                </Menu>
+              }
+            >
+              <MenuItem>
+                <BiFilterAlt className="w-5 h-5 mr-2" />
+                <span>
+                  {t("body.controls.layers.layer-menu.filters.button-title")}
+                </span>
+                <BiChevronDown className="w-5 h-5" />
+              </MenuItem>
+            </Popover>
           </>
         )}
         {group && group.type !== "radio" && (

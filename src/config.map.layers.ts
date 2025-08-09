@@ -65,6 +65,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     renamed: false,
     groupId: AVAILABLE_GROUPS["metrix-basemaps"].id,
     groupName: AVAILABLE_GROUPS["metrix-basemaps"].name,
+    description: "Mapa satelital de ESRI.",
     source: {
       sourceType: "tile",
       endpoint: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
@@ -80,6 +81,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     renamed: false,
     groupId: AVAILABLE_GROUPS["metrix-basemaps"].id,
     groupName: AVAILABLE_GROUPS["metrix-basemaps"].name,
+    description: "Mapa mundial de Open Street Maps.",
     source: {
       sourceType: "tile",
       endpoint: "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -96,9 +98,12 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     renamed: false,
     groupId: AVAILABLE_GROUPS["metrix-main"].id,
     groupName: AVAILABLE_GROUPS["metrix-main"].name,
+    description: "Colección de incidentes.",
     source: {
       sourceType: "api",
-      endpoint: "https://lightsteelblue-spoonbill-227005.hostingersite.com/api/incidencias"
+      endpoint: "https://lightsteelblue-spoonbill-227005.hostingersite.com/api/incidencias",
+      latitude: "latitud",
+      longitude: "longitud"
     },
   },
   {
@@ -112,6 +117,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     renamed: false,
     groupId: AVAILABLE_GROUPS["metrix-geographic"].id,
     groupName: AVAILABLE_GROUPS["metrix-geographic"].name,
+    description: "Colección de paises alrededor del mundo.",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -130,6 +136,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     renamed: false,
     groupId: AVAILABLE_GROUPS["metrix-geographic"].id,
     groupName: AVAILABLE_GROUPS["metrix-geographic"].name,
+    description: "Colección de estados alrededor del mundo.",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -148,6 +155,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     renamed: false,
     groupId: AVAILABLE_GROUPS["metrix-geographic"].id,
     groupName: AVAILABLE_GROUPS["metrix-geographic"].name,
+    description: "Colección de municipios alrededor del mundo.",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -166,6 +174,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     renamed: false,
     groupId: AVAILABLE_GROUPS["metrix-geographic"].id,
     groupName: AVAILABLE_GROUPS["metrix-geographic"].name,
+    description: "Colección de delegaciones alrededor del mundo.",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -184,6 +193,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     renamed: false,
     groupId: AVAILABLE_GROUPS["metrix-geographic"].id,
     groupName: AVAILABLE_GROUPS["metrix-geographic"].name,
+    description: "Colección de colonias o barrios alrededor del mundo.",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -202,6 +212,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     renamed: false,
     groupId: AVAILABLE_GROUPS["metrix-geographic"].id,
     groupName: AVAILABLE_GROUPS["metrix-geographic"].name,
+    description: "Colección de manzanas alrededor del mundo.",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -220,6 +231,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     renamed: false,
     groupId: AVAILABLE_GROUPS["metrix-geographic"].id,
     groupName: AVAILABLE_GROUPS["metrix-geographic"].name,
+    description: "Colección de predios o terrenos alrededor del mundo.",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -238,6 +250,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     renamed: false,
     groupId: AVAILABLE_GROUPS["metrix-water"].id,
     groupName: AVAILABLE_GROUPS["metrix-water"].name,
+    description: "Red de acueducto.",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -256,6 +269,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     renamed: false,
     groupId: AVAILABLE_GROUPS["metrix-water"].id,
     groupName: AVAILABLE_GROUPS["metrix-water"].name,
+    description: "Colección de plantas de tratamiento de agua en México.",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",

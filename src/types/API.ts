@@ -1,4 +1,4 @@
-export interface PluralResponseAPI<T> {
+export interface PluralResponseAPI<T = unknown> {
   status: number;
   error: boolean;
   data: T[];

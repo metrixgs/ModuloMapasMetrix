@@ -5,8 +5,7 @@ import type { LayerMenuItemActionProps } from "@/types/LayerMenu";
 import type { DivideFeaturesFilter } from "@/types/Stores/LayersManager";
 
 import { Label, Select } from "flowbite-react";
-import { IoMdCut } from "react-icons/io";
-import { BiSave } from "react-icons/bi";
+import { BiSave, BiColumns } from "react-icons/bi";
 
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
@@ -26,7 +25,10 @@ const FilterByColumns = ({
   auxModalState,
   setAuxModalState,
 }: LayerMenuItemActionProps) => {
+  const tref = "body.controls.layers.layer-menu.filters.cut-by-columns";
+
   const { appendFilter } = useMapLayersStore((state) => state);
+
   const handleFilter = () => {
     if (!auxModalState || !setAuxModalState) return;
 
@@ -69,18 +71,11 @@ const FilterByColumns = ({
 
       return (
         <div className="flex flex-col gap-2 items-center">
-          <ToolDescription
-            description={translation(
-              "body.controls.layers.layer-menu.cut-by-columns.help"
-            )}
-          />
+          <ToolDescription description={translation(tref + ".help")} />
           <div className="w-full flex items-center gap-2">
             <div className="w-52">
               <Label htmlFor={layerMenuSelectFeaturesColumnId}>
-                {translation(
-                  "body.controls.layers.layer-menu.cut-by-columns.feature-column-label"
-                )}
-                :
+                {translation(tref + ".feature-column-label")}:
               </Label>
               <Select
                 id={layerMenuSelectFeaturesColumnId}
@@ -92,9 +87,7 @@ const FilterByColumns = ({
                 }}
               >
                 <option value="">
-                  {translation(
-                    "body.controls.layers.layer-menu.cut-by-columns.feature-column-placeholder"
-                  )}
+                  {translation(tref + ".feature-column-placeholder")}
                 </option>
                 {targetLayer.columns
                   ? targetLayer.columns.map((col, index) => {
@@ -109,21 +102,12 @@ const FilterByColumns = ({
             </div>
             <div className="flex-grow">
               <Label htmlFor={layerMenuSelectFeaturesCheckId}>
-                {translation(
-                  "body.controls.layers.layer-menu.cut-by-columns.feature-features-label"
-                )}
-                :
+                {translation(tref + ".feature-features-label")}:
               </Label>
               <SearchableCheckbox
-                placeholder={translation(
-                  "body.controls.layers.layer-menu.cut-by-columns.selected"
-                )}
-                searchPlaceholder={translation(
-                  "body.controls.layers.layer-menu.cut-by-columns.search"
-                )}
-                noResultPlaceholder={translation(
-                  "body.controls.layers.layer-menu.cut-by-columns.no-results"
-                )}
+                placeholder={translation(tref + ".selected")}
+                searchPlaceholder={translation(tref + ".search")}
+                noResultPlaceholder={translation(tref + ".no-results")}
                 options={targetGeoJSON.features.map((feature) => {
                   return {
                     title:
@@ -155,9 +139,7 @@ const FilterByColumns = ({
             onClick={handleExecute}
           >
             <BiSave className="mr-2" />
-            {translation(
-              "body.controls.layers.layer-menu.cut-by-columns.execute"
-            )}
+            {translation(tref + ".execute")}
           </Button>
         </div>
       );
@@ -171,12 +153,8 @@ const FilterByColumns = ({
 
   return (
     <MenuItem onClick={handleFilter}>
-      <IoMdCut className="w-5 h-5 mr-2" />
-      <span>
-        {translation(
-          "body.controls.layers.layer-menu.cut-by-columns.button-title"
-        )}
-      </span>
+      <BiColumns className="w-5 h-5 mr-2" />
+      <span>{translation(tref + ".button-title")}</span>
     </MenuItem>
   );
 };

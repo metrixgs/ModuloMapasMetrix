@@ -2,6 +2,8 @@ import type { LayerGroupItem, LayerItem } from "@/types/Stores/LayersManager";
 
 import LoadTileLayer from "../LoadFunctions/LoadTileLayer";
 import LoadGeoserverGeoJSON from "../LoadFunctions/LoadGeoserverGeoJSON";
+import LoadAPI from "../LoadFunctions/LoadAPI";
+
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
 interface AddLayerInputs {
@@ -18,7 +20,7 @@ const AddLayer = async ({
   layer,
   group,
 }: AddLayerInputs): Promise<AddLayerResponse> => {
-  const { append, createGroup, assignLayerToGroup } =
+  const { append, createGroup, assignLayerToGroup, focusLayer } =
     useMapLayersStore.getState();
   let load;
   let newLayerItem;
@@ -53,6 +55,20 @@ const AddLayer = async ({
             "El origen de la capa es geoserver pero el tipo de capa no es geojson.",
         };
       }
+    } else if (layerSource.sourceType === "api") {
+      if (layerFormat === "geojson") {
+        const { load: load_, newLayerItem: newLayerItem_ } = await LoadAPI(
+          layer
+        );
+        load = load_;
+        newLayerItem = newLayerItem_;
+      } else {
+        return {
+          status: false,
+          message:
+            "El origen de la capa es API pero el tipo de capa no es geojson.",
+        };
+      }
     } else {
       return {
         status: false,
@@ -65,6 +81,9 @@ const AddLayer = async ({
       if (loaded) {
         await createGroup(group);
         assignLayerToGroup(layerId, group.id);
+        if (newLayerItem.format === "geojson") {
+          focusLayer(layerId);
+        }
         return {
           status: true,
           message: "La capa se cargó correctamente.",

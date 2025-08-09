@@ -76,28 +76,37 @@
             "help": "Escriba el nombre de su preferencia que le quiera asignar a la capa.",
             "apply-button-title": "Aplicar cambios"
           },
-          "cut-by-columns": {
-            "button-title": "Separar entidades",
-            "help": "Separe las entidades de la capa según los valores de sus columnas. Indique la columna que desea visualizar y seleccione las entidades que quiere separar.",
-            "feature-column-label": "Columna",
-            "feature-column-placeholder": "Seleccione...",
-            "feature-features-label": "Entidades",
-            "selected": "seleccionados",
-            "no-results": "Sin resultados.",
-            "search": "Buscar",
-            "execute": "Aplicar"
-          },
-          "feature-expression": {
-            "title": "Separar por expresiones",
-            "description": "Realice operaciones lógicas con los datos de la capa seleccionada.",
-            "target-label": "Capa de entrada",
-            "target-error": "Por favor seleccione una capa válida.",
-            "target-column-placeholder": "Columna",
-            "target-operation-placeholder": "Operación",
-            "resultname-label": "Nombre de la capa resultado",
-            "search-placeholder": "Buscar",
-            "noresult-placeholder": "Sin resultados.",
-            "execute": "Aplicar"
+          "filters": {
+            "title": "Filtros",
+            "button-title": "Filtros",
+            "cut-by-columns": {
+              "button-title": "Por atributo",
+              "help": "Separe las entidades de la capa según los valores de sus columnas. Indique la columna que desea visualizar y seleccione las entidades que quiere separar.",
+              "feature-column-label": "Columna",
+              "feature-column-placeholder": "Seleccione...",
+              "feature-features-label": "Entidades",
+              "selected": "seleccionados",
+              "no-results": "Sin resultados.",
+              "search": "Buscar",
+              "execute": "Aplicar"
+            },
+            "feature-expression": {
+              "title": "Por expresión",
+              "description": "Realice operaciones lógicas con los datos de la capa seleccionada.",
+              "target-label": "Capa de entrada",
+              "target-error": "Por favor seleccione una capa válida.",
+              "target-column-placeholder": "Columna",
+              "target-operation-placeholder": "Operación",
+              "resultname-label": "Nombre de la capa resultado",
+              "search-placeholder": "Buscar",
+              "noresult-placeholder": "Sin resultados.",
+              "mode-label": "Unir las expresiones por",
+              "mode-y-title": "Y (Intersección)",
+              "mode-y-help": "Y (intersección): Toma los elementos que cumplan las expresiones al mismo tiempo.",
+              "mode-or-title": "O (Unión)",
+              "mode-or-help": "O (unión): Tomará los elementos que cumplan las expresiones.",
+              "execute": "Aplicar"
+            }
           }
         }
       },

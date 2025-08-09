@@ -6,7 +6,7 @@ import type { LayerMenuItemActionProps } from "@/types/LayerMenu";
 import { useState } from "react";
 import sift from "sift";
 
-import { Label, TextInput } from "flowbite-react";
+import { HelperText, Label, Select, TextInput } from "flowbite-react";
 import { BiMath, BiPlus, BiTrash } from "react-icons/bi";
 
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
@@ -16,7 +16,7 @@ import MenuItem from "@components/UI/Menu/MenuItem";
 import ToolDescription from "@components/Pages/MapPage/Map/Tools/ToolDescription";
 import Button from "@components/UI/Button";
 
-import { filtersExpressionResultNameId } from "@/config.id";
+import { filtersExpressionResultNameId, filtersExpressionModeId } from "@/config.id";
 
 import { extractGeoJSONProperties } from "@/utils/geometryUtils";
 import { inferFieldTypes } from "@/utils/jsonUtils";
@@ -27,7 +27,7 @@ const FilterByExpression = ({
   auxModalState,
   setAuxModalState,
 }: LayerMenuItemActionProps) => {
-  const tref = "body.controls.layers.layer-menu.feature-expression";
+  const tref = "body.controls.layers.layer-menu.filters.feature-expression";
 
   const handleFilter = () => {
     if (!auxModalState || !setAuxModalState) return;
@@ -47,10 +47,14 @@ const FilterByExpression = ({
 
       const [resultName, setResultName] = useState<string>();
 
+      const [unionMode, setUnionMode] = useState<string>("$and");
+
       const data = layer
-        ? extractGeoJSONProperties(layer.toGeoJSON() as FeatureCollection) as object[]
+        ? (extractGeoJSONProperties(
+            layer.toGeoJSON() as FeatureCollection
+          ) as object[])
         : [];
-      
+
       console.log(data);
       const fieldTypes = layer && inferFieldTypes(data);
 
@@ -73,7 +77,9 @@ const FilterByExpression = ({
         console.log(queryItems);
         if (queryItems) {
           const query = {
-            $or: Object.keys(queryItems).map((item) => queryItems[item]),
+            [unionMode]: Object.keys(queryItems).map(
+              (item) => queryItems[item]
+            ),
           };
           const selectedFeatures = data.filter(sift(query));
           const selectedFeaturesString = selectedFeatures.map((i) =>
@@ -97,6 +103,28 @@ const FilterByExpression = ({
       return (
         <div className="flex flex-col gap-4 p-1">
           <ToolDescription description={translation(tref + ".description")} />
+          <div>
+            <Label htmlFor={filtersExpressionModeId}>
+              {translation(tref + ".mode-label")}:
+            </Label>
+            <Select
+              id={filtersExpressionModeId}
+              value={unionMode}
+              onChange={(e) => setUnionMode(e.target.value)}
+            >
+              <option value="$and">
+                {translation(tref + ".mode-y-title")}
+              </option>
+              <option value="$or">
+                {translation(tref + ".mode-or-title")}
+              </option>
+            </Select>
+            <HelperText>
+              {unionMode === "$and"
+                ? translation(tref + ".mode-y-help")
+                : translation(tref + ".mode-or-help")}
+            </HelperText>
+          </div>
           <div>
             {columns && fieldTypes ? (
               <div className="flex flex-col items-center p-2 gap-6 border border-gray-200 dark:border-gray-600 rounded-lg">
