@@ -23,12 +23,12 @@ const FiltersContent = () => {
         >
           <PoliticalDivision />
         </TabItem>
-        <TabItem
+        {/* <TabItem
           title={t("body.controls.filters.tabs.electoral")}
           icon={MdHowToVote}
         >
           <Electoral />
-        </TabItem>
+        </TabItem> */}
         <TabItem
           title={t("body.controls.filters.tabs.intersection")}
           icon={PiIntersectFill}

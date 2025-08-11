@@ -32,7 +32,7 @@ const MapControls = () => {
       <Bdd />
       <Filters />
       <StreetView />
-      <Draw />
+      {/* <Draw /> */}
       <Location />
       <Share />
       <Zoom />

@@ -37,6 +37,12 @@ export const divideFeaturesFilter = async (
     return false;
   }
 
+  //   Origin checks
+  if (filter.selectedProps.length === 0) {
+    console.warn(`The filter could not be applied. The "selectedProps properties is empty."`);
+    return false;
+  }
+
   const targetLayer = target.layer;
 
   // One layer is defined in the layer id of "layers".

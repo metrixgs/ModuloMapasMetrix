@@ -8,9 +8,14 @@
       "title-total-text": "elementos",
       "search-placeholder": "Escriba para buscar"
     },
+    "bdd": {
+      "load-error": "No se pudo cargar la capa",
+      "image-not-found": "Sin imagen"
+    },
     "tools": {
       "pol-division": {
         "title": "Geográfica",
+        "layer": "Seleccione la capa",
         "country": "Seleccione el país",
         "state": "Seleccione el estado",
         "municipality": "Seleccione el municipio",
@@ -53,6 +58,18 @@
         "resultname-label": "Nombre de la capa resultado",
         "search-placeholder": "Buscar",
         "noresult-placeholder": "Sin resultados."
+      },
+      "upload-geojson-file": {
+        "file-input-label": "Seleccione el archivo",
+        "name-input-label": "Escriba el nombre de la capa",
+        "error": {
+          "not-name": "El nombre de la capa no puede ser vacío.",
+          "not-json-loaded": "Debe subir un archivo JSON válido antes de continuar",
+          "invalid-geom": "El archivo no tiene una geometría válida.",
+          "not-json": "El archivo debe ser de tipo JSON.",
+          "not-json-valid": "El archivo no contiene un JSON válido"
+        },
+        "execute": "Subir"
       }
     },
     "controls": {
@@ -79,7 +96,7 @@
           "filters": {
             "title": "Filtros",
             "button-title": "Filtros",
-            "cut-by-columns": {
+            "filter-by-columns": {
               "button-title": "Por atributo",
               "help": "Separe las entidades de la capa según los valores de sus columnas. Indique la columna que desea visualizar y seleccione las entidades que quiere separar.",
               "feature-column-label": "Columna",
@@ -88,9 +105,10 @@
               "selected": "seleccionados",
               "no-results": "Sin resultados.",
               "search": "Buscar",
-              "execute": "Aplicar"
+              "execute": "Aplicar",
+              "execute-error": "No se pudo aplicar el filtro."
             },
-            "feature-expression": {
+            "filter-by-expression": {
               "title": "Por expresión",
               "description": "Realice operaciones lógicas con los datos de la capa seleccionada.",
               "target-label": "Capa de entrada",
@@ -105,7 +123,8 @@
               "mode-y-help": "Y (intersección): Toma los elementos que cumplan las expresiones al mismo tiempo.",
               "mode-or-title": "O (Unión)",
               "mode-or-help": "O (unión): Tomará los elementos que cumplan las expresiones.",
-              "execute": "Aplicar"
+              "execute": "Aplicar",
+              "execute-error":"No se pudo aplicar el filtro."
             }
           }
         }

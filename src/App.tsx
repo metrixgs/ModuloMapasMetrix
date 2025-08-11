@@ -15,6 +15,7 @@ import Sidebar from "@components/Sidebar/Sidebar";
 import SidebarLeft from "@components/SidebarLeft/SidebarLeft";
 import BottomDrawer from "@components/BottomDrawer/BottomDrawer";
 import Modal from "@components/Modal/Modal";
+import ModalError from "@components/Modal/ModalError";
 
 import { initializeTheme } from "@/utils/themeUtils";
 import { customTheme } from "@/config.theme";
@@ -36,6 +37,7 @@ const App = () => {
           <SidebarLeft />
           <BottomDrawer />
           <Modal />
+          <ModalError />
         </ThemeProvider>
       </I18nextProvider>
     </BrowserRouter>

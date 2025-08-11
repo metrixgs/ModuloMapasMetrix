@@ -55,6 +55,11 @@ export const customTheme = createTheme({
       }
     }
   },
+  fileInput: {
+    colors: {
+      "gray": "border-gray-300 bg-gray-50 text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-metrixblack-800 dark:text-gray-400 dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500",
+    }
+  },
   rangeSlider: {
     field: {
       input: {

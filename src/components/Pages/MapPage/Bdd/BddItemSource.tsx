@@ -5,13 +5,16 @@ interface BddItemSourceProps {
   banner: ReactNode;
   name: string;
   description: string;
+  action: () => void;
 }
 
-const BddItemSource = ({ banner, name, description }: BddItemSourceProps) => {
+const BddItemSource = ({ banner, name, description, action }: BddItemSourceProps) => {
   return (
-    <div
+    <button
+      onClick={action}
       className={classNames(
-        "h-32 w-32",
+        "h-24 w-64 p-2",
+        "flex items-center gap-2",
         "transition-transform duration-300 hover:scale-105 hover:cursor-pointer",
         "border border-gray-300 dark:border-gray-600",
         "rounded-lg"
@@ -22,7 +25,7 @@ const BddItemSource = ({ banner, name, description }: BddItemSourceProps) => {
         <h5 className="font-semibold text-sm">{name}</h5>
         <p className="text-xs">{description}</p>
       </div>
-    </div>
+    </button>
   );
 };
 

@@ -1,4 +1,3 @@
-import type { Layer } from "leaflet";
 import type { FeatureCollection, Feature } from "geojson";
 import type { Country } from "@/types/Filters/Country";
 import type { State } from "@/types/Filters/State";
@@ -10,22 +9,16 @@ import type { Square } from "@/types/Filters/Square";
 import type { Property } from "@/types/Filters/Property";
 
 export interface SpatialFilterStore {
+  targetId?: string;
   country?: Country["code"];
-  countryLayer?: Layer;
   state?: State["code"];
-  stateLayer?: Layer;
   municipality?: Municipality["code"];
-  municipalityLayer?: Layer;
   delegation?: Delegation["code"];
-  delegationLayer?: Layer;
   zip?: Zip["code"];
-  zipLayer?: Layer;
   hood?: Hood["code"];
-  hoodLayer?: Layer;
   square?: Square["code"];
-  squareLayer?: Layer;
   property?: Property["code"];
-  propertyLayer?: Layer;
+  setTargetId: (id: string) => void;
   setCountry: (
     country?: Country["code"],
     name?: Country["name"],

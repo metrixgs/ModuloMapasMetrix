@@ -1,12 +1,16 @@
 import type { LayerGroupItem, LayerItem } from "@/types/Stores/LayersManager";
 import type { Dispatch, SetStateAction } from "react";
 
+import { useTranslation } from "react-i18next";
+
 import classNames from "classnames";
 
 import { TbPoint, TbLine, TbPolygon } from "react-icons/tb";
 import { BiGridAlt } from "react-icons/bi";
 
 import { useModalStore } from "@/stores/useModalStore";
+import { useModalErrorStore } from "@/stores/useModalErrorStore";
+
 import AddLayer from "../Map/Layers/AddLayer/AddLayer";
 
 interface BddItemLayerProps {
@@ -16,8 +20,15 @@ interface BddItemLayerProps {
 }
 
 const BddItemLayer = ({ setLoad, layerItem, groupItem }: BddItemLayerProps) => {
+  const { t } = useTranslation("global");
+  const tref = "body.bdd";
+
   const { name, description, thumbnail } = layerItem;
   const { close } = useModalStore((state) => state);
+  const {
+    open: openModalError,
+    setChildren: setModalErrorChildren
+  } = useModalErrorStore((state) => state);
 
   const handleUpload = async () => {
     setLoad(true);
@@ -28,6 +39,12 @@ const BddItemLayer = ({ setLoad, layerItem, groupItem }: BddItemLayerProps) => {
 
     if (!status) {
       console.log(message);
+      setModalErrorChildren(
+        <span>
+          {t(tref + ".load-error")}: <span className="font-semibold">{layerItem.name}</span>.
+        </span>
+      );
+      openModalError();
     }
 
     setLoad(false);
@@ -51,7 +68,9 @@ const BddItemLayer = ({ setLoad, layerItem, groupItem }: BddItemLayerProps) => {
           alt={description}
         />
       ) : (
-        <div className="rounded-t-lg w-full h-2/3 bg-gray-500 animate-pulse"></div>
+        <div className="rounded-t-lg w-full h-2/3 bg-gray-500 text-white flex items-center justify-center">
+          {t(tref + ".image-not-found")}
+        </div>
       )}
       <div className="h-1/3 py-3 px-2 tracking-tight text-md flex flex-col">
         <h5 className="flex justify-between items-center font-semibold text-sm">

@@ -4,7 +4,10 @@ import { geoJSON, marker } from "leaflet";
 
 import { GetGeoJSONLayer } from "@/services/Geoserver/GetGeoJSONLayer";
 
-import { getRandomColor, definedColorCircleMarker } from "../../Icons/customIcons";
+import {
+  getRandomColor,
+  definedColorCircleMarker,
+} from "../../Icons/customIcons";
 
 const LoadGeoserverGeoJSON = async (layerItem: GeoJSONLayerItem) => {
   const { source } = layerItem;
@@ -22,7 +25,7 @@ const LoadGeoserverGeoJSON = async (layerItem: GeoJSONLayerItem) => {
       const load =
         newLayerItem.geometry === "Point"
           ? async () => {
-              const color = getRandomColor()
+              const color = getRandomColor();
               return geoJSON(geojsonData, {
                 pmIgnore: true,
                 pointToLayer: (_feature, latlng) => {
@@ -37,12 +40,12 @@ const LoadGeoserverGeoJSON = async (layerItem: GeoJSONLayerItem) => {
               return geoJSON(geojsonData);
             };
 
-      newLayerItem.columns = Object.keys(
-        geojsonData.features[0].properties
-      ).map((f) => ({
-        header: f,
-        accessorKey: f,
-      }));
+      newLayerItem.columns = geojsonData.features[0].properties
+        ? Object.keys(geojsonData.features[0].properties).map((f) => ({
+            header: f,
+            accessorKey: f,
+          }))
+        : undefined;
 
       return { load: load, newLayerItem: newLayerItem };
     } else {

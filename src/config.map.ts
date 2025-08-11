@@ -22,6 +22,15 @@ export const FILTER_GROUP: LayerGroupItem = {
   icon: "bi/BiCategory",
 };
 
+export const TEMPORAL_GROUP: LayerGroupItem = {
+  id: "metrix-temporal-layers",
+  name: "Temporal",
+  active: true,
+  disabled: false,
+  type: "checkbox",
+  icon: "bi/BiCategory",
+};
+
 export const INITIAL_LAYERS: LayerItem[] = [
   {
     id: "metrix-jawgmaps",

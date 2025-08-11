@@ -13,7 +13,7 @@ type SearchableSelectProps = {
   placeholder?: string;
   searchPlaceholder: string;
   noResultPlaceholder: string;
-  options: Option[];
+  options?: Option[];
 } & SelectProps;
 
 type SearchableSelectOptionProps = {
@@ -65,13 +65,15 @@ const SearchableSelect = ({
   const [internalValue, setInternalValue] = useState("");
 
   const selectedValue = value ?? internalValue;
-  const selectedOption = options.find(
+  const selectedOption = options ? options.find(
     (option) => option.value === selectedValue
-  );
+  ) : undefined;
 
-  const filtered = options.filter((option) =>
+  const filtered = options ? options.filter((option) =>
     option.title.toLowerCase().includes(search.toLowerCase())
-  );
+  ) : [];
+
+  filtered.sort((op1, op2) => op1.title.localeCompare(op2.title));
 
   const handleSelect = (selected: Option) => {
     setOpen(false);
@@ -111,7 +113,7 @@ const SearchableSelect = ({
               className="mx-2"
             />
           </div>
-          <div className="w-full max-h-72 overflow-y-auto flex flex-col py-2 px-2">
+          <div className="w-full max-h-40 overflow-y-auto flex flex-col py-2 px-2">
             {filtered.length > 0 ? (
               filtered.map((option, index) => (
                 <SearchableSelectOption

@@ -1,4 +1,7 @@
+import type { FeatureCollection } from "geojson";
+
 import type {
+  GeoJSONLayerItem,
   IntersectionFilter,
   LayerItem,
 } from "@/types/Stores/LayersManager";
@@ -8,7 +11,7 @@ import { useMapLayersStore } from "@/stores/useMapLayersStore";
 import { GeoJSON, geoJSON } from "leaflet";
 import { pointsWithinPolygon, featureCollection, intersect } from "@turf/turf";
 
-import { FILTER_GROUP } from "@/config.map";
+import { FILTER_GROUP, TEMPORAL_GROUP } from "@/config.map";
 
 export const intersectionFilter = async (
   filter: IntersectionFilter
@@ -20,6 +23,7 @@ export const intersectionFilter = async (
     turnOffLayer,
     focusLayer,
     assignLayerToGroup,
+    createGroup,
   } = useMapLayersStore.getState();
   // Intersection between points and a polygon
 
@@ -57,7 +61,7 @@ export const intersectionFilter = async (
 
   // Logic
   const newLayerFilter = { ...layerFilter };
-  const originGeoJSON = originLayer.toGeoJSON();
+  const originGeoJSON = originLayer.toGeoJSON() as FeatureCollection;
   const targetLayer = target.layer;
   const targetGeoJSON = targetLayer.toGeoJSON();
 
@@ -80,7 +84,7 @@ export const intersectionFilter = async (
         renamed: true,
         source: {
           sourceType: "generated",
-        }
+        },
       };
 
       const mount = await append(filterInfo, async () =>
@@ -98,6 +102,32 @@ export const intersectionFilter = async (
         useMapLayersStore.setState({
           layerFilter: newLayerFilter,
         });
+
+        await createGroup(TEMPORAL_GROUP);
+        const originId = crypto.randomUUID();
+        const originInfo: GeoJSONLayerItem = {
+          id: originId,
+          active: true,
+          format: "geojson",
+          geometry: "Polygon",
+          name: filterInfo.name + " shape",
+          renamed: true,
+          columns: originGeoJSON.features[0].properties
+            ? Object.keys(originGeoJSON.features[0].properties).map((f) => ({
+                header: f,
+                accessorKey: f,
+              }))
+            : undefined,
+          source: {
+            sourceType: "generated",
+          },
+          temp: true,
+          type: "layer",
+        };
+        const originMounted = await append(originInfo, async () => originLayer);
+        if (originMounted) {
+          assignLayerToGroup(originId, TEMPORAL_GROUP.id);
+        }
         return true;
       } else {
         console.warn("The filtered layer could not be added to the map.");
@@ -120,7 +150,7 @@ export const intersectionFilter = async (
         renamed: true,
         source: {
           sourceType: "generated",
-        }
+        },
       };
 
       const mount = await append(filterInfo, async () =>

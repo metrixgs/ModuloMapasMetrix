@@ -28,7 +28,7 @@ const FeatureByExpressionItem = ({
   onQueryChange,
   translation,
 }: FeatureExpressionItemProps) => {
-  const tref = "body.controls.layers.layer-menu.filters.feature-expression";;
+  const tref = "body.controls.layers.layer-menu.filters.filter-by-expression";;
 
   const [col, setCol] = useState<string>();
   const [colType, setColType] = useState<ColumnTypeValue>("undefined");

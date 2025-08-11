@@ -1,4 +1,4 @@
-import { Modal as Modal_, ModalHeader } from "flowbite-react";
+import { Modal as Modal_, ModalBody, ModalHeader } from "flowbite-react";
 
 import { useModalStore } from "@/stores/useModalStore";
 
@@ -8,7 +8,9 @@ const Modal = () => {
   return (
     <Modal_ show={isOpen} onClose={() => close()} size={size}>
       <ModalHeader>{title}</ModalHeader>
-      {children}
+      <ModalBody className="p-0">
+        {children}
+      </ModalBody>
     </Modal_>
   );
 };

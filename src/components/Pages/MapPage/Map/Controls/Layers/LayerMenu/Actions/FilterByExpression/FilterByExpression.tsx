@@ -4,19 +4,26 @@ import type { QueryChangeEvent } from "@/types/Filters/ColumnFilter";
 import type { LayerMenuItemActionProps } from "@/types/LayerMenu";
 
 import { useState } from "react";
+
 import sift from "sift";
+
+import classNames from "classnames";
 
 import { HelperText, Label, Select, TextInput } from "flowbite-react";
 import { BiMath, BiPlus, BiTrash } from "react-icons/bi";
 
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
+import { useModalErrorStore } from "@/stores/useModalErrorStore";
 
 import FeatureByExpressionItem from "./FilterByExpressionItem";
 import MenuItem from "@components/UI/Menu/MenuItem";
 import ToolDescription from "@components/Pages/MapPage/Map/Tools/ToolDescription";
 import Button from "@components/UI/Button";
 
-import { filtersExpressionResultNameId, filtersExpressionModeId } from "@/config.id";
+import {
+  filtersExpressionResultNameId,
+  filtersExpressionModeId,
+} from "@/config.id";
 
 import { extractGeoJSONProperties } from "@/utils/geometryUtils";
 import { inferFieldTypes } from "@/utils/jsonUtils";
@@ -27,7 +34,7 @@ const FilterByExpression = ({
   auxModalState,
   setAuxModalState,
 }: LayerMenuItemActionProps) => {
-  const tref = "body.controls.layers.layer-menu.filters.feature-expression";
+  const tref = "body.controls.layers.layer-menu.filters.filter-by-expression";
 
   const handleFilter = () => {
     if (!auxModalState || !setAuxModalState) return;
@@ -42,6 +49,7 @@ const FilterByExpression = ({
     const AuxModalContent = () => {
       const { id, columns, layer, name } = targetLayer;
       const { appendFilter } = useMapLayersStore((state) => state);
+      const { open, setChildren } = useModalErrorStore((state) => state);
 
       const [queryItems, setQueryItems] = useState<{ [key: string]: object }>();
 
@@ -49,13 +57,14 @@ const FilterByExpression = ({
 
       const [unionMode, setUnionMode] = useState<string>("$and");
 
+      const [load, setLoad] = useState(false);
+
       const data = layer
         ? (extractGeoJSONProperties(
             layer.toGeoJSON() as FeatureCollection
           ) as object[])
         : [];
-
-      console.log(data);
+      
       const fieldTypes = layer && inferFieldTypes(data);
 
       const handleQueryChange = (e: QueryChangeEvent) => {
@@ -73,8 +82,9 @@ const FilterByExpression = ({
         }
       };
 
-      const handleExecute = () => {
-        console.log(queryItems);
+      const handleExecute = async () => {
+        setLoad(true);
+
         if (queryItems) {
           const query = {
             [unionMode]: Object.keys(queryItems).map(
@@ -92,16 +102,26 @@ const FilterByExpression = ({
             selectedProps: selectedFeaturesString,
             target: id,
           };
-          appendFilter(filterItem);
-
-          console.log(query);
-          console.log(selectedFeatures);
+          const mount = await appendFilter(filterItem);
           setAuxModalState({ ...auxModalState, active: false });
+          if (!mount) {
+            setTimeout(() => {
+              setChildren(<span>{translation(tref + ".execute-error")}</span>);
+              open();
+            }, 200);
+          }
         }
+
+        setLoad(false);
       };
 
       return (
-        <div className="flex flex-col gap-4 p-1">
+        <div className={classNames(
+          "flex flex-col gap-4 p-1",
+          {
+            "animate-pulse pointer-events-none select-none": load,
+          }
+        )}>
           <ToolDescription description={translation(tref + ".description")} />
           <div>
             <Label htmlFor={filtersExpressionModeId}>

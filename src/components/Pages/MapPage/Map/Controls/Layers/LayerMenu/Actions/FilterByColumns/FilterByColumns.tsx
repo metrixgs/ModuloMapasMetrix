@@ -4,12 +4,18 @@ import type { FeatureCollection } from "geojson";
 import type { LayerMenuItemActionProps } from "@/types/LayerMenu";
 import type { DivideFeaturesFilter } from "@/types/Stores/LayersManager";
 
-import { Label, Select } from "flowbite-react";
+import sift from "sift";
+
+import classNames from "classnames";
+
+import { Label } from "flowbite-react";
 import { BiSave, BiColumns } from "react-icons/bi";
 
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
+import { useModalErrorStore } from "@/stores/useModalErrorStore";
 
 import MenuItem from "@components/UI/Menu/MenuItem";
+import SearchableSelect from "@components/UI/SearchableSelect/SearchableSelect";
 import SearchableCheckbox from "@components/UI/SearchableCheckbox/SearchableCheckbox";
 import Button from "@components/UI/Button";
 import ToolDescription from "@components/Pages/MapPage/Map/Tools/ToolDescription";
@@ -19,15 +25,18 @@ import {
   layerMenuSelectFeaturesColumnId,
 } from "@/config.id";
 
+import { extractGeoJSONProperties } from "@/utils/geometryUtils";
+
 const FilterByColumns = ({
   targetLayer,
   translation,
   auxModalState,
   setAuxModalState,
 }: LayerMenuItemActionProps) => {
-  const tref = "body.controls.layers.layer-menu.filters.cut-by-columns";
+  const tref = "body.controls.layers.layer-menu.filters.filter-by-columns";
 
   const { appendFilter } = useMapLayersStore((state) => state);
+  const { open, setChildren } = useModalErrorStore((state) => state);
 
   const handleFilter = () => {
     if (!auxModalState || !setAuxModalState) return;
@@ -40,65 +49,90 @@ const FilterByColumns = ({
       return;
 
     const AuxModalContent = () => {
-      const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
+      const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
       const [col, setCol] = useState<string>("");
+      const [load, setLoad] = useState(false);
 
       const targetGeoJSON = targetLayer.layer
         ? (targetLayer.layer.toGeoJSON() as FeatureCollection)
         : ({ type: "FeatureCollection", features: [] } as FeatureCollection);
 
+      const data = extractGeoJSONProperties(targetGeoJSON) as object[];
+      const allOptions = targetGeoJSON.features.map(
+        (f) => f.properties && f.properties[col]
+      );
+      const uniqueOptions = [...new Set(allOptions)].filter(Boolean);
+
       const handleExecute = async () => {
+        setLoad(true);
+
+        const query = {
+          $or: selectedOptions.map((value) => ({
+            [col]: value,
+          })),
+        };
+
+        const selectedProps = data.filter(sift(query));
+        const selectedPropsString = selectedProps.map((i) => JSON.stringify(i));
+
         const layerId = crypto.randomUUID();
         const filterDefinition: DivideFeaturesFilter = {
           id: layerId,
           name: targetLayer.name + " divide",
-          selectedProps: selectedFeatures,
+          selectedProps: selectedPropsString,
           target: targetLayer.id,
           type: "divideFeatures",
         };
 
         const mount = await appendFilter(filterDefinition);
 
-        if (mount) {
-          setAuxModalState({
-            ...auxModalState,
-            active: false,
-          });
-        } else {
-          // TODO
+        setAuxModalState({
+          ...auxModalState,
+          active: false,
+        });
+
+        if (!mount) {
+          setTimeout(() => {
+            setChildren(<span>{translation(tref + ".execute-error")}</span>);
+            open();
+          }, 200);
         }
+
+        setLoad(false);
       };
 
       return (
-        <div className="flex flex-col gap-2 items-center">
+        <div className={classNames(
+          "flex flex-col gap-2 items-center",
+          {
+            "animate-pulse pointer-events-none select-none": load,
+          }
+        )}>
           <ToolDescription description={translation(tref + ".help")} />
           <div className="w-full flex items-center gap-2">
             <div className="w-52">
               <Label htmlFor={layerMenuSelectFeaturesColumnId}>
                 {translation(tref + ".feature-column-label")}:
               </Label>
-              <Select
+              <SearchableSelect
                 id={layerMenuSelectFeaturesColumnId}
+                placeholder={translation(tref + ".selected")}
+                searchPlaceholder={translation(tref + ".search")}
+                noResultPlaceholder={translation(tref + ".no-results")}
                 sizing="sm"
                 value={col}
                 onChange={(e) => {
-                  setSelectedFeatures([]);
+                  setSelectedOptions([]);
                   setCol(e.target.value);
                 }}
-              >
-                <option value="">
-                  {translation(tref + ".feature-column-placeholder")}
-                </option>
-                {targetLayer.columns
-                  ? targetLayer.columns.map((col, index) => {
-                      return (
-                        <option key={index} value={(col as any).accessorKey}>
-                          {col.header?.toString()}
-                        </option>
-                      );
-                    })
-                  : null}
-              </Select>
+                options={
+                  targetLayer.columns &&
+                  targetLayer.columns.map((col) => ({
+                    title: col.header ? col.header.toString() : "",
+                    value: (col as any).accessorKey,
+                  }))
+                }
+              />
             </div>
             <div className="flex-grow">
               <Label htmlFor={layerMenuSelectFeaturesCheckId}>
@@ -108,27 +142,22 @@ const FilterByColumns = ({
                 placeholder={translation(tref + ".selected")}
                 searchPlaceholder={translation(tref + ".search")}
                 noResultPlaceholder={translation(tref + ".no-results")}
-                options={targetGeoJSON.features.map((feature) => {
-                  return {
-                    title:
-                      !col || !feature.properties || !feature.properties[col]
-                        ? "null"
-                        : String(feature.properties[col]),
-                    value: JSON.stringify(feature.properties),
-                  };
-                })}
-                selected={selectedFeatures}
+                options={uniqueOptions.map((op) => ({
+                  title: op,
+                  value: op,
+                }))}
+                selected={selectedOptions}
                 onChange={(e) => {
                   const value = e.target.value;
-                  const search = selectedFeatures.includes(value);
-                  const newSelectedFeatures = [...selectedFeatures];
+                  const search = selectedOptions.includes(value);
+                  const newSelectedFeatures = [...selectedOptions];
                   if (search) {
                     const index = newSelectedFeatures.indexOf(value);
                     newSelectedFeatures.splice(index, 1);
                   } else {
                     newSelectedFeatures.push(value);
                   }
-                  setSelectedFeatures(newSelectedFeatures);
+                  setSelectedOptions(newSelectedFeatures);
                 }}
                 disabled={!col}
               />
@@ -137,6 +166,7 @@ const FilterByColumns = ({
           <Button
             className="h-8 w-fit text-sm justify-center"
             onClick={handleExecute}
+            disabled={!col || selectedOptions.length === 0}
           >
             <BiSave className="mr-2" />
             {translation(tref + ".execute")}

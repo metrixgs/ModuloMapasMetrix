@@ -2,14 +2,15 @@ import type { LayerGroupItem, LayerItem } from "@/types/Stores/LayersManager";
 
 import { useEffect, useState } from "react";
 
-import { BiCloudUpload } from "react-icons/bi";
+import { BiCloudUpload, BiCloud } from "react-icons/bi";
 
 import Tabs from "@components/UI/Tabs/Tabs";
 import TabItem from "@components/UI/Tabs/TabItem";
 import { iconsMap, MultiIcon } from "@components/MultiIcon/MultiIcon";
 
 import BddItemLayer from "./BddItemLayer";
-// import BddItemSource from "./BddItemSource";
+
+import UploadGeoJSON from "./Sources/UploadGeoJSON";
 
 import { LayersAPI, GroupsAPI } from "@/config.map.layers";
 import classNames from "classnames";
@@ -42,13 +43,6 @@ const BddContent = () => {
       aria-disabled={load}
     >
       <Tabs>
-        <TabItem
-          title="Cargar un documento"
-          icon={<BiCloudUpload className="h-5 w-5" />}
-        >
-          <div className="p-2 flex flex-wrap"></div>
-        </TabItem>
-        Capas
         {groups &&
           layers &&
           groups.map((g, gi) => {
@@ -81,9 +75,18 @@ const BddContent = () => {
               </TabItem>
             );
           })}
-        {/* <TabItem title="Espacio personal">
-            Hola
-          </TabItem> */}
+        <TabItem
+          title="Cargar un documento"
+          icon={<BiCloudUpload className="h-5 w-5" />}
+        >
+          <UploadGeoJSON />
+        </TabItem>
+        <TabItem
+          title="Espacio personal"
+          icon={<BiCloud className="h-5 w-5" />}
+        >
+          <div className="p-2 flex flex-wrap"></div>
+        </TabItem>
       </Tabs>
     </div>
   );

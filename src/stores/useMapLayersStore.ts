@@ -14,6 +14,10 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
   groups: {},
   layers: {},
   layerFilter: {},
+  layersAsArray: () => {
+    const { layers } = get();
+    return Object.keys(layers).map(id => layers[id]);
+  },
   append: async (info, loadLayerFunction) => {
     const { layers } = get();
     const map = useMapStore.getState().map;

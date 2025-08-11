@@ -66,6 +66,8 @@ const SearchableCheckbox = ({
     }
   });
 
+  filtered.sort((op1, op2) => op1.title.localeCompare(op2.title));
+
   const handleCheck = (option: Option) => {
     if (onChange) {
       const event = {
@@ -83,7 +85,7 @@ const SearchableCheckbox = ({
       onOpenChange={setOpen}
       arrow={false}
       content={
-        <div className="max-h-48 min-w-40 py-2 overflow-y-auto flex flex-col gap-1">
+        <div className="max-h-40 min-w-40 py-2 overflow-y-auto flex flex-col gap-1">
           <div onClick={(e) => e.stopPropagation()}>
             <TextInput
               sizing="sm"

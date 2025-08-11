@@ -62,6 +62,14 @@ export interface ModalStore {
   setChildren: (content: ReactNode) => void;
 }
 
+export interface ModalErrorStore {
+  isOpen: boolean;
+  children: ReactNode;
+  open: () => void;
+  close: () => void;
+  setChildren: (content: ReactNode) => void;
+}
+
 export interface UserLocationStore {
   location?: LocationEvent;
   loading?: boolean;

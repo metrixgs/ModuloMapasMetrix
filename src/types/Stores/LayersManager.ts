@@ -113,6 +113,7 @@ export interface MapLayersStore {
   groups: LayerGroup;
   layers: Layers;
   layerFilter: LayerFilter;
+  layersAsArray: () => LayerItem[];
   append: (
     info: LayerItem,
     loadLayerFunction: LoadLayerFunction

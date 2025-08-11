@@ -8,7 +8,7 @@ export const useModalStore = create<ModalStore>((set) => ({
   title: "",
   children: null,
   open: () => set({ isOpen: true }),
-  close: () => set({ isOpen: false, size: "md" }),
+  close: () => set({ isOpen: false, size: "md", children: null }),
   setSize: (size) => set({ size: size }),
   setTitle: (content) => set({ title: content }),
   setChildren: (content) => set({ children: content })

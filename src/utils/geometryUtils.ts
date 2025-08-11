@@ -1,4 +1,5 @@
 import type { GeoJSON as GeoJSON_ } from "leaflet";
+
 import type {
   GeoJSON,
   Feature,
@@ -9,6 +10,8 @@ import type {
 import {
   featureCollection as tFeatureCollection,
 } from "@turf/turf";
+
+import type { GeoJSONLayerItem } from "@/types/Stores/LayersManager";
 
 import { useMapStore } from "@/stores/useMapStore";
 
@@ -72,5 +75,24 @@ export const extractGeoJSONProperties = <T>(
     return geojson.features.map((feature) => feature.properties);
   } else {
     return [];
+  }
+}
+
+export const extractGeoJSONGeometry = (geojson: FeatureCollection): GeoJSONLayerItem["geometry"] | undefined => {
+  if (geojson) {
+    const feature = geojson.features[0];
+    const geometry = feature.geometry.type;
+    
+    if (geometry === "LineString" || geometry === "MultiLineString") {
+      return "LineString";
+    } else if (geometry === "MultiPoint" || geometry === "Point") {
+      return "Point";
+    } else if (geometry === "MultiPolygon" || geometry === "Polygon") {
+      return "Polygon";
+    } else {
+      return undefined;
+    }
+  } else {
+    return undefined;
   }
 }

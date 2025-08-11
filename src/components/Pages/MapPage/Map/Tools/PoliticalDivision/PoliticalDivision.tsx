@@ -2,9 +2,9 @@ import { useEffect, useState, type ChangeEvent } from "react";
 
 import { useTranslation } from "react-i18next";
 
-import { Label } from "flowbite-react";
+import classNames from "classnames";
 
-import { BiSolidTrash } from "react-icons/bi";
+import { Label } from "flowbite-react";
 
 import type { Country } from "@/types/Filters/Country";
 import type { State } from "@/types/Filters/State";
@@ -28,7 +28,6 @@ import ReadSquare from "@/services/Filters/Geographic/Square/ReadSquare";
 import ReadProperties from "@/services/Filters/Geographic/Property/ReadProperties";
 import ReadProperty from "@/services/Filters/Geographic/Property/ReadProperty";
 
-import Button from "@components/UI/Button";
 import SearchableSelect from "@components/UI/SearchableSelect/SearchableSelect";
 
 import { useSpatialFilterStore } from "@/stores/useSpatialFilterStore";
@@ -43,29 +42,36 @@ import {
   filtersSquareId,
   filtersPropertyId,
 } from "@/config.id";
+import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
 const PoliticalDivision = () => {
   const { t } = useTranslation("global");
+  const tref = "body.tools.pol-division";
 
   const {
+    targetId: target,
     country,
     state,
     municipality,
-    // delegation,
-    // zip,
     hood,
     square,
     property,
+    setTargetId: setTarget,
     setCountry,
     setState,
     setMunicipality,
-    // setDelegation,
-    // setZip,
     setHood,
     setSquare,
     setProperty,
-    clear,
   } = useSpatialFilterStore((state) => state);
+
+  const { layersAsArray } = useMapLayersStore((state) => state);
+
+  const availableLayers = layersAsArray()
+    .filter((l) => l.format === "geojson")
+    .filter((l) => l.geometry === "Point");
+  
+  const [load, setLoad] = useState(false);
 
   const [countries, setCountries] = useState<Country[]>([]);
   const [states, setStates] = useState<State[]>([]);
@@ -78,7 +84,9 @@ const PoliticalDivision = () => {
 
   useEffect(() => {
     const mount = async () => {
+      setLoad(true);
       const countriesResult = await ReadCountries();
+      setLoad(false);
       if (countriesResult) {
         setCountries(countriesResult);
       }
@@ -90,7 +98,9 @@ const PoliticalDivision = () => {
     const value = e.target.value;
     const countryObject = countries.find((item) => item.code === value);
     if (countryObject) {
+      setLoad(true);
       const countryFeature = await ReadCountry(countryObject.id);
+      setLoad(false);
 
       if (countryFeature && countryFeature.geometry) {
         setCountry(countryObject.code, countryObject.name, {
@@ -102,7 +112,9 @@ const PoliticalDivision = () => {
         // TODO
       }
 
+      setLoad(true);
       const statesResult = await ReadStates(countryObject.code);
+      setLoad(false);
       if (statesResult) {
         setStates(statesResult);
       } else {
@@ -117,7 +129,9 @@ const PoliticalDivision = () => {
     const value = e.target.value;
     const stateObject = states.find((item) => item.code === value);
     if (stateObject) {
+      setLoad(true);
       const stateFeature = await ReadState(stateObject.id);
+      setLoad(false);
 
       if (stateFeature && stateFeature.geometry) {
         setState(stateObject.code, stateObject.name, {
@@ -129,7 +143,9 @@ const PoliticalDivision = () => {
         // TODO
       }
 
+      setLoad(true);
       const municipalitiesResult = await ReadMunicipalities(stateObject.code);
+      setLoad(false);
       if (municipalitiesResult) {
         setMunicipalities(municipalitiesResult);
       } else {
@@ -146,7 +162,9 @@ const PoliticalDivision = () => {
       (item) => item.code === value
     );
     if (municipalityObject) {
+      setLoad(true);
       const municipalityFeature = await ReadMunicipality(municipalityObject.id);
+      setLoad(false);
 
       if (municipalityFeature && municipalityFeature.geometry) {
         setMunicipality(municipalityObject.code, municipalityObject.name, {
@@ -158,7 +176,9 @@ const PoliticalDivision = () => {
         // TODO
       }
 
+      setLoad(true);
       const hoodsResult = await ReadHoods(municipalityObject.code);
+      setLoad(false);
       if (hoodsResult) {
         setHoods(hoodsResult);
       } else {
@@ -186,7 +206,9 @@ const PoliticalDivision = () => {
       (item) => item.code === municipality
     );
     if (hoodObject && municipalityObject) {
+      setLoad(true);
       const hoodFeature = await ReadHood(hoodObject.id);
+      setLoad(false);
 
       if (hoodFeature && hoodFeature.geometry) {
         setHood(hoodObject.code, hoodObject.name, {
@@ -198,7 +220,9 @@ const PoliticalDivision = () => {
         // TODO
       }
 
+      setLoad(true);
       const squaresResult = await ReadSquares(municipalityObject.code);
+      setLoad(false);
       if (squaresResult) {
         setSquares(squaresResult);
       } else {
@@ -213,7 +237,9 @@ const PoliticalDivision = () => {
     const value = e.target.value;
     const squareObject = squares.find((item) => item.code === value);
     if (squareObject) {
+      setLoad(true);
       const squareFeature = await ReadSquare(squareObject.id);
+      setLoad(false);
 
       if (squareFeature && squareFeature.geometry) {
         setSquare(squareObject.code, squareObject.code, {
@@ -225,7 +251,9 @@ const PoliticalDivision = () => {
         // TODO
       }
 
+      setLoad(true);
       const propertiesResult = await ReadProperties(squareObject.code);
+      setLoad(false);
       if (propertiesResult) {
         setProperties(propertiesResult);
       } else {
@@ -240,7 +268,9 @@ const PoliticalDivision = () => {
     const value = e.target.value;
     const propertyObject = properties.find((item) => item.code === value);
     if (propertyObject) {
+      setLoad(true);
       const propertyFeature = await ReadProperty(propertyObject.id);
+      setLoad(false);
 
       if (propertyFeature && propertyFeature.geometry) {
         setProperty(propertyObject.code, propertyObject.code, {
@@ -257,18 +287,44 @@ const PoliticalDivision = () => {
   };
 
   return (
-    <div className="max-w-md flex flex-col gap-3">
+    <div className={classNames(
+      "max-w-md flex flex-col gap-3",
+      {
+        "animate-pulse pointer-events-none select-none": load,
+      }
+    )}>
       <div>
-        {/* Country */}
         <div className="mb-1 block">
           <Label htmlFor={filtersCountryId}>
-            {t("body.tools.pol-division.country")}:
+            {t(tref + ".layer")}:
           </Label>
         </div>
         <SearchableSelect
           id={filtersCountryId}
-          disabled={countries.length === 0}
-          placeholder={t("body.tools.pol-division.country").toUpperCase()}
+          disabled={availableLayers.length === 0}
+          placeholder={t(tref + ".layer").toUpperCase()}
+          searchPlaceholder={t("body.controls.filters.search.title") + "..."}
+          noResultPlaceholder={t("body.controls.filters.search.no-results")}
+          sizing="sm"
+          value={target}
+          onChange={(e) => setTarget(e.target.value)}
+          options={availableLayers.map((option) => ({
+            title: option.name,
+            value: option.id,
+          }))}
+        />
+      </div>
+      <div>
+        {/* Country */}
+        <div className="mb-1 block">
+          <Label htmlFor={filtersCountryId}>
+            {t(tref + ".country")}:
+          </Label>
+        </div>
+        <SearchableSelect
+          id={filtersCountryId}
+          disabled={countries.length === 0 || !target}
+          placeholder={t(tref + ".country").toUpperCase()}
           searchPlaceholder={t("body.controls.filters.search.title") + "..."}
           noResultPlaceholder={t("body.controls.filters.search.no-results")}
           sizing="sm"
@@ -284,13 +340,13 @@ const PoliticalDivision = () => {
         {/* States */}
         <div className="mb-1 block">
           <Label htmlFor={filtersStateId}>
-            {t("body.tools.pol-division.state")}:
+            {t(tref + ".state")}:
           </Label>
         </div>
         <SearchableSelect
           id={filtersStateId}
           disabled={!country || states.length === 0}
-          placeholder={t("body.tools.pol-division.state").toUpperCase()}
+          placeholder={t(tref + ".state").toUpperCase()}
           searchPlaceholder={t("body.controls.filters.search.title") + "..."}
           noResultPlaceholder={t("body.controls.filters.search.no-results")}
           sizing="sm"
@@ -306,12 +362,12 @@ const PoliticalDivision = () => {
         {/* Municipality */}
         <div className="mb-1 block">
           <Label htmlFor={filtersMunicipalityId}>
-            {t("body.tools.pol-division.municipality")}:
+            {t(tref + ".municipality")}:
           </Label>
         </div>
         <SearchableSelect
           id={filtersMunicipalityId}
-          placeholder={t("body.tools.pol-division.municipality").toUpperCase()}
+          placeholder={t(tref + ".municipality").toUpperCase()}
           searchPlaceholder={t("body.controls.filters.search.title") + "..."}
           noResultPlaceholder={t("body.controls.filters.search.no-results")}
           sizing="sm"
@@ -328,13 +384,13 @@ const PoliticalDivision = () => {
         {/* Delegation */}
         {/* <div className="mb-1 block">
           <Label htmlFor={filtersDelegationId}>
-            {t("body.tools.pol-division.delegation")}:
+            {t(tref + ".delegation")}:
           </Label>
         </div>
         <SearchableSelect
           id={filtersDelegationId}
           placeholder={t(
-            "body.tools.pol-division.delegation"
+            tref + ".delegation"
           ).toUpperCase()}
           searchPlaceholder={t("body.controls.filters.search.title") + "..."}
           noResultPlaceholder={t("body.controls.filters.search.no-results")}
@@ -352,13 +408,13 @@ const PoliticalDivision = () => {
         {/* Zip */}
         {/* <div className="mb-1 block">
           <Label htmlFor={filtersZipcodeId}>
-            {t("body.tools.pol-division.zip")}:
+            {t(tref + ".zip")}:
           </Label>
         </div>
         <SearchableSelect
           id={filtersZipcodeId}
           placeholder={t(
-            "body.tools.pol-division.zip"
+            tref + ".zip"
           ).toUpperCase()}
           searchPlaceholder={t("body.controls.filters.search.title") + "..."}
           noResultPlaceholder={t("body.controls.filters.search.no-results")}
@@ -376,12 +432,12 @@ const PoliticalDivision = () => {
         {/* Hood */}
         <div className="mb-1 block">
           <Label htmlFor={filtersHoodId}>
-            {t("body.tools.pol-division.hood")}:
+            {t(tref + ".hood")}:
           </Label>
         </div>
         <SearchableSelect
           id={filtersHoodId}
-          placeholder={t("body.tools.pol-division.hood").toUpperCase()}
+          placeholder={t(tref + ".hood").toUpperCase()}
           searchPlaceholder={t("body.controls.filters.search.title") + "..."}
           noResultPlaceholder={t("body.controls.filters.search.no-results")}
           sizing="sm"
@@ -398,12 +454,12 @@ const PoliticalDivision = () => {
         {/* Square */}
         <div className="mb-1 block">
           <Label htmlFor={filtersSquareId}>
-            {t("body.tools.pol-division.square")}:
+            {t(tref + ".square")}:
           </Label>
         </div>
         <SearchableSelect
           id={filtersSquareId}
-          placeholder={t("body.tools.pol-division.square").toUpperCase()}
+          placeholder={t(tref + ".square").toUpperCase()}
           searchPlaceholder={t("body.controls.filters.search.title") + "..."}
           noResultPlaceholder={t("body.controls.filters.search.no-results")}
           sizing="sm"
@@ -420,12 +476,12 @@ const PoliticalDivision = () => {
         {/* Property */}
         <div className="mb-1 block">
           <Label htmlFor={filtersPropertyId}>
-            {t("body.tools.pol-division.property")}:
+            {t(tref + ".property")}:
           </Label>
         </div>
         <SearchableSelect
           id={filtersPropertyId}
-          placeholder={t("body.tools.pol-division.property").toUpperCase()}
+          placeholder={t(tref + ".property").toUpperCase()}
           searchPlaceholder={t("body.controls.filters.search.title") + "..."}
           noResultPlaceholder={t("body.controls.filters.search.no-results")}
           sizing="sm"
@@ -438,10 +494,6 @@ const PoliticalDivision = () => {
           }))}
         />
       </div>
-      <Button className="h-9 justify-center" onClick={clear}>
-        <BiSolidTrash className="h-5 w-5 mr-2" />
-        {t("body.controls.filters.clean-button")}
-      </Button>
     </div>
   );
 };
