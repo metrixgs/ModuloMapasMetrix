@@ -1,5 +1,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
 
+import type { FeatureCollection } from "geojson";
+
 import type { Layer, GeoJSON, TileLayer } from "leaflet";
 
 export interface LayerGroupItem {
@@ -18,6 +20,7 @@ export interface LayerGroup {
 
 export interface GeneratedLayerSource {
   sourceType: "generated";
+  geojson?: FeatureCollection
 }
 
 export interface GeoserverLayerSource {

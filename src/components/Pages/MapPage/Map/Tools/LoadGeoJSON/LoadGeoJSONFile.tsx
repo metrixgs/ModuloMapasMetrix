@@ -9,11 +9,9 @@ import { FileInput, HelperText, Label, TextInput } from "flowbite-react";
 
 import { BiUpload } from "react-icons/bi";
 
-import { geoJSON } from "leaflet";
+import AddLayer from "../../Layers/AddLayer/AddLayer";
 
 import Button from "@components/UI/Button";
-
-import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
 import { extractGeoJSONGeometry } from "@/utils/geometryUtils";
 
@@ -27,19 +25,12 @@ const LoadGeoJSONFile = ({ onExecuteEnd }: LoadGeoJSONFileProps) => {
   const { t } = useTranslation("global");
   const tref = "body.tools.upload-geojson-file";
 
-  const {
-    append,
-    createGroup,
-    assignLayerToGroup,
-    focusLayer
-  } = useMapLayersStore((store) => store);
-
   const fileInputId = crypto.randomUUID();
   const nameInputId = crypto.randomUUID();
 
   const [error, setError] = useState<string | null>();
 
-  const [fileContent, setFileContent] = useState<FeatureCollection>();
+  const [fileContent, setFileContent] = useState<FeatureCollection | null>();
   const [name, setName] = useState("");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -69,28 +60,19 @@ const LoadGeoJSONFile = ({ onExecuteEnd }: LoadGeoJSONFileProps) => {
       renamed: true,
       source: {
         sourceType: "generated",
+        geojson: fileContent,
       },
       temp: true,
       type: "layer",
-      columns: fileContent.features[0].properties
-        ? Object.keys(fileContent.features[0].properties).map((f) => ({
-            accessorKey: f,
-            header: f,
-          }))
-        : undefined,
     };
 
-    const load = async () => geoJSON(fileContent);
+    const result = await AddLayer({
+      layer: layerItem,
+      group: TEMPORAL_GROUP,
+    });
 
-    await createGroup(TEMPORAL_GROUP);
-
-    const mount = await append(layerItem, load);
-
-    if (mount) {
-      assignLayerToGroup(layerItem.id, TEMPORAL_GROUP.id);
-      focusLayer(layerItem.id);
-    } else {
-      // TODO
+    if (!result.status) {
+      console.log(result.message);
     }
 
     if (onExecuteEnd) {
@@ -102,9 +84,13 @@ const LoadGeoJSONFile = ({ onExecuteEnd }: LoadGeoJSONFileProps) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Validar que sea un JSON
-    if (file.type !== "application/json") {
+    const allowedTypes = ["application/json", "application/geo+json"];
+    const allowedExtensions = [".json", ".geojson"];
+    const fileExtension = file.name.substring(file.name.lastIndexOf(".")).toLowerCase();
+
+    if (!allowedTypes.includes(file.type) && !allowedExtensions.includes(fileExtension)) {
       setError(t(tref + ".error.not-json"));
+      setFileContent(null);
       return;
     }
 
@@ -132,7 +118,7 @@ const LoadGeoJSONFile = ({ onExecuteEnd }: LoadGeoJSONFileProps) => {
         <FileInput
           id={fileInputId}
           sizing="sm"
-          accept=".json"
+          accept=".json, .geojson"
           onChange={handleFileChange}
         />
       </div>

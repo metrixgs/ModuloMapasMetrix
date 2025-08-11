@@ -3,6 +3,7 @@ import type { LayerGroupItem, LayerItem } from "@/types/Stores/LayersManager";
 import LoadTileLayer from "../LoadFunctions/LoadTileLayer";
 import LoadGeoserverGeoJSON from "../LoadFunctions/LoadGeoserverGeoJSON";
 import LoadAPI from "../LoadFunctions/LoadAPI";
+import LoadGeoJSON from "../LoadFunctions/LoadGeoJSON";
 
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
@@ -67,6 +68,20 @@ const AddLayer = async ({
           status: false,
           message:
             "El origen de la capa es API pero el tipo de capa no es geojson.",
+        };
+      }
+    } else if (layerSource.sourceType === "generated") {
+      if (layerFormat === "geojson") {
+        const { load: load_, newLayerItem: newLayerItem_ } = await LoadGeoJSON(
+          layer
+        );
+        load = load_;
+        newLayerItem = newLayerItem_;
+      } else {
+        return {
+          status: false,
+          message:
+            "No se encuentra contemplado sourceType generated y layerFormat tile.",
         };
       }
     } else {
