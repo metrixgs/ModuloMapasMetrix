@@ -64,8 +64,19 @@ const FilterByExpression = ({
             layer.toGeoJSON() as FeatureCollection
           ) as object[])
         : [];
-      
+
       const fieldTypes = layer && inferFieldTypes(data);
+
+      const expressionsAreValid = () => {
+        for (const key in queryItems) {
+          const query = queryItems[key];
+
+          if (Object.keys(query).length === 0) {
+            return false;
+          }
+        }
+        return true;
+      }
 
       const handleQueryChange = (e: QueryChangeEvent) => {
         const { queryId, query } = e;
@@ -95,6 +106,7 @@ const FilterByExpression = ({
           const selectedFeaturesString = selectedFeatures.map((i) =>
             JSON.stringify(i)
           );
+
           const filterItem: DivideFeaturesFilter = {
             id: crypto.randomUUID(),
             type: "divideFeatures",
@@ -116,12 +128,11 @@ const FilterByExpression = ({
       };
 
       return (
-        <div className={classNames(
-          "flex flex-col gap-4 p-1",
-          {
+        <div
+          className={classNames("flex flex-col gap-4 p-1", {
             "animate-pulse pointer-events-none select-none": load,
-          }
-        )}>
+          })}
+        >
           <ToolDescription description={translation(tref + ".description")} />
           <div>
             <Label htmlFor={filtersExpressionModeId}>
@@ -200,7 +211,11 @@ const FilterByExpression = ({
           <Button
             className="h-8 mt-2 text-sm font-bold justify-center"
             onClick={handleExecute}
-            disabled={!queryItems || Object.keys(queryItems).length === 0}
+            disabled={
+              !queryItems ||
+              Object.keys(queryItems).length === 0 ||
+              !(expressionsAreValid())
+            }
           >
             <BiMath className="mr-2" />
             {translation(tref + ".execute")}

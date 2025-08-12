@@ -49,7 +49,7 @@ const DrawContent = ({
 
   return (
     <Menu>
-      <span className="text-sm pt-1 pb-2 px-2 text-gray-700 dark:text-gray-200 text-center font-bold">
+      {/* <span className="text-sm pt-1 pb-2 px-2 text-gray-700 dark:text-gray-200 text-center font-bold">
         <i>{ t("body.controls.draw.create.title") }</i>
       </span>
       <MenuItem
@@ -78,7 +78,7 @@ const DrawContent = ({
       >
         <BiShapePolygon className="w-5 h-5 mr-2" />
         {t("body.controls.draw.create.polygon.title")}
-      </MenuItem>
+      </MenuItem> */}
       <span className="text-sm pt-3 pb-2 px-2 text-gray-700 dark:text-gray-200 text-center font-bold">
         <i>{ t("body.controls.draw.measure.title") }</i>
       </span>
@@ -100,10 +100,10 @@ const DrawContent = ({
         <BiArea className="w-5 h-5 mr-2" />
         {t("body.controls.draw.measure.area.title")}
       </MenuItem>
-      <span className="text-sm pt-3 pb-2 px-2 text-gray-700 dark:text-gray-200 text-center font-bold">
+      {/* <span className="text-sm pt-3 pb-2 px-2 text-gray-700 dark:text-gray-200 text-center font-bold">
         <i>{ t("body.controls.draw.edit.title") }</i>
-      </span>
-      <MenuItem
+      </span> */}
+      {/* <MenuItem
         onClick={() => {
           setOpen(false);
           ToggleEdit();
@@ -114,8 +114,8 @@ const DrawContent = ({
         {isEditModeActive
           ? t("body.controls.draw.edit.deactive.title")
           : t("body.controls.draw.edit.active.title")}
-      </MenuItem>
-      <MenuItem
+      </MenuItem> */}
+      {/* <MenuItem
         onClick={() => {
           if (!isRemovalModeActive) {
             setOpen(false);
@@ -128,7 +128,7 @@ const DrawContent = ({
         {isRemovalModeActive
           ? t("body.controls.draw.delete.deactive.title")
           : t("body.controls.draw.delete.active.title")}
-      </MenuItem>
+      </MenuItem> */}
       <MenuItem
         onClick={() => {
           clearStore();

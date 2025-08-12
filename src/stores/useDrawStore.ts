@@ -1,13 +1,16 @@
 import { create } from "zustand";
 
-import { geoJSON } from "leaflet";
+import { area, length, featureCollection } from "@turf/turf";
 
-import { area, length } from "@turf/turf";
-
+import type { Feature } from "geojson";
 import type { DrawStore } from "@/types/Stores/Draw";
-import type { LayerItem, LoadLayerFunction } from "@/types/Stores/LayersManager";
+import type { GeoJSONLayerItem } from "@/types/Stores/LayersManager";
 
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
+
+import AddLayer from "@components/Pages/MapPage/Map/Layers/AddLayer/AddLayer";
+
+import { TEMPORAL_GROUP } from "@/config.map";
 
 export const useDrawStore = create<DrawStore>((set, get) => ({
   features: undefined,
@@ -23,7 +26,7 @@ export const useDrawStore = create<DrawStore>((set, get) => ({
     if (mode && mode !== "pending") {
       if (features) {
         features.forEach((feature) => {
-          feature.layer.remove();
+          feature.geojson.remove();
         });
       }
       newFeatures = [];
@@ -41,7 +44,7 @@ export const useDrawStore = create<DrawStore>((set, get) => ({
     if (mode && mode === "measure") {
       if (features) {
         features.forEach((feature) => {
-          feature.layer.remove();
+          feature.geojson.remove();
         });
       }
       set({ shape: shape, features: [] });
@@ -51,11 +54,10 @@ export const useDrawStore = create<DrawStore>((set, get) => ({
   },
   addFeature: async (feature) => {
     const { features, mode } = get();
-    const { append, assignLayerToGroup } = useMapLayersStore.getState();
 
     let newFeatures;
 
-    feature.layer.remove();
+    // feature.geojson.remove();
 
     if (features) {
       newFeatures = [...features, feature];
@@ -63,44 +65,30 @@ export const useDrawStore = create<DrawStore>((set, get) => ({
       newFeatures = [feature];
     }
 
-    const layerItem: LayerItem = {
-      id: feature.id,
-      name: feature.name,
-      format: "geojson",
-      active: true,
-      temp: false,
-      type: "layer",
-      geometry: "Polygon",
-      columns: [{ accessorKey: "area_m2" }, { accessorKey: "length_m" }],
-      renamed: true
-    }
+    // const geojson = feature.geojson.toGeoJSON() as Feature;
+    // if (!geojson.properties) {
+    //   geojson["properties"] = {};
+    // }
 
-    const load: LoadLayerFunction = async () => {
-      const geojson = feature.layer.toGeoJSON();
-      if (geojson.type === "Feature") {
-        geojson.properties["area_m2"] = area(geojson);
-        geojson.properties["length_m"] = length(geojson, { units: "meters" });
-      }
-      return geoJSON(geojson, {
-        style: () => {
-          if (mode === "create") {
-            return {
-              fillColor: "#267E26",
-              color: "#267E26"
-            }
-          } else if (mode === "measure") {
-            return {
-              fillColor: "#7BC11D",
-              color: "#7BC11D"
-            }
-          } else return {};
-        }
-      })
-    }
+    // geojson.properties["area_m2"] = area(geojson);
+    // geojson.properties["length_m"] = length(geojson, { units: "meters" });
 
-    await append(layerItem, load);
+    // const layerItem: GeoJSONLayerItem = {
+    //   id: feature.id,
+    //   name: feature.name,
+    //   format: "geojson",
+    //   active: true,
+    //   temp: false,
+    //   type: "layer",
+    //   geometry: "Polygon",
+    //   renamed: true,
+    //   source: {
+    //     sourceType: "generated",
+    //     geojson: featureCollection([geojson]),
+    //   },
+    // };
 
-    assignLayerToGroup(feature.id, "metrix-draws");
+    // await AddLayer({ layer: layerItem, group: TEMPORAL_GROUP });
     set({ features: newFeatures });
   },
   removeFeature: (layerId) => {
@@ -137,6 +125,7 @@ export const useDrawStore = create<DrawStore>((set, get) => ({
     if (features) {
       features.forEach((feature) => {
         removeLayer(feature.id);
+        feature.geojson.remove();
       });
     }
 

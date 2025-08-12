@@ -4,7 +4,7 @@ export type Modes = "measure" | "create" | "pending";
 
 export interface DrawFeature {
   id: string;
-  layer: GeoJSON;
+  geojson: GeoJSON;
   name: string;
   shape: PM.SUPPORTED_SHAPES;
 }

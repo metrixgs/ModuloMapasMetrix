@@ -28,18 +28,13 @@ const SearchableSelectOption = ({
   return (
     <button
       className={classNames(
-        "min-w-52 px-3 py-1",
+        "w-full px-3 py-1",
         "flex items-center",
         "text-xs dark:text-white",
         "enabled:hover:bg-primary-400 enabled:dark:hover:bg-primary-600 disabled:opacity-50",
         "transition-colors duration-200",
         "rounded-lg",
         "enabled:hover:cursor-pointer",
-        // "w-full max-w-56 px-2 py-1",
-        // "flex items-center",
-        // "enabled:hover:bg-primary-400 enabled:dark:hover:bg-primary-500 disabled:opacity-50",
-        // "text-xs dark:text-white",
-        // "enabled:hover:cursor-pointer",
         className
       )}
       {...props}
@@ -73,8 +68,6 @@ const SearchableSelect = ({
     option.title.toLowerCase().includes(search.toLowerCase())
   ) : [];
 
-  filtered.sort((op1, op2) => op1.title.localeCompare(op2.title));
-
   const handleSelect = (selected: Option) => {
     setOpen(false);
     setSearch("");
@@ -102,7 +95,7 @@ const SearchableSelect = ({
       onOpenChange={setOpen}
       arrow={false}
       content={
-        <div className="min-w-56 flex flex-col gap-2 py-2">
+        <div className="max-h-60 min-w-40 max-w-52 py-2 flex flex-col gap-1">
           <div onClick={(e) => e.stopPropagation()}>
             <TextInput
               sizing="sm"
@@ -113,7 +106,7 @@ const SearchableSelect = ({
               className="mx-2"
             />
           </div>
-          <div className="w-full max-h-40 overflow-y-auto flex flex-col py-2 px-2">
+          <div className="w-full py-1 px-2 overflow-y-auto">
             {filtered.length > 0 ? (
               filtered.map((option, index) => (
                 <SearchableSelectOption

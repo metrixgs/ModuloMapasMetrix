@@ -41,6 +41,10 @@ const MeasurePolygon = () => {
       hintlineStyle: {
         color: "#7BC11D",
         dashArray: [5, 5]
+      },
+      pathOptions: {
+        fillColor: "#7BC11D",
+        color: "#7BC11D"
       }
     });
   }

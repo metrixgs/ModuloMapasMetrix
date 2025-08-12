@@ -49,7 +49,7 @@ const FilterByColumns = ({
       return;
 
     const AuxModalContent = () => {
-      const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+      const [selectedOptions, setSelectedOptions] = useState<any[]>([]);
       const [col, setCol] = useState<string>("");
       const [load, setLoad] = useState(false);
 
@@ -61,7 +61,11 @@ const FilterByColumns = ({
       const allOptions = targetGeoJSON.features.map(
         (f) => f.properties && f.properties[col]
       );
-      const uniqueOptions = [...new Set(allOptions)].filter(Boolean);
+
+      const uniqueOptions = [...new Set(allOptions)];
+      uniqueOptions.sort()
+
+      console.log(uniqueOptions)
 
       const handleExecute = async () => {
         setLoad(true);
@@ -147,8 +151,7 @@ const FilterByColumns = ({
                   value: op,
                 }))}
                 selected={selectedOptions}
-                onChange={(e) => {
-                  const value = e.target.value;
+                onChange={(value) => {
                   const search = selectedOptions.includes(value);
                   const newSelectedFeatures = [...selectedOptions];
                   if (search) {

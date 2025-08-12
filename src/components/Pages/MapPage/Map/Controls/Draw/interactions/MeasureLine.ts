@@ -41,6 +41,9 @@ const MeasureLine = () => {
       hintlineStyle: {
         color: "#7BC11D",
         dashArray: [5, 5]
+      },
+      pathOptions: {
+        color: "#7BC11D",
       }
     });
   }

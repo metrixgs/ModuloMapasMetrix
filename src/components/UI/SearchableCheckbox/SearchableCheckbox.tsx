@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent } from "react";
+import { useState } from "react";
 
 import classNames from "classnames";
 
@@ -9,8 +9,8 @@ import { BiCaretDown } from "react-icons/bi";
 import Button from "@components/UI/Button";
 
 interface Option {
-  title: string;
-  value: string;
+  title: any;
+  value: any;
 }
 
 type SearchableCheckboxProps = {
@@ -19,7 +19,7 @@ type SearchableCheckboxProps = {
   noResultPlaceholder: string;
   options: Option[];
   selected: any[];
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (value: Option["value"]) => void;
   disabled?: boolean;
 };
 
@@ -34,9 +34,9 @@ const SearchableCheckboxOption = ({
 }: SearchableCheckboxOptionProps) => {
   const id = crypto.randomUUID();
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-1 flex-wrap px-3">
       <Checkbox id={id} className={classNames(className)} {...props} />
-      <Label className="flex-grow" htmlFor={id}>
+      <Label className="text-xs dark:text-white" htmlFor={id}>
         {title}
       </Label>
     </div>
@@ -58,7 +58,7 @@ const SearchableCheckbox = ({
 
   const filtered = options.filter((option) => {
     try {
-      const bool = option.title.toLowerCase().includes(search.toLowerCase());
+      const bool = String(option.title).toLowerCase().includes(search.toLowerCase());
       return bool;
     } catch (error) {
       console.error(option, error);
@@ -66,16 +66,10 @@ const SearchableCheckbox = ({
     }
   });
 
-  filtered.sort((op1, op2) => op1.title.localeCompare(op2.title));
-
   const handleCheck = (option: Option) => {
     if (onChange) {
-      const event = {
-        target: {
-          value: option.value,
-        },
-      } as unknown as ChangeEvent<HTMLInputElement>;
-      onChange(event);
+      const value = option.value;
+      onChange(value);
     }
   };
 
@@ -85,7 +79,7 @@ const SearchableCheckbox = ({
       onOpenChange={setOpen}
       arrow={false}
       content={
-        <div className="max-h-40 min-w-40 py-2 overflow-y-auto flex flex-col gap-1">
+        <div className="max-h-60 min-w-40 max-w-52 py-2 flex flex-col gap-1">
           <div onClick={(e) => e.stopPropagation()}>
             <TextInput
               sizing="sm"
@@ -98,13 +92,13 @@ const SearchableCheckbox = ({
           </div>
           <div className="w-full py-1 px-2 overflow-y-auto">
             {filtered.length > 0 ? (
-              <div>
+              <div className="flex flex-col gap-3">
                 {/* TODO: Select all | Delete all */}
                 {filtered.map((option, index) => (
                   <SearchableCheckboxOption
                     key={index}
-                    title={option.title}
-                    value={option.value}
+                    title={String(option.title)}
+                    value={String(option.value)}
                     checked={selected.includes(option.value)}
                     onChange={() => {
                       handleCheck(option);
