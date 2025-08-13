@@ -8,9 +8,23 @@
       "title-total-text": "elementos",
       "search-placeholder": "Escriba para buscar"
     },
+    "custom-popup": {
+      "empty": "Sin información",
+      "no-data": "N/A"
+    },
     "bdd": {
       "load-error": "No se pudo cargar la capa",
-      "image-not-found": "Sin imagen"
+      "image-not-found": "Sin imagen",
+      "sources": {
+        "geojson": {
+          "title": "Archivo GeoJSON",
+          "description": "Cargue un archivo GeoJSON desde su dispositivo"
+        },
+        "csv": {
+          "title": "Archivo CSV",
+          "description": "Cargue un archivo CSV desde su dispositivo"
+        }
+      }
     },
     "tools": {
       "pol-division": {
@@ -24,9 +38,6 @@
         "hood": "Seleccione la colonia",
         "square": "Seleccione la manzana",
         "property": "Seleccione el predio"
-      },
-      "electoral": {
-        "title": "Electoral"
       },
       "intersection": {
         "title": "Intersección",
@@ -47,19 +58,8 @@
         "feature-features-noresult": "Sin resultados.",
         "execute": "Aplicar"
       },
-      "feature-expression": {
-        "title": "Expresiones",
-        "description": "Realice operaciones lógicas con los datos de la capa seleccionada.",
-        "target-label": "Capa de entrada",
-        "target-placeholder": "Seleccione la capa",
-        "target-error": "Por favor seleccione una capa válida.",
-        "target-column-placeholder": "Columna",
-        "target-operation-placeholder": "Operación",
-        "resultname-label": "Nombre de la capa resultado",
-        "search-placeholder": "Buscar",
-        "noresult-placeholder": "Sin resultados."
-      },
       "upload-geojson-file": {
+        "description": "Cargue un archivo GeoJSON al mapa desde su dispositivo. Tenga en cuenta que la extensión del archivo debe ser .json o .geojson, el sistema de referencia de coordenadas debe ser el mundial (EPSG:4326) y tener una geometría válida.",
         "file-input-label": "Seleccione el archivo",
         "name-input-label": "Escriba el nombre de la capa",
         "error": {
@@ -70,6 +70,23 @@
           "not-json-valid": "El archivo no contiene un GeoJSON válido"
         },
         "execute": "Subir"
+      },
+      "upload-csv-file": {
+        "description": "Cargue un archivo CSV al mapa desde su dispositivo. Tenga en cuenta que el archivo debe contener una columna con la latitud y una columna con la longitud.",
+        "file-input-label":"Seleccione el archivo",
+        "name-input-label":"Escriba el nombre de la capa",
+        "latitude-input-label": "Campo de latitud",
+        "longitude-input-label": "Campo de longitud",
+        "no-result-placeholder": "Sin resultados",
+        "execute":"Subir",
+        "error": {
+          "global-error": "No se ha podido cargar la capa. Asegurese de que los campos de latitud y longitud se encuentren bien definidios.",
+          "not-latitude": "No ha seleccionado la latitud.",
+          "not-longitude": "No ha seleccionado la longitud.",
+          "not-name": "El nombre de la capa no puede ser vacío.",
+          "not-csv": "No ha cargado un archivo CSV válido.",
+          "csv-error": "Se han encontrado errores en el archivo. Por favor intente subir uno diferente."
+        }
       }
     },
     "controls": {

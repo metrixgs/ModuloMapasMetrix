@@ -1,4 +1,5 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
+import type { ToolProps } from "@/types/Tools";
 import type { FeatureCollection } from "geojson";
 
 import type { GeoJSONLayerItem } from "@/types/Stores/LayersManager";
@@ -11,17 +12,14 @@ import { BiUpload } from "react-icons/bi";
 
 import AddLayer from "../../Layers/AddLayer/AddLayer";
 
+import ToolDescription from "../ToolDescription";
 import Button from "@components/UI/Button";
 
 import { extractGeoJSONGeometry } from "@/utils/geometryUtils";
 
 import { TEMPORAL_GROUP } from "@/config.map";
 
-interface LoadGeoJSONFileProps {
-  onExecuteEnd?: () => void;
-}
-
-const LoadGeoJSONFile = ({ onExecuteEnd }: LoadGeoJSONFileProps) => {
+const LoadGeoJSONFile = ({ onExecuteEnd }: ToolProps) => {
   const { t } = useTranslation("global");
   const tref = "body.tools.upload-geojson-file";
 
@@ -86,9 +84,14 @@ const LoadGeoJSONFile = ({ onExecuteEnd }: LoadGeoJSONFileProps) => {
 
     const allowedTypes = ["application/json", "application/geo+json"];
     const allowedExtensions = [".json", ".geojson"];
-    const fileExtension = file.name.substring(file.name.lastIndexOf(".")).toLowerCase();
+    const fileExtension = file.name
+      .substring(file.name.lastIndexOf("."))
+      .toLowerCase();
 
-    if (!allowedTypes.includes(file.type) && !allowedExtensions.includes(fileExtension)) {
+    if (
+      !allowedTypes.includes(file.type) &&
+      !allowedExtensions.includes(fileExtension)
+    ) {
       setError(t(tref + ".error.not-json"));
       setFileContent(null);
       return;
@@ -109,37 +112,40 @@ const LoadGeoJSONFile = ({ onExecuteEnd }: LoadGeoJSONFileProps) => {
   };
 
   return (
-    <form
-      className="p-4 flex flex-col items-center gap-2"
-      onSubmit={handleSubmit}
-    >
-      <div className="w-full">
-        <Label htmlFor={fileInputId}>{t(tref + ".file-input-label")}:</Label>
-        <FileInput
-          id={fileInputId}
-          sizing="sm"
-          accept=".json, .geojson"
-          onChange={handleFileChange}
-        />
-      </div>
-      <div className="w-full">
-        <Label htmlFor={nameInputId}>{t(tref + ".name-input-label")}:</Label>
-        <TextInput
-          sizing="sm"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      </div>
-      {error && (
+    <div className="p-4">
+      <ToolDescription description={t(tref + ".description")} />
+      <form
+        className="mt-2 flex flex-col items-center gap-2"
+        onSubmit={handleSubmit}
+      >
         <div className="w-full">
-          <HelperText className="text-sm">{error}</HelperText>
+          <Label htmlFor={fileInputId}>{t(tref + ".file-input-label")}:</Label>
+          <FileInput
+            id={fileInputId}
+            sizing="sm"
+            accept=".json, .geojson"
+            onChange={handleFileChange}
+          />
         </div>
-      )}
-      <Button className="h-8 w-fit text-sm justify-center" type="submit">
-        <BiUpload className="mr-2" />
-        {t(tref + ".execute")}
-      </Button>
-    </form>
+        <div className="w-full">
+          <Label htmlFor={nameInputId}>{t(tref + ".name-input-label")}:</Label>
+          <TextInput
+            sizing="sm"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+        {error && (
+          <div className="w-full">
+            <HelperText className="text-sm">{error}</HelperText>
+          </div>
+        )}
+        <Button disabled={!fileContent || !name} className="h-8 w-fit text-sm justify-center" type="submit">
+          <BiUpload className="mr-2" />
+          {t(tref + ".execute")}
+        </Button>
+      </form>
+    </div>
   );
 };
 

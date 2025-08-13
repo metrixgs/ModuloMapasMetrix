@@ -6,6 +6,7 @@ import classNames from "classnames";
 
 import { Label } from "flowbite-react";
 
+import type { ToolProps } from "@/types/Tools";
 import type { Country } from "@/types/Filters/Country";
 import type { State } from "@/types/Filters/State";
 import type { Municipality } from "@/types/Filters/Municipality";
@@ -44,7 +45,7 @@ import {
 } from "@/config.id";
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
-const PoliticalDivision = () => {
+const PoliticalDivision = ({}: ToolProps) => {
   const { t } = useTranslation("global");
   const tref = "body.tools.pol-division";
 

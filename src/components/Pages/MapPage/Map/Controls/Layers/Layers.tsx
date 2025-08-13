@@ -11,6 +11,7 @@ import { AccordionItem } from "@components/UI/Accordion/AccordionItem";
 import Button from "@components/UI/Button";
 
 import LayerMenu from "./LayerMenu/LayerMenu";
+// import LayerMenu2 from "./LayerMenu/LayerMenu2";
 
 import { MapControl } from "@components/Pages/MapPage/Map/Controls/MapControl";
 
@@ -19,12 +20,9 @@ import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
 const SidebarContent = () => {
   const { t } = useTranslation("global");
-  const {
-    groups,
-    layers,
-    toggleLayer,
-    toggleGroup
-  } = useMapLayersStore((state) => state);
+  const { groups, layers, toggleLayer, toggleGroup } = useMapLayersStore(
+    (state) => state
+  );
 
   return (
     <>
@@ -60,7 +58,8 @@ const SidebarContent = () => {
             >
               <div
                 className={classNames("flex flex-col gap-2", {
-                  "opacity-50 pointer-events-none cursor-not-allowed": !activeGroup,
+                  "opacity-50 pointer-events-none cursor-not-allowed":
+                    !activeGroup,
                 })}
               >
                 {!groupLayers || groupLayers.length === 0 ? (
@@ -77,7 +76,7 @@ const SidebarContent = () => {
                       <div key={index} className="flex items-center gap-2">
                         {
                           {
-                            "radio":
+                            radio: (
                               <Radio
                                 id={`layer-${id}`}
                                 name={`layer-${id}`}
@@ -86,8 +85,9 @@ const SidebarContent = () => {
                                 disabled={!activeGroup}
                                 checked={active}
                                 onChange={(e) => toggleLayer(e.target.value)}
-                              />,
-                            "checkbox":
+                              />
+                            ),
+                            checkbox: (
                               <Checkbox
                                 id={`layer-${id}`}
                                 className="h-5 w-5"
@@ -95,6 +95,7 @@ const SidebarContent = () => {
                                 checked={active}
                                 onChange={() => toggleLayer(id)}
                               />
+                            ),
                           }[groupType]
                         }
                         <Label htmlFor={`layer-${id}`}>{name}</Label>
@@ -105,11 +106,14 @@ const SidebarContent = () => {
                           >
                             <Button
                               className="h-8 flex justify-center"
-                              title={t("body.controls.layers.layer-menu.button-title")}
+                              title={t(
+                                "body.controls.layers.layer-menu.button-title"
+                              )}
                             >
                               <BiDotsVerticalRounded />
                             </Button>
                           </Popover>
+                          {/* <LayerMenu2 /> */}
                         </div>
                       </div>
                     );

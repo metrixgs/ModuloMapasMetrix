@@ -8,6 +8,7 @@ import {
   getRandomColor,
   definedColorCircleMarker,
 } from "../../Icons/customIcons";
+import { customOnEachFeature } from "../CustomPopup/customOnEachFeature";
 
 const LoadGeoJSON = async (layerItem: GeoJSONLayerItem) => {
   const { source } = layerItem;
@@ -30,6 +31,7 @@ const LoadGeoJSON = async (layerItem: GeoJSONLayerItem) => {
               });
             },
           }),
+          onEachFeature: (feature, layer) => customOnEachFeature(feature, layer)
         });
       };
 

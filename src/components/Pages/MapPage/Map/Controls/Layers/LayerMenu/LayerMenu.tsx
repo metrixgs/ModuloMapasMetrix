@@ -10,6 +10,7 @@ import type { LayerMenuAuxModalState } from "@/types/LayerMenu";
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
 import Menu from "@components/UI/Menu/Menu";
+import MenuItem from "@components/UI/Menu/MenuItem";
 
 import FilterByColumns from "./Actions/FilterByColumns/FilterByColumns";
 import FocusLayer from "./Actions/FocusLayer/FocusLayer";
@@ -19,7 +20,6 @@ import RenameLayer from "./Actions/RenameLayer/RenameLayer";
 import RemoveLayer from "./Actions/RemoveLayer/RemoveLayer";
 import ToggleLayer from "./Actions/ToggleLayer/ToggleLayer";
 import FilterByExpression from "./Actions/FilterByExpression/FilterByExpression";
-import MenuItem from "@components/UI/Menu/MenuItem";
 
 interface LayerMenuProps {
   layer: LayerItem;
@@ -58,11 +58,9 @@ const LayerMenu = ({ layer }: LayerMenuProps) => {
             <Popover
               trigger="hover"
               arrow={false}
+              placement="right"
               content={
                 <Menu>
-                  <span className="text-sm pb-2 px-2 text-center font-bold">
-                    <i>{t("body.controls.layers.layer-menu.filters.title")}</i>
-                  </span>
                   <FilterByColumns
                     targetLayer={layer}
                     translation={t}

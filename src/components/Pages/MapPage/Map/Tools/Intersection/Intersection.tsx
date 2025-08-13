@@ -11,7 +11,7 @@ import { PiIntersectFill } from "react-icons/pi";
 import { geoJSON, GeoJSON } from "leaflet";
 
 import type { FeatureCollection } from "geojson";
-
+import type { ToolProps } from "@/types/Tools";
 import type { IntersectionFilter } from "@/types/Stores/LayersManager";
 
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
@@ -29,7 +29,7 @@ import {
 } from "@/config.id";
 import SearchableCheckbox from "@components/UI/SearchableCheckbox/SearchableCheckbox";
 
-const Intersection = () => {
+const Intersection = ({}: ToolProps) => {
   const { t } = useTranslation("global");
   const {
     layers: layersManager,

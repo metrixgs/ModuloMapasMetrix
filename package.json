@@ -11,6 +11,7 @@
     "postinstall": "flowbite-react patch"
   },
   "dependencies": {
+    "@floating-ui/react-dom": "^2.1.5",
     "@geoman-io/leaflet-geoman-free": "^2.18.3",
     "@react-google-maps/api": "^2.20.7",
     "@tailwindcss/vite": "^4.1.10",
@@ -22,6 +23,7 @@
     "i18next": "^25.2.1",
     "leaflet": "^1.9.4",
     "lodash.throttle": "^4.1.1",
+    "papaparse": "^5.5.3",
     "qs": "^6.14.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
@@ -38,6 +40,7 @@
     "@types/leaflet": "^1.9.19",
     "@types/lodash.throttle": "^4.1.9",
     "@types/node": "^24.0.4",
+    "@types/papaparse": "^5.3.16",
     "@types/qs": "^6.14.0",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",

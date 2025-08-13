@@ -21,7 +21,7 @@ export const json2geojsonPoint = (
   json: object[],
   lat: string,
   lng: string
-): GeoJSON => {
+): FeatureCollection => {
   return {
     type: "FeatureCollection",
     features: json.map((item) => ({
@@ -31,8 +31,8 @@ export const json2geojsonPoint = (
       },
       geometry: {
         coordinates: [
-          item[lng as keyof typeof item],
-          item[lat as keyof typeof item],
+          Number(item[lng as keyof typeof item]),
+          Number(item[lat as keyof typeof item]),
         ],
         type: "Point",
       },

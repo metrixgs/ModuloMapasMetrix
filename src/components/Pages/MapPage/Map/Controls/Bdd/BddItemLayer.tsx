@@ -11,7 +11,7 @@ import { BiGridAlt } from "react-icons/bi";
 import { useModalStore } from "@/stores/useModalStore";
 import { useModalErrorStore } from "@/stores/useModalErrorStore";
 
-import AddLayer from "../Map/Layers/AddLayer/AddLayer";
+import AddLayer from "../../Layers/AddLayer/AddLayer";
 
 interface BddItemLayerProps {
   setLoad: Dispatch<SetStateAction<boolean>>;

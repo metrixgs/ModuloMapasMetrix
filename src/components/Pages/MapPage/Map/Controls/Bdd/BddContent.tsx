@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 
 import { BiCloudUpload, BiCloud } from "react-icons/bi";
 
+import classNames from "classnames";
+
 import Tabs from "@components/UI/Tabs/Tabs";
 import TabItem from "@components/UI/Tabs/TabItem";
 import { iconsMap, MultiIcon } from "@components/MultiIcon/MultiIcon";
@@ -11,9 +13,9 @@ import { iconsMap, MultiIcon } from "@components/MultiIcon/MultiIcon";
 import BddItemLayer from "./BddItemLayer";
 
 import UploadGeoJSON from "./Sources/UploadGeoJSON";
+import UploadCSV from "./Sources/UploadCSV";
 
 import { LayersAPI, GroupsAPI } from "@/config.map.layers";
-import classNames from "classnames";
 
 const BddContent = () => {
   const [layers, setLayers] = useState<LayerItem[]>();
@@ -43,6 +45,15 @@ const BddContent = () => {
       aria-disabled={load}
     >
       <Tabs>
+        <TabItem
+          title="Cargar un documento"
+          icon={<BiCloudUpload className="h-5 w-5" />}
+        >
+          <div className="p-2 grid grid-cols-3 gap-6">
+            <UploadGeoJSON />
+            <UploadCSV />
+          </div>
+        </TabItem>
         {groups &&
           layers &&
           groups.map((g, gi) => {
@@ -75,12 +86,6 @@ const BddContent = () => {
               </TabItem>
             );
           })}
-        <TabItem
-          title="Cargar un documento"
-          icon={<BiCloudUpload className="h-5 w-5" />}
-        >
-          <UploadGeoJSON />
-        </TabItem>
         <TabItem
           title="Espacio personal"
           icon={<BiCloud className="h-5 w-5" />}

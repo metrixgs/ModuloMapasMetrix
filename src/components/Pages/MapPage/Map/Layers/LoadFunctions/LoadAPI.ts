@@ -6,7 +6,11 @@ import { ReadGeneralAPI } from "@/services/GeneralAPI/ReadGeneralAPI";
 
 import { json2geojsonPoint } from "@/utils/geometryUtils";
 
-import { getRandomColor, definedColorCircleMarker } from "../../Icons/customIcons";
+import {
+  getRandomColor,
+  definedColorCircleMarker,
+} from "../../Icons/customIcons";
+import { customOnEachFeature } from "../CustomPopup/customOnEachFeature";
 
 const LoadAPI = async (layerItem: LayerItem) => {
   const { source } = layerItem;
@@ -43,15 +47,16 @@ const LoadAPI = async (layerItem: LayerItem) => {
                 pmIgnore: true,
               });
             },
+            onEachFeature: (feature, layer) => customOnEachFeature(feature, layer)
           });
         };
 
-        newLayerItem.columns = Object.keys(
-          geojsonData.features[0].properties
-        ).map((f) => ({
-          header: f,
-          accessorKey: f,
-        }));
+        newLayerItem.columns = geojsonData.features[0].properties
+          ? Object.keys(geojsonData.features[0].properties).map((f) => ({
+              header: f,
+              accessorKey: f,
+            }))
+          : undefined;
 
         newLayerItem.geometry = "Point";
 

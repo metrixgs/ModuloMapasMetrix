@@ -4,6 +4,8 @@ import { geoJSON, marker } from "leaflet";
 
 import { GetGeoJSONLayer } from "@/services/Geoserver/GetGeoJSONLayer";
 
+import { customOnEachFeature } from "../CustomPopup/customOnEachFeature";
+
 import {
   getRandomColor,
   definedColorCircleMarker,
@@ -34,10 +36,13 @@ const LoadGeoserverGeoJSON = async (layerItem: GeoJSONLayerItem) => {
                     pmIgnore: true,
                   });
                 },
+                onEachFeature: (feature, layer) => customOnEachFeature(feature, layer)
               });
             }
           : async () => {
-              return geoJSON(geojsonData);
+              return geoJSON(geojsonData, {
+                onEachFeature: (feature, layer) => customOnEachFeature(feature, layer)
+              });
             };
 
       newLayerItem.columns = geojsonData.features[0].properties
