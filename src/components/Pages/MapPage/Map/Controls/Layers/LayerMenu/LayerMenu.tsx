@@ -38,7 +38,7 @@ const LayerMenu = ({ layer }: LayerMenuProps) => {
   const { id, format, name, temp, renamed } = layer;
 
   const groupId = Object.keys(groups).find((group) =>
-    groups[group].layers.includes(id)
+    groups[group].layers?.includes(id)
   );
   const group = groupId ? groups[groupId] : undefined;
 
@@ -58,7 +58,6 @@ const LayerMenu = ({ layer }: LayerMenuProps) => {
             <Popover
               trigger="hover"
               arrow={false}
-              placement="right"
               content={
                 <Menu>
                   <FilterByColumns

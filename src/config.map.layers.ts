@@ -106,44 +106,44 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
       longitude: "longitud"
     },
   },
-  {
-    id: "metrix-pais",
-    name: "País",
-    active: true,
-    temp: true,
-    format: "geojson",
-    type: "layer",
-    geometry: "Polygon",
-    renamed: true,
-    groupId: AVAILABLE_GROUPS["metrix-geographic"].id,
-    groupName: AVAILABLE_GROUPS["metrix-geographic"].name,
-    description: "Colección de paises alrededor del mundo.",
-    source: {
-      sourceType: "geoserver",
-      serverUrl: "https://geoserver.soymetrix.com/geoserver/",
-      workpace: "metrix",
-      name: "pais"
-    }
-  },
-  {
-    id: "metrix-estados",
-    name: "Estados",
-    active: true,
-    temp: true,
-    format: "geojson",
-    type: "layer",
-    geometry: "Polygon",
-    renamed: true,
-    groupId: AVAILABLE_GROUPS["metrix-geographic"].id,
-    groupName: AVAILABLE_GROUPS["metrix-geographic"].name,
-    description: "Colección de estados alrededor del mundo.",
-    source: {
-      sourceType: "geoserver",
-      serverUrl: "https://geoserver.soymetrix.com/geoserver/",
-      workpace: "metrix",
-      name: "estados"
-    }
-  },
+  // {
+  //   id: "metrix-pais",
+  //   name: "País",
+  //   active: true,
+  //   temp: true,
+  //   format: "geojson",
+  //   type: "layer",
+  //   geometry: "Polygon",
+  //   renamed: true,
+  //   groupId: AVAILABLE_GROUPS["metrix-geographic"].id,
+  //   groupName: AVAILABLE_GROUPS["metrix-geographic"].name,
+  //   description: "Colección de paises alrededor del mundo.",
+  //   source: {
+  //     sourceType: "geoserver",
+  //     serverUrl: "https://geoserver.soymetrix.com/geoserver/",
+  //     workpace: "metrix",
+  //     name: "pais"
+  //   }
+  // },
+  // {
+  //   id: "metrix-estados",
+  //   name: "Estados",
+  //   active: true,
+  //   temp: true,
+  //   format: "geojson",
+  //   type: "layer",
+  //   geometry: "Polygon",
+  //   renamed: true,
+  //   groupId: AVAILABLE_GROUPS["metrix-geographic"].id,
+  //   groupName: AVAILABLE_GROUPS["metrix-geographic"].name,
+  //   description: "Colección de estados alrededor del mundo.",
+  //   source: {
+  //     sourceType: "geoserver",
+  //     serverUrl: "https://geoserver.soymetrix.com/geoserver/",
+  //     workpace: "metrix",
+  //     name: "estados"
+  //   }
+  // },
   {
     id: "metrix-municipios",
     name: "Municipios",
@@ -159,32 +159,32 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
-      workpace: "metrix",
-      name: "municipios"
+      workpace: "mapas",
+      name: "MUNICIPIO"
     }
   },
-  {
-    id: "metrix-delegaciones",
-    name: "Delegaciones",
-    active: true,
-    temp: true,
-    format: "geojson",
-    type: "layer",
-    geometry: "Polygon",
-    renamed: true,
-    groupId: AVAILABLE_GROUPS["metrix-geographic"].id,
-    groupName: AVAILABLE_GROUPS["metrix-geographic"].name,
-    description: "Colección de delegaciones alrededor del mundo.",
-    source: {
-      sourceType: "geoserver",
-      serverUrl: "https://geoserver.soymetrix.com/geoserver/",
-      workpace: "metrix",
-      name: "denue_quero"
-    }
-  },
+  // {
+  //   id: "metrix-delegaciones",
+  //   name: "Delegaciones",
+  //   active: true,
+  //   temp: true,
+  //   format: "geojson",
+  //   type: "layer",
+  //   geometry: "Polygon",
+  //   renamed: true,
+  //   groupId: AVAILABLE_GROUPS["metrix-geographic"].id,
+  //   groupName: AVAILABLE_GROUPS["metrix-geographic"].name,
+  //   description: "Colección de delegaciones alrededor del mundo.",
+  //   source: {
+  //     sourceType: "geoserver",
+  //     serverUrl: "https://geoserver.soymetrix.com/geoserver/",
+  //     workpace: "metrix",
+  //     name: "denue_quero"
+  //   }
+  // },
   {
     id: "metrix-colonias",
-    name: "Colonias",
+    name: "Colonias (Polígono)",
     active: true,
     temp: true,
     format: "geojson",
@@ -197,8 +197,27 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
-      workpace: "metrix",
-      name: "colonias"
+      workpace: "metriz",
+      name: "colonia_polygon"
+    }
+  },
+  {
+    id: "metrix-colonias-point",
+    name: "Colonias (Punto)",
+    active: true,
+    temp: true,
+    format: "geojson",
+    type: "layer",
+    geometry: "Point",
+    renamed: true,
+    groupId: AVAILABLE_GROUPS["metrix-geographic"].id,
+    groupName: AVAILABLE_GROUPS["metrix-geographic"].name,
+    description: "Colección de colonias o barrios alrededor del mundo.",
+    source: {
+      sourceType: "geoserver",
+      serverUrl: "https://geoserver.soymetrix.com/geoserver/",
+      workpace: "metriz",
+      name: "colonia_point"
     }
   },
   {
@@ -216,8 +235,8 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
-      workpace: "metrix",
-      name: "manzanas"
+      workpace: "mapas",
+      name: "MANZANA"
     }
   },
   {

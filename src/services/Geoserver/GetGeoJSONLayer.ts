@@ -21,6 +21,7 @@ export const GetGeoJSONLayer = async ({
       request: "GetFeature",
       typeName: `${workspace}:${name}`,
       outputFormat: "application/json",
+      srsName: "EPSG:4326"
     },
     {
       encode: false,

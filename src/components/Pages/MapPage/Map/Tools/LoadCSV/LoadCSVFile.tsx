@@ -6,7 +6,7 @@ import { useState, type ChangeEvent } from "react";
 
 import { useTranslation } from "react-i18next";
 
-import Papa from "papaparse";
+import Papa, { type ParseResult } from "papaparse";
 
 import { FileInput, Label, TextInput, HelperText } from "flowbite-react";
 import { BiUpload } from "react-icons/bi";
@@ -21,6 +21,26 @@ import AddLayer from "../../Layers/AddLayer/AddLayer";
 import { TEMPORAL_GROUP } from "@/config.map";
 
 type CSVRow = { [key: string]: string };
+
+const randomHeader = () => "col_" + Math.random().toString(36).substring(2, 8);
+
+const sanitizeData = (results: ParseResult<CSVRow>) => {
+  let newHeaders = (results.meta.fields || []).map((h) => {
+    if (!h || h.trim() === "") return randomHeader();
+    return h;
+  });
+
+  const newData = results.data.map((row) => {
+    const newRow: CSVRow = {};
+    newHeaders.forEach((header, i) => {
+      const oldHeader = results.meta.fields?.[i] || "";
+      newRow[header] = row[oldHeader] ?? "";
+    });
+    return newRow;
+  });
+
+  return newData;
+};
 
 const LoadCSVFile = ({ onExecuteEnd }: ToolProps) => {
   const { t } = useTranslation("global");
@@ -58,7 +78,8 @@ const LoadCSVFile = ({ onExecuteEnd }: ToolProps) => {
           setError(t(tref + ".csv-error"));
           console.log(results.errors);
         } else {
-          setData(results.data);
+          const sanitizedData = sanitizeData(results);
+          setData(sanitizedData);
           setHeaders(results.meta.fields || []);
         }
       },

@@ -8,6 +8,10 @@
       "title-total-text": "elementos",
       "search-placeholder": "Escriba para buscar"
     },
+    "search-address": {
+      "placeholder": "Busca un lugar",
+      "noresult-placeholder": "Sin resultados"
+    },
     "custom-popup": {
       "empty": "Sin información",
       "no-data": "N/A"
