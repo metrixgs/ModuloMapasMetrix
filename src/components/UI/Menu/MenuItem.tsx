@@ -8,7 +8,7 @@ const MenuItem = ({ children, className, ...props }: MenuItemProps) => {
   return (
     <button
       className={classNames(
-        "min-w-48 px-3 py-1",
+        "w-full px-3 py-1",
         "flex items-center",
         "enabled:hover:bg-primary-400 enabled:dark:hover:bg-primary-600 disabled:opacity-50",
         "transition-colors duration-200",

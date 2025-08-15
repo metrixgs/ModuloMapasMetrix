@@ -14,7 +14,8 @@
     },
     "custom-popup": {
       "empty": "Sin información",
-      "no-data": "N/A"
+      "no-data": "N/A",
+      "close": "Cerrar"
     },
     "bdd": {
       "load-error": "No se pudo cargar la capa",
@@ -33,6 +34,7 @@
     "tools": {
       "pol-division": {
         "title": "Geográfica",
+        "description": "Filtre la capa seleccionada a partir de una selección de la división política del territorio.",
         "layer": "Seleccione la capa",
         "country": "Seleccione el país",
         "state": "Seleccione el estado",
@@ -41,7 +43,23 @@
         "zip": "Seleccione el código postal",
         "hood": "Seleccione la colonia",
         "square": "Seleccione la manzana",
-        "property": "Seleccione el predio"
+        "property": "Seleccione el predio",
+        "error": {
+          "filter": "El filtro no pudo ser aplicado. Ha ocurrido un error o no se encontraron coincidencias.",
+          "unexpected": "Ha ocurrido un error inesperado. Por favor consulte con el administrador.",
+          "not-available": "Lo sentimos, en este momento el servicio no se encuentra disponible. Consulte con el administrador.",
+          "not-country": "Lo sentimos, no se pudo consultar el país seleccionado.",
+          "not-states": "Lo sentimos, no se pudo consultar la lista de estados para el país seleccionado.",
+          "not-state": "Lo sentimos, no se pudo consultar el estado seleccionado.",
+          "not-municipalities": "Lo sentimos, no se pudo consultar la lista de municipios para el estado seleccionado.",
+          "not-municipality": "Lo sentimos, no se pudo consultar el municipio seleccionado.",
+          "not-hoods": "Lo sentimos, no se pudo consultar la lista de colonias para el municipio seleccionado.",
+          "not-hood": "Lo sentimos, no se pudo consultar la colonia seleccionada.",
+          "not-squares": "Lo sentimos, no se pudo consultar la lista de manzanas para la colonia seleccionada.",
+          "not-square": "Lo sentimos, no se pudo consultar la manzana seleccionada.",
+          "not-properties": "Lo sentimos, no se pudo consultar la lista de propiedades para la manzana seleccionada.",
+          "not-property": "Lo sentimos, no se pudo consultar la propiedad seleccionada."
+        }
       },
       "intersection": {
         "title": "Intersección",
@@ -60,11 +78,17 @@
         "feature-features-placeholder": "seleccionados",
         "feature-features-search": "Buscar",
         "feature-features-noresult": "Sin resultados.",
-        "execute": "Aplicar"
+        "execute": "Aplicar",
+        "error": {
+          "filter":"El filtro no pudo ser aplicado. Ha ocurrido un error o no se encontraron coincidencias."
+        }
       },
       "upload-geojson-file": {
         "description": "Cargue un archivo GeoJSON al mapa desde su dispositivo. Tenga en cuenta que la extensión del archivo debe ser .json o .geojson, el sistema de referencia de coordenadas debe ser el mundial (EPSG:4326) y tener una geometría válida.",
-        "file-input-label": "Seleccione el archivo",
+        "file-input-label": {
+          "click":"Click para seleccionar archivo",
+          "dragdrop":"o arrastra y suelta."
+        },
         "name-input-label": "Escriba el nombre de la capa",
         "error": {
           "not-name": "El nombre de la capa no puede ser vacío.",
@@ -77,7 +101,10 @@
       },
       "upload-csv-file": {
         "description": "Cargue un archivo CSV al mapa desde su dispositivo. Tenga en cuenta que el archivo debe contener una columna con la latitud y una columna con la longitud.",
-        "file-input-label":"Seleccione el archivo",
+        "file-input-label": {
+          "click": "Click para seleccionar archivo",
+          "dragdrop": "o arrastra y suelta."
+        },
         "name-input-label":"Escriba el nombre de la capa",
         "latitude-input-label": "Campo de latitud",
         "longitude-input-label": "Campo de longitud",

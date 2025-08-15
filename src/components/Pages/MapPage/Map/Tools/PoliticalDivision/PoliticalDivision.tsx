@@ -10,8 +10,6 @@ import type { ToolProps } from "@/types/Tools";
 import type { Country } from "@/types/Filters/Country";
 import type { State } from "@/types/Filters/State";
 import type { Municipality } from "@/types/Filters/Municipality";
-// import type { Delegation } from "@/types/Filters/Delegation";
-// import type { Zip } from "@/types/Filters/Zip";
 import type { Hood } from "@/types/Filters/Hood";
 import type { Square } from "@/types/Filters/Square";
 import type { Property } from "@/types/Filters/Property";
@@ -34,16 +32,17 @@ import SearchableSelect from "@components/UI/SearchableSelect/SearchableSelect";
 import { useSpatialFilterStore } from "@/stores/useSpatialFilterStore";
 
 import {
+  filtersTargetId,
   filtersCountryId,
   filtersStateId,
   filtersMunicipalityId,
-  // filtersDelegationId,
-  // filtersZipcodeId,
   filtersHoodId,
   filtersSquareId,
   filtersPropertyId,
 } from "@/config.id";
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
+import { useModalErrorStore } from "@/stores/useModalErrorStore";
+import ToolDescription from "../ToolDescription";
 
 const PoliticalDivision = ({}: ToolProps) => {
   const { t } = useTranslation("global");
@@ -66,22 +65,27 @@ const PoliticalDivision = ({}: ToolProps) => {
     setProperty,
   } = useSpatialFilterStore((state) => state);
 
+  const { open, setChildren } = useModalErrorStore((state) => state);
+
   const { layersAsArray } = useMapLayersStore((state) => state);
 
   const availableLayers = layersAsArray()
     .filter((l) => l.format === "geojson")
     .filter((l) => l.geometry === "Point");
-  
+
   const [load, setLoad] = useState(false);
 
   const [countries, setCountries] = useState<Country[]>([]);
   const [states, setStates] = useState<State[]>([]);
   const [municipalities, setMunicipalities] = useState<Municipality[]>([]);
-  // const [delegations, setDelegations] = useState<Delegation[]>([]);
-  // const [zips, setZips] = useState<Zip[]>([]);
   const [hoods, setHoods] = useState<Hood[]>([]);
   const [squares, setSquares] = useState<Square[]>([]);
   const [properties, setProperties] = useState<Property[]>([]);
+
+  const showError = (key: string) => {
+    setChildren(<span>{t(tref + ".error" + key)}</span>);
+    open();
+  };
 
   useEffect(() => {
     const mount = async () => {
@@ -90,6 +94,8 @@ const PoliticalDivision = ({}: ToolProps) => {
       setLoad(false);
       if (countriesResult) {
         setCountries(countriesResult);
+      } else {
+        showError(".not-available");
       }
     };
     mount();
@@ -104,13 +110,19 @@ const PoliticalDivision = ({}: ToolProps) => {
       setLoad(false);
 
       if (countryFeature && countryFeature.geometry) {
-        setCountry(countryObject.code, countryObject.name, {
-          type: "Feature",
-          properties: countryFeature.properties,
-          geometry: JSON.parse(countryFeature.geometry),
-        });
+        const countryResult = await setCountry(
+          countryObject.code,
+          countryObject.name,
+          {
+            type: "Feature",
+            properties: countryFeature.properties,
+            geometry: JSON.parse(countryFeature.geometry),
+          }
+        );
+        !countryResult && showError(".filter");
       } else {
-        // TODO
+        showError(".not-country");
+        return;
       }
 
       setLoad(true);
@@ -119,10 +131,12 @@ const PoliticalDivision = ({}: ToolProps) => {
       if (statesResult) {
         setStates(statesResult);
       } else {
-        // TODO
+        showError(".not-states");
+        return;
       }
     } else {
-      // TODO
+      showError(".unexpected");
+      return;
     }
   };
 
@@ -135,13 +149,15 @@ const PoliticalDivision = ({}: ToolProps) => {
       setLoad(false);
 
       if (stateFeature && stateFeature.geometry) {
-        setState(stateObject.code, stateObject.name, {
+        const stateResult = await setState(stateObject.code, stateObject.name, {
           type: "Feature",
           properties: stateFeature.properties,
           geometry: JSON.parse(stateFeature.geometry),
         });
+        !stateResult && showError(".filter");
       } else {
-        // TODO
+        showError(".not-state");
+        return;
       }
 
       setLoad(true);
@@ -150,10 +166,12 @@ const PoliticalDivision = ({}: ToolProps) => {
       if (municipalitiesResult) {
         setMunicipalities(municipalitiesResult);
       } else {
-        // TODO
+        showError(".not-municipalities");
+        return;
       }
     } else {
-      // TODO
+      showError(".unexpected");
+      return;
     }
   };
 
@@ -168,13 +186,20 @@ const PoliticalDivision = ({}: ToolProps) => {
       setLoad(false);
 
       if (municipalityFeature && municipalityFeature.geometry) {
-        setMunicipality(municipalityObject.code, municipalityObject.name, {
-          type: "Feature",
-          properties: municipalityFeature.properties,
-          geometry: JSON.parse(municipalityFeature.geometry),
-        });
+        const municipalityResult = await setMunicipality(
+          municipalityObject.code,
+          municipalityObject.name,
+          {
+            type: "Feature",
+            properties: municipalityFeature.properties,
+            geometry: JSON.parse(municipalityFeature.geometry),
+          }
+        );
+
+        !municipalityResult && showError(".filter");
       } else {
-        // TODO
+        showError(".not-municipality");
+        return;
       }
 
       setLoad(true);
@@ -183,22 +208,14 @@ const PoliticalDivision = ({}: ToolProps) => {
       if (hoodsResult) {
         setHoods(hoodsResult);
       } else {
-        // TODO
+        showError(".not-hoods");
+        return;
       }
     } else {
-      // TODO
+      showError(".unexpected");
+      return;
     }
   };
-
-  // const handleDelegation = async (e: ChangeEvent<HTMLSelectElement>) => {
-  //   const value = e.target.value;
-  //   setDelegation(value)
-  // }
-
-  // const handleZip = async (e: ChangeEvent<HTMLSelectElement>) => {
-  //   const value = e.target.value;
-  //   setZip(value);
-  // }
 
   const handleHood = async (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
@@ -212,13 +229,16 @@ const PoliticalDivision = ({}: ToolProps) => {
       setLoad(false);
 
       if (hoodFeature && hoodFeature.geometry) {
-        setHood(hoodObject.code, hoodObject.name, {
+        const hoodResult = await setHood(hoodObject.code, hoodObject.name, {
           type: "Feature",
           properties: hoodFeature.properties,
           geometry: JSON.parse(hoodFeature.geometry),
         });
+
+        !hoodResult && showError(".filter");
       } else {
-        // TODO
+        showError(".not-hood");
+        return;
       }
 
       setLoad(true);
@@ -227,10 +247,12 @@ const PoliticalDivision = ({}: ToolProps) => {
       if (squaresResult) {
         setSquares(squaresResult);
       } else {
-        // TODO
+        showError(".not-squares");
+        return;
       }
     } else {
-      // TODO
+      showError(".unexpected");
+      return;
     }
   };
 
@@ -243,13 +265,20 @@ const PoliticalDivision = ({}: ToolProps) => {
       setLoad(false);
 
       if (squareFeature && squareFeature.geometry) {
-        setSquare(squareObject.code, squareObject.code, {
-          type: "Feature",
-          properties: squareFeature.properties,
-          geometry: JSON.parse(squareFeature.geometry),
-        });
+        const squareResult = await setSquare(
+          squareObject.code,
+          squareObject.code,
+          {
+            type: "Feature",
+            properties: squareFeature.properties,
+            geometry: JSON.parse(squareFeature.geometry),
+          }
+        );
+
+        !squareResult && showError(".filter");
       } else {
-        // TODO
+        showError(".not-square");
+        return;
       }
 
       setLoad(true);
@@ -258,10 +287,12 @@ const PoliticalDivision = ({}: ToolProps) => {
       if (propertiesResult) {
         setProperties(propertiesResult);
       } else {
-        // TODO
+        showError(".not-properties");
+        return;
       }
     } else {
-      // TODO
+      showError(".unexpected");
+      return;
     }
   };
 
@@ -280,28 +311,30 @@ const PoliticalDivision = ({}: ToolProps) => {
           geometry: JSON.parse(propertyFeature.geometry),
         });
       } else {
-        // TODO
+        setChildren(<span>{t(tref + ".error.not-property")}</span>);
+        open();
+        return;
       }
     } else {
-      // TODO
+      setChildren(<span>{t(tref + ".error.unexpected")}</span>);
+      open();
+      return;
     }
   };
 
   return (
-    <div className={classNames(
-      "max-w-md flex flex-col gap-3",
-      {
+    <div
+      className={classNames("max-w-md flex flex-col gap-3", {
         "animate-pulse pointer-events-none select-none": load,
-      }
-    )}>
+      })}
+    >
+      <ToolDescription description={t(tref + ".description")} />
       <div>
         <div className="mb-1 block">
-          <Label htmlFor={filtersCountryId}>
-            {t(tref + ".layer")}:
-          </Label>
+          <Label htmlFor={filtersTargetId}>{t(tref + ".layer")}:</Label>
         </div>
         <SearchableSelect
-          id={filtersCountryId}
+          id={filtersTargetId}
           disabled={availableLayers.length === 0}
           placeholder={t(tref + ".layer").toUpperCase()}
           searchPlaceholder={t("body.controls.filters.search.title") + "..."}
@@ -318,9 +351,7 @@ const PoliticalDivision = ({}: ToolProps) => {
       <div>
         {/* Country */}
         <div className="mb-1 block">
-          <Label htmlFor={filtersCountryId}>
-            {t(tref + ".country")}:
-          </Label>
+          <Label htmlFor={filtersCountryId}>{t(tref + ".country")}:</Label>
         </div>
         <SearchableSelect
           id={filtersCountryId}
@@ -340,9 +371,7 @@ const PoliticalDivision = ({}: ToolProps) => {
       <div>
         {/* States */}
         <div className="mb-1 block">
-          <Label htmlFor={filtersStateId}>
-            {t(tref + ".state")}:
-          </Label>
+          <Label htmlFor={filtersStateId}>{t(tref + ".state")}:</Label>
         </div>
         <SearchableSelect
           id={filtersStateId}
@@ -382,59 +411,9 @@ const PoliticalDivision = ({}: ToolProps) => {
         />
       </div>
       <div>
-        {/* Delegation */}
-        {/* <div className="mb-1 block">
-          <Label htmlFor={filtersDelegationId}>
-            {t(tref + ".delegation")}:
-          </Label>
-        </div>
-        <SearchableSelect
-          id={filtersDelegationId}
-          placeholder={t(
-            tref + ".delegation"
-          ).toUpperCase()}
-          searchPlaceholder={t("body.controls.filters.search.title") + "..."}
-          noResultPlaceholder={t("body.controls.filters.search.no-results")}
-          sizing="sm"
-          disabled={!municipality}
-          value={delegation?.toString()}
-          onChange={handleDelegation}
-          options={delegations.map((option) => ({
-            title: option.name,
-            value: option.id.toString(),
-          }))}
-        /> */}
-      </div>
-      <div>
-        {/* Zip */}
-        {/* <div className="mb-1 block">
-          <Label htmlFor={filtersZipcodeId}>
-            {t(tref + ".zip")}:
-          </Label>
-        </div>
-        <SearchableSelect
-          id={filtersZipcodeId}
-          placeholder={t(
-            tref + ".zip"
-          ).toUpperCase()}
-          searchPlaceholder={t("body.controls.filters.search.title") + "..."}
-          noResultPlaceholder={t("body.controls.filters.search.no-results")}
-          sizing="sm"
-          disabled={!municipality}
-          value={zip?.toString()}
-          onChange={handleZip}
-          options={zips.map((option) => ({
-            title: option.name,
-            value: option.id.toString(),
-          }))}
-        /> */}
-      </div>
-      <div>
         {/* Hood */}
         <div className="mb-1 block">
-          <Label htmlFor={filtersHoodId}>
-            {t(tref + ".hood")}:
-          </Label>
+          <Label htmlFor={filtersHoodId}>{t(tref + ".hood")}:</Label>
         </div>
         <SearchableSelect
           id={filtersHoodId}
@@ -454,9 +433,7 @@ const PoliticalDivision = ({}: ToolProps) => {
       <div>
         {/* Square */}
         <div className="mb-1 block">
-          <Label htmlFor={filtersSquareId}>
-            {t(tref + ".square")}:
-          </Label>
+          <Label htmlFor={filtersSquareId}>{t(tref + ".square")}:</Label>
         </div>
         <SearchableSelect
           id={filtersSquareId}
@@ -476,9 +453,7 @@ const PoliticalDivision = ({}: ToolProps) => {
       <div>
         {/* Property */}
         <div className="mb-1 block">
-          <Label htmlFor={filtersPropertyId}>
-            {t(tref + ".property")}:
-          </Label>
+          <Label htmlFor={filtersPropertyId}>{t(tref + ".property")}:</Label>
         </div>
         <SearchableSelect
           id={filtersPropertyId}

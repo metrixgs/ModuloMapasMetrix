@@ -2,14 +2,20 @@ import type { FeatureCollection } from "geojson";
 import type { ToolProps } from "@/types/Tools";
 import type { GeoJSONLayerItem } from "@/types/Stores/LayersManager";
 
-import { useState, type ChangeEvent } from "react";
+import {
+  useState,
+  type ChangeEventHandler,
+  type DragEventHandler,
+} from "react";
 
 import { useTranslation } from "react-i18next";
 
 import Papa, { type ParseResult } from "papaparse";
 
+import classNames from "classnames";
+
 import { FileInput, Label, TextInput, HelperText } from "flowbite-react";
-import { BiUpload } from "react-icons/bi";
+import { BiUpload, BiCloudUpload } from "react-icons/bi";
 
 import ToolDescription from "../ToolDescription";
 import SearchableSelect from "@components/UI/SearchableSelect/SearchableSelect";
@@ -42,6 +48,19 @@ const sanitizeData = (results: ParseResult<CSVRow>) => {
   return newData;
 };
 
+const isCSV = (file: File) => {
+  const allowedTypes = ["text/csv", "application/vnd.ms-excel"];
+  const allowedExtensions = [".csv"];
+
+  const extension = file.name
+    .substring(file.name.lastIndexOf("."))
+    .toLowerCase();
+
+  return (
+    allowedTypes.includes(file.type) || allowedExtensions.includes(extension)
+  );
+};
+
 const LoadCSVFile = ({ onExecuteEnd }: ToolProps) => {
   const { t } = useTranslation("global");
   const tref = "body.tools.upload-csv-file";
@@ -50,6 +69,8 @@ const LoadCSVFile = ({ onExecuteEnd }: ToolProps) => {
   const nameInputId = crypto.randomUUID();
   const latitudeInputId = crypto.randomUUID();
   const longitudeInputId = crypto.randomUUID();
+
+  const [fileName, setFileName] = useState<string | undefined>();
 
   const [error, setError] = useState<string | null>();
   const [layerName, setLayerName] = useState("");
@@ -60,15 +81,41 @@ const LoadCSVFile = ({ onExecuteEnd }: ToolProps) => {
   const [latitude, setLatitude] = useState<string | null>();
   const [longitude, setLongitude] = useState<string | null>();
 
+  const [isDragging, setIsDragging] = useState(false);
+
   const latitudeHeaders = headers?.filter((header) => header !== longitude);
   const longitudeHeaders = headers?.filter((header) => header !== latitude);
 
-  const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFileInput: ChangeEventHandler<HTMLInputElement> = (e) => {
+    e.preventDefault();
     const file = e.target.files?.[0];
+    handleFileContent(file);
+  };
+
+  const handleDrop: DragEventHandler<HTMLLabelElement> = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const file = e.dataTransfer?.files[0];
+    handleFileContent(file);
+  };
+
+  const handleFileContent = (file?: File) => {
     if (!file) {
       setError(t(tref + ".error.not-csv"));
+      setHeaders(undefined);
+      setData(undefined);
       return;
     }
+
+    if (!isCSV(file)) {
+      setError(t(tref + ".error.not-csv"));
+      setHeaders(undefined);
+      setData(undefined);
+      return;
+    }
+
+    setError(undefined);
+    setFileName(file.name);
 
     Papa.parse<CSVRow>(file, {
       header: true,
@@ -148,13 +195,46 @@ const LoadCSVFile = ({ onExecuteEnd }: ToolProps) => {
       <ToolDescription description={t(tref + ".description")} />
       <div className="mt-2 flex flex-col items-center gap-2">
         <div className="w-full">
-          <Label htmlFor={fileInputId}>{t(tref + ".file-input-label")}:</Label>
-          <FileInput
-            id={fileInputId}
-            sizing="sm"
-            accept=".csv"
-            onChange={handleFileUpload}
-          />
+          <Label
+            htmlFor={fileInputId}
+            className={classNames(
+              "h-52 w-full",
+              "flex flex-col items-center justify-center",
+              "cursor-pointer",
+              "rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-600 dark:hover:border-gray-500",
+              "hover:bg-gray-100 dark:hover:bg-metrixblack-600",
+              {
+                "bg-gray-50 dark:bg-metrixblack-700": !isDragging,
+                "!bg-gray-100 dark:!bg-metrixblack-600": isDragging,
+              }
+            )}
+            onDragOver={(e) => e.preventDefault()}
+            onDragEnter={() => setIsDragging(true)}
+            onDragLeave={() => setIsDragging(false)}
+            onDrop={handleDrop}
+          >
+            <div className="flex flex-col items-center justify-center pb-6 pt-5">
+              <BiCloudUpload className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400" />
+              <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                <span className="font-bold">
+                  {t(tref + ".file-input-label.click")}
+                </span>{" "}
+                {t(tref + ".file-input-label.dragdrop")}
+              </p>
+              {fileName && (
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  {fileName}
+                </p>
+              )}
+            </div>
+            <FileInput
+              id={fileInputId}
+              className="hidden"
+              sizing="sm"
+              accept=".csv"
+              onChange={handleFileInput}
+            />
+          </Label>
         </div>
         <div className="w-full grid grid-cols-2 gap-4">
           <div>

@@ -9,8 +9,8 @@ export const MIN_ZOOM = 1;
 export const MAX_ZOOM = 20;
 
 export const INITIAL_VIEW = {
-  center: latLng(19.4326, -99.1332),
-  zoom: 11,
+  center: latLng(23.634501, -102.552784),
+  zoom: 6,
 };
 
 export const FILTER_GROUP: LayerGroupItem = {

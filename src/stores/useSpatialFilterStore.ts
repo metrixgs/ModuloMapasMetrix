@@ -12,10 +12,11 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
   targetId: undefined,
   setTargetId: (id) => set({ targetId: id }),
   setCountry: async (country, name, countryGeoJSON) => {
+    console.log(countryGeoJSON);
     const map = useMapStore.getState().map;
     const { targetId } = get();
 
-    if (!targetId) return;
+    if (!targetId) return false;
     let newCountryLayer;
 
     if (countryGeoJSON && map) {
@@ -33,11 +34,9 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
       });
       map.flyToBounds(newCountryLayer.getBounds());
 
-      const { layerFilter, appendFilter } = useMapLayersStore.getState();
+      const { appendFilter } = useMapLayersStore.getState();
       const filterId = crypto.randomUUID();
-      const filterName = `${name?.toLowerCase()} filter ${
-        Object.keys(layerFilter).length + 1
-      }`;
+      const filterName = `${name?.toLowerCase()} filter`;
       const filter: LayerFilterItem = {
         id: filterId,
         name: filterName,
@@ -46,25 +45,25 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
         type: "intersection",
       };
 
-      await appendFilter(filter);
-    }
+      set({
+        country: country,
+        state: undefined,
+        municipality: undefined,
+        hood: undefined,
+        square: undefined,
+        property: undefined,
+      });
 
-    set({
-      country: country,
-      state: undefined,
-      municipality: undefined,
-      delegation: undefined,
-      zip: undefined,
-      hood: undefined,
-      square: undefined,
-      property: undefined,
-    });
+      return await appendFilter(filter);
+    } else {
+      return false;
+    }
   },
   setState: async (state, name, stateGeoJSON) => {
     const map = useMapStore.getState().map;
     const { targetId } = get();
 
-    if (!targetId) return;
+    if (!targetId) return false;
     let newStateLayer;
 
     if (stateGeoJSON && map) {
@@ -82,11 +81,9 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
       });
       map.flyToBounds(newStateLayer.getBounds());
 
-      const { layerFilter, appendFilter } = useMapLayersStore.getState();
+      const { appendFilter } = useMapLayersStore.getState();
       const filterId = crypto.randomUUID();
-      const filterName = `${name?.toLowerCase()} filter ${
-        Object.keys(layerFilter).length + 1
-      }`;
+      const filterName = `${name?.toLowerCase()} filter`;
       const filter: LayerFilterItem = {
         id: filterId,
         name: filterName,
@@ -95,24 +92,24 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
         type: "intersection",
       };
 
-      await appendFilter(filter);
-    }
+      set({
+        state: state,
+        municipality: undefined,
+        hood: undefined,
+        square: undefined,
+        property: undefined,
+      });
 
-    set({
-      state: state,
-      municipality: undefined,
-      delegation: undefined,
-      zip: undefined,
-      hood: undefined,
-      square: undefined,
-      property: undefined,
-    });
+      return await appendFilter(filter);
+    } else {
+      return false;
+    }
   },
   setMunicipality: async (municipality, name, municipalityLayer) => {
     const map = useMapStore.getState().map;
     const { targetId } = get();
 
-    if (!targetId) return;
+    if (!targetId) return false;
     let newMunicipalityLayer;
 
     if (municipalityLayer && map) {
@@ -130,11 +127,9 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
       });
       map.flyToBounds(newMunicipalityLayer.getBounds());
 
-      const { layerFilter, appendFilter } = useMapLayersStore.getState();
+      const { appendFilter } = useMapLayersStore.getState();
       const filterId = crypto.randomUUID();
-      const filterName = `${name?.toLowerCase()} filter ${
-        Object.keys(layerFilter).length + 1
-      }`;
+      const filterName = `${name?.toLowerCase()} filter`;
       const filter: LayerFilterItem = {
         id: filterId,
         name: filterName,
@@ -143,38 +138,23 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
         type: "intersection",
       };
 
-      await appendFilter(filter);
-    }
+      set({
+        municipality: municipality,
+        hood: undefined,
+        square: undefined,
+        property: undefined,
+      });
 
-    set({
-      municipality: municipality,
-      delegation: undefined,
-      zip: undefined,
-      hood: undefined,
-      square: undefined,
-      property: undefined,
-    });
+      return await appendFilter(filter);
+    } else {
+      return false;
+    }
   },
-  setDelegation: (delegation, _name, _delegationGeoJSON) =>
-    set({
-      delegation: delegation,
-      zip: undefined,
-      hood: undefined,
-      square: undefined,
-      property: undefined,
-    }),
-  setZip: (zip, _name, _zipGeoJSON) =>
-    set({
-      zip: zip,
-      hood: undefined,
-      square: undefined,
-      property: undefined,
-    }),
   setHood: async (hood, name, hoodGeoJSON) => {
     const map = useMapStore.getState().map;
     const { targetId } = get();
 
-    if (!targetId) return;
+    if (!targetId) return false;
     let newHoodLayer;
 
     if (hoodGeoJSON && map) {
@@ -192,11 +172,9 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
       });
       map.flyToBounds(newHoodLayer.getBounds());
 
-      const { layerFilter, appendFilter } = useMapLayersStore.getState();
+      const { appendFilter } = useMapLayersStore.getState();
       const filterId = crypto.randomUUID();
-      const filterName = `${name?.toLowerCase()} filter ${
-        Object.keys(layerFilter).length + 1
-      }`;
+      const filterName = `${name?.toLowerCase()} filter`;
       const filter: LayerFilterItem = {
         id: filterId,
         name: filterName,
@@ -205,20 +183,22 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
         type: "intersection",
       };
 
-      await appendFilter(filter);
-    }
+      set({
+        hood: hood,
+        square: undefined,
+        property: undefined,
+      });
 
-    set({
-      hood: hood,
-      square: undefined,
-      property: undefined,
-    });
+      return await appendFilter(filter);
+    } else {
+      return false;
+    }
   },
   setSquare: async (square, name, squareGeoJSON) => {
     const map = useMapStore.getState().map;
     const { targetId } = get();
 
-    if (!targetId) return;
+    if (!targetId) return false;
     let newSquareLayer;
 
     if (squareGeoJSON && map) {
@@ -236,11 +216,9 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
       });
       map.flyToBounds(newSquareLayer.getBounds());
 
-      const { layerFilter, appendFilter } = useMapLayersStore.getState();
+      const { appendFilter } = useMapLayersStore.getState();
       const filterId = crypto.randomUUID();
-      const filterName = `${name?.toLowerCase()} filter ${
-        Object.keys(layerFilter).length + 1
-      }`;
+      const filterName = `${name?.toLowerCase()} filter`;
       const filter: LayerFilterItem = {
         id: filterId,
         name: filterName,
@@ -249,19 +227,21 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
         type: "intersection",
       };
 
-      await appendFilter(filter);
-    }
+      set({
+        square: square,
+        property: undefined,
+      });
 
-    set({
-      square: square,
-      property: undefined,
-    });
+      return await appendFilter(filter);
+    } else {
+      return false;
+    }
   },
   setProperty: async (property, name, propertyGeoJSON) => {
     const map = useMapStore.getState().map;
     const { targetId } = get();
 
-    if (!targetId) return;
+    if (!targetId) return false;
     let newPropertyLayer;
 
     if (propertyGeoJSON && map) {
@@ -279,11 +259,9 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
       });
       map.flyToBounds(newPropertyLayer.getBounds());
 
-      const { layerFilter, appendFilter } = useMapLayersStore.getState();
+      const { appendFilter } = useMapLayersStore.getState();
       const filterId = crypto.randomUUID();
-      const filterName = `${name?.toLowerCase()} filter ${
-        Object.keys(layerFilter).length + 1
-      }`;
+      const filterName = `${name?.toLowerCase()} filter`;
       const filter: LayerFilterItem = {
         id: filterId,
         name: filterName,
@@ -292,12 +270,14 @@ export const useSpatialFilterStore = create<SpatialFilterStore>((set, get) => ({
         type: "intersection",
       };
 
-      await appendFilter(filter);
-    }
+      set({
+        property: property,
+      });
 
-    set({
-      property: property,
-    });
+      return await appendFilter(filter);
+    } else {
+      return false;
+    }
   },
   clear: () => {
     set({

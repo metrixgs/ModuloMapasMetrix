@@ -87,6 +87,37 @@ export const intersectionFilter = async (
         },
       };
 
+      await createGroup(TEMPORAL_GROUP);
+      const originId = crypto.randomUUID();
+      const originInfo: GeoJSONLayerItem = {
+        id: originId,
+        active: true,
+        format: "geojson",
+        geometry: "Polygon",
+        name: filterInfo.name + " shape",
+        renamed: true,
+        columns: originGeoJSON.features[0].properties
+          ? Object.keys(originGeoJSON.features[0].properties).map((f) => ({
+              header: f,
+              accessorKey: f,
+            }))
+          : undefined,
+        source: {
+          sourceType: "generated",
+        },
+        temp: true,
+        type: "layer",
+      };
+      const originMounted = await append(originInfo, async () => originLayer);
+      if (originMounted) {
+        assignLayerToGroup(originId, TEMPORAL_GROUP.id);
+      }
+
+      if (filteredLayerGeoJSON.features.length === 0) {
+        console.warn("The result is empty.");
+        return false;
+      }
+
       const mount = await append(filterInfo, async () =>
         geoJSON(filteredLayerGeoJSON, {
           pointToLayer: targetLayer.options.pointToLayer,
@@ -103,31 +134,6 @@ export const intersectionFilter = async (
           layerFilter: newLayerFilter,
         });
 
-        await createGroup(TEMPORAL_GROUP);
-        const originId = crypto.randomUUID();
-        const originInfo: GeoJSONLayerItem = {
-          id: originId,
-          active: true,
-          format: "geojson",
-          geometry: "Polygon",
-          name: filterInfo.name + " shape",
-          renamed: true,
-          columns: originGeoJSON.features[0].properties
-            ? Object.keys(originGeoJSON.features[0].properties).map((f) => ({
-                header: f,
-                accessorKey: f,
-              }))
-            : undefined,
-          source: {
-            sourceType: "generated",
-          },
-          temp: true,
-          type: "layer",
-        };
-        const originMounted = await append(originInfo, async () => originLayer);
-        if (originMounted) {
-          assignLayerToGroup(originId, TEMPORAL_GROUP.id);
-        }
         return true;
       } else {
         console.warn("The filtered layer could not be added to the map.");

@@ -23,41 +23,31 @@ export interface SpatialFilterStore {
     country?: Country["code"],
     name?: Country["name"],
     countryGeoJSON?: Feature
-  ) => void;
+  ) => Promise<boolean>;
   setState: (
     state?: State["code"],
     name?: State["name"],
     stateGeoJSON?: Feature
-  ) => void;
+  ) => Promise<boolean>;
   setMunicipality: (
     municipality?: Municipality["code"],
     name?: Municipality["name"],
     municipalityGeoJSON?: Feature
-  ) => void;
-  setDelegation: (
-    delegation?: Delegation["code"],
-    name?: Delegation["name"],
-    delegationGeoJSON?: Feature
-  ) => void;
-  setZip: (
-    zip?: Zip["code"],
-    name?: string,
-    zipGeoJSON?: Feature
-  ) => void;
+  ) => Promise<boolean>;
   setHood: (
     hood?: Hood["code"],
     name?: Hood["name"],
     hoodGeoJSON?: Feature
-  ) => void;
+  ) => Promise<boolean>;
   setSquare: (
     square?: Square["code"],
     name?: string,
     squareGeoJSON?: Feature
-  ) => void;
+  ) => Promise<boolean>;
   setProperty: (
     property?: Property["code"],
     name?: string,
     propertyGeoJSON?: Feature
-  ) => void;
+  ) => Promise<boolean>;
   clear: () => void;
 }

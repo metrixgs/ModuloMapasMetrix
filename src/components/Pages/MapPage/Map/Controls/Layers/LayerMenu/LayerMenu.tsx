@@ -57,9 +57,10 @@ const LayerMenu = ({ layer }: LayerMenuProps) => {
             <FocusLayer targetLayer={layer} translation={t} />
             <Popover
               trigger="hover"
+              placement="right"
               arrow={false}
               content={
-                <Menu>
+                <Menu className="w-fit">
                   <FilterByColumns
                     targetLayer={layer}
                     translation={t}

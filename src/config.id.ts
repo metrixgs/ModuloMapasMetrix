@@ -1,6 +1,7 @@
 export const currentCoordsId = "metrix-current-coords";
 export const visiblePointsId = "metrix-visible-incidents";
 
+export const filtersTargetId = "metrix-geographic-filters-target";
 export const filtersCountryId = "metrix-geographic-filters-country";
 export const filtersStateId = "metrix-geographic-filters-state";
 export const filtersMunicipalityId = "metrix-geographic-filters-municipality";

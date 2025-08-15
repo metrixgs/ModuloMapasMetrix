@@ -15,6 +15,7 @@ import type { ToolProps } from "@/types/Tools";
 import type { IntersectionFilter } from "@/types/Stores/LayersManager";
 
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
+import { useModalErrorStore } from "@/stores/useModalErrorStore";
 
 import Button from "@components/UI/Button";
 import ToolDescription from "@components/Pages/MapPage/Map/Tools/ToolDescription";
@@ -36,6 +37,8 @@ const Intersection = ({}: ToolProps) => {
     appendFilter,
     assignLayerToGroup,
   } = useMapLayersStore((state) => state);
+
+  const { open, setChildren } = useModalErrorStore((state) => state);
 
   const [targetId, setTargetId] = useState<string | undefined>(undefined);
   const [maskId, setMaskId] = useState<string | undefined>(undefined);
@@ -101,10 +104,9 @@ const Intersection = ({}: ToolProps) => {
     };
 
     const result = await appendFilter(filter);
-    if (result) {
-      assignLayerToGroup(filter.id, "metrix-filters");
-    } else {
-      // TODO
+    if (!result) {
+      setChildren(<span>{t("body.tools.intersection.error.filter")}</span>);
+      open();
     }
   };
 
