@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-import { GeoJSON, TileLayer } from "leaflet";
+import L, { GeoJSON, TileLayer } from "leaflet";
 
 import type { MapLayersStore } from "@/types/Stores/LayersManager";
 
@@ -34,12 +34,18 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
             ...info,
             layer: layer,
           };
+        } else if (info.format === "geojson-grid" && layer instanceof L.VectorGrid.Slicer) {
+          layers[info.id] = {
+            ...info,
+            layer: layer,
+          };
         } else if (info.format === "tile" && layer instanceof TileLayer) {
           layers[info.id] = {
             ...info,
             layer: layer,
           };
         } else {
+          console.log(layer)
           throw new Error("The layer type does not match the declared format.");
         }
 

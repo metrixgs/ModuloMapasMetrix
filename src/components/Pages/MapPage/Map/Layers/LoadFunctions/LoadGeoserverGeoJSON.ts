@@ -4,7 +4,7 @@ import { geoJSON, marker } from "leaflet";
 
 import { GetGeoJSONLayer } from "@/services/Geoserver/GetGeoJSONLayer";
 
-import { customOnEachFeature } from "../CustomPopup/customOnEachFeature";
+import { customOnEachFeature } from "../Behaviors/customOnEachFeature";
 
 import {
   getRandomColor,

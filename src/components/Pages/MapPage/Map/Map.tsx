@@ -3,6 +3,7 @@ import { useRef, useEffect } from "react";
 // Leaflet
 import { Map as LeafletMap } from "leaflet";
 import "leaflet/dist/leaflet.css";
+import "leaflet.vectorgrid";
 
 // Geoman
 import "@geoman-io/leaflet-geoman-free";

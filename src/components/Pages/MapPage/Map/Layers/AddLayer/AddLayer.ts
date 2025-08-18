@@ -4,6 +4,7 @@ import LoadTileLayer from "../LoadFunctions/LoadTileLayer";
 import LoadGeoserverGeoJSON from "../LoadFunctions/LoadGeoserverGeoJSON";
 import LoadAPI from "../LoadFunctions/LoadAPI";
 import LoadGeoJSON from "../LoadFunctions/LoadGeoJSON";
+import LoadGeoJSONGrid from "../LoadFunctions/LoadGeoJSONGrid";
 
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
@@ -21,7 +22,7 @@ const AddLayer = async ({
   layer,
   group,
 }: AddLayerInputs): Promise<AddLayerResponse> => {
-  const { append, createGroup, assignLayerToGroup, focusLayer } =
+  const { append, createGroup, assignLayerToGroup } =
     useMapLayersStore.getState();
   let load;
   let newLayerItem;
@@ -77,6 +78,11 @@ const AddLayer = async ({
         );
         load = load_;
         newLayerItem = newLayerItem_;
+      } else if (layerFormat === "geojson-grid") {
+        const { load: load_, newLayerItem: newLayerItem_ } =
+          await LoadGeoJSONGrid(layer);
+        load = load_;
+        newLayerItem = newLayerItem_;
       } else {
         return {
           status: false,
@@ -96,9 +102,9 @@ const AddLayer = async ({
       if (loaded) {
         await createGroup(group);
         assignLayerToGroup(layerId, group.id);
-        if (newLayerItem.format === "geojson") {
-          focusLayer(layerId);
-        }
+        // if (newLayerItem.format === "geojson") {
+        //   focusLayer(layerId);
+        // }
         return {
           status: true,
           message: "La capa se cargó correctamente.",

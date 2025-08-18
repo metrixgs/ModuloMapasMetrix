@@ -6,7 +6,7 @@ import {
 import type { ToolProps } from "@/types/Tools";
 import type { FeatureCollection } from "geojson";
 
-import type { GeoJSONLayerItem } from "@/types/Stores/LayersManager";
+import type { GeoJSONLayerItem, GridLayerItem } from "@/types/Stores/LayersManager";
 
 import { useTranslation } from "react-i18next";
 

@@ -2,7 +2,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 
 import type { FeatureCollection } from "geojson";
 
-import type { Layer, GeoJSON, TileLayer } from "leaflet";
+import L, { type Layer, type GeoJSON, type TileLayer } from "leaflet";
 
 export interface LayerGroupItem {
   id: string;
@@ -60,6 +60,14 @@ export interface BaseLayerItem {
     | APILayerSource;
 }
 
+export interface GridLayerItem extends BaseLayerItem {
+  format: "geojson-grid";
+  type: "layer" | "filtered";
+  geometry: "Point" | "Polygon" | "LineString";
+  layer?: L.VectorGrid.Slicer;
+  columns?: ColumnDef<any>[];
+}
+
 export interface GeoJSONLayerItem extends BaseLayerItem {
   format: "geojson";
   type: "layer" | "filtered";
@@ -74,7 +82,7 @@ export interface TileLayerItem extends BaseLayerItem {
   layer?: TileLayer;
 }
 
-export type LayerItem = GeoJSONLayerItem | TileLayerItem;
+export type LayerItem = GeoJSONLayerItem | GridLayerItem | TileLayerItem;
 
 export interface LayerList {
   [id: string]: Layer;

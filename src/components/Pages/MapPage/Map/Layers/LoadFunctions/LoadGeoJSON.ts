@@ -8,7 +8,7 @@ import {
   getRandomColor,
   definedColorCircleMarker,
 } from "../../Icons/customIcons";
-import { customOnEachFeature } from "../CustomPopup/customOnEachFeature";
+import { customOnEachFeature } from "../Behaviors/customOnEachFeature";
 
 const LoadGeoJSON = async (layerItem: GeoJSONLayerItem) => {
   const { source } = layerItem;
@@ -21,6 +21,7 @@ const LoadGeoJSON = async (layerItem: GeoJSONLayerItem) => {
 
       const load = async () => {
         const color = getRandomColor();
+
         return geoJSON(geojsonData, {
           pmIgnore: true,
           ...(geometry === "Point" && {

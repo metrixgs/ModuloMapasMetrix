@@ -10,7 +10,7 @@ import {
   getRandomColor,
   definedColorCircleMarker,
 } from "../../Icons/customIcons";
-import { customOnEachFeature } from "../CustomPopup/customOnEachFeature";
+import { customOnEachFeature } from "../Behaviors/customOnEachFeature";
 
 const LoadAPI = async (layerItem: LayerItem) => {
   const { source } = layerItem;

@@ -7,8 +7,8 @@ import { createRoot } from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
 import i18next from "@/translations/index";
 
-import MetrixPopup from "./MetrixPopup";
-import DefaultPopup from "./DefaultPopup";
+import MetrixPopup from "../CustomPopup/MetrixPopup";
+import DefaultPopup from "../CustomPopup/DefaultPopup";
 
 export const customOnEachFeature = (
   layerId: string,
