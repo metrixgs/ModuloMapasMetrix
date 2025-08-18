@@ -47,7 +47,8 @@ const LoadAPI = async (layerItem: LayerItem) => {
                 pmIgnore: true,
               });
             },
-            onEachFeature: (feature, layer) => customOnEachFeature(feature, layer)
+            onEachFeature: (feature, layer) =>
+              customOnEachFeature(newLayerItem.id, feature, layer),
           });
         };
 

@@ -31,7 +31,8 @@ const LoadGeoJSON = async (layerItem: GeoJSONLayerItem) => {
               });
             },
           }),
-          onEachFeature: (feature, layer) => customOnEachFeature(feature, layer)
+          onEachFeature: (feature, layer) =>
+            customOnEachFeature(newLayerItem.id, feature, layer),
         });
       };
 

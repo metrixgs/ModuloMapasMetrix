@@ -36,12 +36,14 @@ const LoadGeoserverGeoJSON = async (layerItem: GeoJSONLayerItem) => {
                     pmIgnore: true,
                   });
                 },
-                onEachFeature: (feature, layer) => customOnEachFeature(feature, layer)
+                onEachFeature: (feature, layer) =>
+                  customOnEachFeature(newLayerItem.id, feature, layer),
               });
             }
           : async () => {
               return geoJSON(geojsonData, {
-                onEachFeature: (feature, layer) => customOnEachFeature(feature, layer)
+                onEachFeature: (feature, layer) =>
+                  customOnEachFeature(newLayerItem.id, feature, layer),
               });
             };
 
