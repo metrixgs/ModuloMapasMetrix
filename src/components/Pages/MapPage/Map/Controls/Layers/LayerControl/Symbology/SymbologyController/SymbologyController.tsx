@@ -1,0 +1,80 @@
+import {
+  SymbologyType as SymbologyTypeOptions,
+  type GeoJSONLayerItem,
+  type SymbologyType,
+} from "@/types/Stores/LayersManager";
+
+import { useState, type ChangeEventHandler } from "react";
+import { useTranslation } from "react-i18next";
+
+import { Select, Label } from "flowbite-react";
+
+import SimpleSymbologyController from "./SymbologyTypes/SimpleSymbologyController";
+import CategorizedSymbologyController from "./SymbologyTypes/CategorizedSymbologyController";
+
+import { useMapLayersStore } from "@/stores/useMapLayersStore";
+
+interface SymbologyControllerProps {
+  layer: GeoJSONLayerItem;
+}
+
+const SymbologyController = ({ layer }: SymbologyControllerProps) => {
+  const { t } = useTranslation("global");
+  const tref = "body.controls.layers.tabs.symbology.controller.form";
+
+  const { setLayerSymbology } = useMapLayersStore((state) => state);
+
+  const { symbology, geometry } = layer;
+
+  const [type, setType] = useState<SymbologyType | undefined>(symbology?.type);
+
+  const handleSelect: ChangeEventHandler<HTMLSelectElement> = (e) => {
+    let value = e.target.value;
+    if (
+      value === SymbologyTypeOptions.CATEGORIZED ||
+      value === SymbologyTypeOptions.SIMPLE
+    ) {
+      setType(value);
+    } else {
+      setType(undefined);
+    }
+  };
+
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="w-full">
+        <Label>{t(tref + ".type-label")}:</Label>
+        <Select value={type} onChange={handleSelect} sizing="sm">
+          <option value="">{t(tref + ".type-option-undefined")}</option>
+          <option value={SymbologyTypeOptions.SIMPLE}>
+            {t(tref + ".type-option-simple")}
+          </option>
+          <option value={SymbologyTypeOptions.CATEGORIZED}>
+            {t(tref + ".type-option-categorized")}
+          </option>
+        </Select>
+      </div>
+      {type
+        ? {
+            [SymbologyTypeOptions.SIMPLE]: (
+              <SimpleSymbologyController
+                layerGeometry={geometry}
+                initialSymbology={symbology}
+                onSymbologyChange={(newSymbology) => setLayerSymbology(layer.id, newSymbology)}
+              />
+            ),
+            [SymbologyTypeOptions.CATEGORIZED]: (
+              <CategorizedSymbologyController
+                layerGeometry={geometry}
+                initialSymbology={symbology}
+                onSymbologyChange={(newSymbology) => console.log(newSymbology)}
+                data={[]}
+              />
+            ),
+          }[type]
+        : null}
+    </div>
+  );
+};
+
+export default SymbologyController;

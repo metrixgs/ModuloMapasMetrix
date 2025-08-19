@@ -20,6 +20,8 @@ const ShowAttributesLayer = ({
   targetLayer,
   translation,
 }: LayerMenuItemActionProps) => {
+  const tref = "body.controls.layers.tabs.layers.layer-menu";
+
   const { close: closeSidebarLeft } = useSidebarLeftStore((state) => state);
 
   const { setChildren, open, setTitle, disableHeader } = useBottomDrawerStore(
@@ -73,9 +75,7 @@ const ShowAttributesLayer = ({
   return (
     <MenuItem onClick={handleAttributesTable}>
       <BiTable className="w-5 h-5 mr-2" />
-      <span>
-        {translation("body.controls.layers.layer-menu.attributes-table")}
-      </span>
+      <span>{translation(tref + ".attributes-table")}</span>
     </MenuItem>
   );
 };

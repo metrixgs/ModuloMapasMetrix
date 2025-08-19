@@ -16,7 +16,7 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
   layerFilter: {},
   layersAsArray: () => {
     const { layers } = get();
-    return Object.keys(layers).map(id => layers[id]);
+    return Object.keys(layers).map((id) => layers[id]);
   },
   append: async (info, loadLayerFunction) => {
     const { layers } = get();
@@ -34,7 +34,10 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
             ...info,
             layer: layer,
           };
-        } else if (info.format === "geojson-grid" && layer instanceof L.VectorGrid.Slicer) {
+        } else if (
+          info.format === "geojson-grid" &&
+          layer instanceof L.VectorGrid.Slicer
+        ) {
           layers[info.id] = {
             ...info,
             layer: layer,
@@ -45,7 +48,7 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
             layer: layer,
           };
         } else {
-          console.log(layer)
+          console.log(layer);
           throw new Error("The layer type does not match the declared format.");
         }
 
@@ -271,6 +274,47 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
     set({
       groups: newGroups,
     });
+  },
+  setLayerSymbology: (layerId, newSymbology) => {
+    const { layers: allLayers } = get();
+
+    const newLayers = { ...allLayers };
+
+    const layer = newLayers[layerId];
+
+    if (!layer) {
+      console.warn(
+        `The symbology cannot be applied because the layer with id "${layerId}" does not exist.`
+      );
+      return;
+    }
+
+    if (layer.format !== "geojson") {
+      console.warn(
+        `The symbology cannot be applied because the layer with id "${layerId}" is not of type GeoJSON.`
+      );
+      return;
+    }
+
+    if (!layer.layer) {
+      console.warn(
+        `The symbology cannot be applied because the layer with id "${layerId}" does not have an associated leaflet layer.`
+      );
+      return;
+    }
+
+    if (newSymbology.type === "simple") {
+      layer.layer.setStyle(newSymbology.symbology);
+      layer.symbology = newSymbology;
+      newLayers[layerId] = layer;
+      set({
+        layers: newLayers
+      })
+    } else {
+      // TODO
+      console.warn("No more types of symbols considered");
+      return;
+    }
   },
   createGroup: async (group) => {
     const { groups } = get();

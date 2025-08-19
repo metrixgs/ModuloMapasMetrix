@@ -33,7 +33,7 @@ const FilterByColumns = ({
   auxModalState,
   setAuxModalState,
 }: LayerMenuItemActionProps) => {
-  const tref = "body.controls.layers.layer-menu.filters.filter-by-columns";
+  const tref = "body.controls.layers.tabs.layers.layer-menu.filters.filter-by-columns";
 
   const { appendFilter } = useMapLayersStore((state) => state);
   const { open, setChildren } = useModalErrorStore((state) => state);

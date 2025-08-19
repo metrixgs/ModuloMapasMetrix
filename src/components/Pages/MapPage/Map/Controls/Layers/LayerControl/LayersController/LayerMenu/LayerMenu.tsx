@@ -27,6 +27,7 @@ interface LayerMenuProps {
 
 const LayerMenu = ({ layer }: LayerMenuProps) => {
   const { t } = useTranslation("global");
+  const tref = "body.controls.layers.tabs.layers.layer-menu"
 
   const { groups } = useMapLayersStore((state) => state);
 
@@ -79,7 +80,7 @@ const LayerMenu = ({ layer }: LayerMenuProps) => {
               <MenuItem>
                 <BiFilterAlt className="w-5 h-5 mr-2" />
                 <span>
-                  {t("body.controls.layers.layer-menu.filters.button-title")}
+                  {t(tref + ".filters.button-title")}
                 </span>
                 <BiChevronDown className="w-5 h-5" />
               </MenuItem>

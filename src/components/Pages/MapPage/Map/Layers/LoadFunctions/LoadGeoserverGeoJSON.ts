@@ -1,6 +1,6 @@
 import type { GeoJSONLayerItem } from "@/types/Stores/LayersManager";
 
-import { geoJSON, marker } from "leaflet";
+import { geoJSON, marker, type PathOptions } from "leaflet";
 
 import { GetGeoJSONLayer } from "@/services/Geoserver/GetGeoJSONLayer";
 
@@ -24,6 +24,16 @@ const LoadGeoserverGeoJSON = async (layerItem: GeoJSONLayerItem) => {
     });
 
     if (geojsonData) {
+      const defaultStyle: PathOptions = {
+        stroke: true,
+        weight: 0.5,
+        opacity: 1.0,
+        color: "#267E26",
+        fill: true,
+        fillColor: "#267E26",
+        fillOpacity: 0.2
+      };
+
       const load =
         newLayerItem.geometry === "Point"
           ? async () => {
@@ -44,6 +54,7 @@ const LoadGeoserverGeoJSON = async (layerItem: GeoJSONLayerItem) => {
               return geoJSON(geojsonData, {
                 onEachFeature: (feature, layer) =>
                   customOnEachFeature(newLayerItem.id, feature, layer),
+                style: defaultStyle,
               });
             };
 
@@ -53,6 +64,12 @@ const LoadGeoserverGeoJSON = async (layerItem: GeoJSONLayerItem) => {
             accessorKey: f,
           }))
         : undefined;
+      if (newLayerItem.geometry !== "Point") {
+        newLayerItem.symbology = {
+          type: "simple",
+          symbology: defaultStyle,
+        };
+      }
 
       return { load: load, newLayerItem: newLayerItem };
     } else {

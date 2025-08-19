@@ -10,6 +10,7 @@ const FocusLayer = ({
   targetLayer,
   translation,
 }: LayerMenuItemActionProps) => {
+  const tref = "body.controls.layers.tabs.layers.layer-menu"
 
   const { map } = useMapStore((state) => state);
 
@@ -28,7 +29,7 @@ const FocusLayer = ({
   return (
     <MenuItem onClick={handleFocus}>
       <TbFocusCentered className="w-5 h-5 mr-2" />
-      <span>{translation("body.controls.layers.layer-menu.focus")}</span>
+      <span>{translation(tref + ".focus")}</span>
     </MenuItem>
   );
 };

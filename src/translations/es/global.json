@@ -80,14 +80,14 @@
         "feature-features-noresult": "Sin resultados.",
         "execute": "Aplicar",
         "error": {
-          "filter":"El filtro no pudo ser aplicado. Ha ocurrido un error o no se encontraron coincidencias."
+          "filter": "El filtro no pudo ser aplicado. Ha ocurrido un error o no se encontraron coincidencias."
         }
       },
       "upload-geojson-file": {
         "description": "Cargue un archivo GeoJSON al mapa desde su dispositivo. Tenga en cuenta que la extensión del archivo debe ser .json o .geojson, el sistema de referencia de coordenadas debe ser el mundial (EPSG:4326) y tener una geometría válida.",
         "file-input-label": {
-          "click":"Click para seleccionar archivo",
-          "dragdrop":"o arrastra y suelta."
+          "click": "Click para seleccionar archivo",
+          "dragdrop": "o arrastra y suelta."
         },
         "name-input-label": "Escriba el nombre de la capa",
         "error": {
@@ -105,11 +105,11 @@
           "click": "Click para seleccionar archivo",
           "dragdrop": "o arrastra y suelta."
         },
-        "name-input-label":"Escriba el nombre de la capa",
+        "name-input-label": "Escriba el nombre de la capa",
         "latitude-input-label": "Campo de latitud",
         "longitude-input-label": "Campo de longitud",
         "no-result-placeholder": "Sin resultados",
-        "execute":"Subir",
+        "execute": "Subir",
         "error": {
           "global-error": "No se ha podido cargar la capa. Asegurese de que los campos de latitud y longitud se encuentren bien definidios.",
           "not-latitude": "No ha seleccionado la latitud.",
@@ -126,53 +126,81 @@
       },
       "layers": {
         "sidebar-title": "Control Capas",
-        "title": "Capas",
-        "group-empty": "No hay capas asociadas a este grupo.",
-        "layer-menu": {
-          "button-title": "Opciones",
-          "attributes-table": "Tabla de atributos",
-          "download-geojson": "Descargar GeoJSON",
-          "show": "Mostrar capa",
-          "hide": "Ocultar capa",
-          "delete": "Eliminar capa",
-          "focus": "Enfocar",
-          "rename": {
-            "button-title": "Renombrar",
-            "help": "Escriba el nombre de su preferencia que le quiera asignar a la capa.",
-            "apply-button-title": "Aplicar cambios"
+        "tabs": {
+          "layers": {
+            "title": "Capas",
+            "group-empty": "No hay capas asociadas a este grupo.",
+            "layer-menu": {
+              "button-title": "Opciones",
+              "attributes-table": "Tabla de atributos",
+              "download-geojson": "Descargar GeoJSON",
+              "show": "Mostrar capa",
+              "hide": "Ocultar capa",
+              "delete": "Eliminar capa",
+              "focus": "Enfocar",
+              "rename": {
+                "button-title": "Renombrar",
+                "help": "Escriba el nombre de su preferencia que le quiera asignar a la capa.",
+                "apply-button-title": "Aplicar cambios"
+              },
+              "filters": {
+                "title": "Filtros",
+                "button-title": "Filtros",
+                "filter-by-columns": {
+                  "button-title": "Por atributo",
+                  "help": "Separe las entidades de la capa según los valores de sus columnas. Indique la columna que desea visualizar y seleccione las entidades que quiere separar.",
+                  "feature-column-label": "Columna",
+                  "feature-column-placeholder": "Seleccione...",
+                  "feature-features-label": "Entidades",
+                  "selected": "seleccionados",
+                  "no-results": "Sin resultados.",
+                  "search": "Buscar",
+                  "execute": "Aplicar",
+                  "execute-error": "No se pudo aplicar el filtro."
+                },
+                "filter-by-expression": {
+                  "title": "Por expresión",
+                  "description": "Realice operaciones lógicas con los datos de la capa seleccionada.",
+                  "target-label": "Capa de entrada",
+                  "target-error": "Por favor seleccione una capa válida.",
+                  "target-column-placeholder": "Columna",
+                  "target-operation-placeholder": "Operación",
+                  "resultname-label": "Nombre de la capa resultado",
+                  "search-placeholder": "Buscar",
+                  "noresult-placeholder": "Sin resultados.",
+                  "mode-label": "Unir las expresiones por",
+                  "mode-y-title": "Y (Intersección)",
+                  "mode-y-help": "Y (intersección): Toma los elementos que cumplan las expresiones al mismo tiempo.",
+                  "mode-or-title": "O (Unión)",
+                  "mode-or-help": "O (unión): Tomará los elementos que cumplan las expresiones.",
+                  "execute": "Aplicar",
+                  "execute-error": "No se pudo aplicar el filtro."
+                }
+              }
+            }
           },
-          "filters": {
-            "title": "Filtros",
-            "button-title": "Filtros",
-            "filter-by-columns": {
-              "button-title": "Por atributo",
-              "help": "Separe las entidades de la capa según los valores de sus columnas. Indique la columna que desea visualizar y seleccione las entidades que quiere separar.",
-              "feature-column-label": "Columna",
-              "feature-column-placeholder": "Seleccione...",
-              "feature-features-label": "Entidades",
-              "selected": "seleccionados",
-              "no-results": "Sin resultados.",
-              "search": "Buscar",
-              "execute": "Aplicar",
-              "execute-error": "No se pudo aplicar el filtro."
-            },
-            "filter-by-expression": {
-              "title": "Por expresión",
-              "description": "Realice operaciones lógicas con los datos de la capa seleccionada.",
-              "target-label": "Capa de entrada",
-              "target-error": "Por favor seleccione una capa válida.",
-              "target-column-placeholder": "Columna",
-              "target-operation-placeholder": "Operación",
-              "resultname-label": "Nombre de la capa resultado",
-              "search-placeholder": "Buscar",
-              "noresult-placeholder": "Sin resultados.",
-              "mode-label": "Unir las expresiones por",
-              "mode-y-title": "Y (Intersección)",
-              "mode-y-help": "Y (intersección): Toma los elementos que cumplan las expresiones al mismo tiempo.",
-              "mode-or-title": "O (Unión)",
-              "mode-or-help": "O (unión): Tomará los elementos que cumplan las expresiones.",
-              "execute": "Aplicar",
-              "execute-error":"No se pudo aplicar el filtro."
+          "symbology": {
+            "title": "Simbología",
+            "controller": {
+              "sidebar-title": "Simbología",
+              "form": {
+                "type-label": "Tipo",
+                "type-option-undefined": "Seleccione un tipo",
+                "type-option-simple": "Simple",
+                "type-option-categorized": "Categorizado"
+              },
+              "type-simple": {
+                "help": "Asigne el mismo estilo a todas las entidades de la capa."
+              },
+              "options": {
+                "stroke-label": "Mostrar borde",
+                "stroke-weight-label": "Grosor del borde",
+                "stroke-opacity-label": "Opacidad del borde",
+                "stroke-color-label": "Color del borde",
+                "fill-label": "Rellenar",
+                "fill-opacity-label": "Opacidad del relleno",
+                "fill-color-label": "Color del relleno"
+              }
             }
           }
         }

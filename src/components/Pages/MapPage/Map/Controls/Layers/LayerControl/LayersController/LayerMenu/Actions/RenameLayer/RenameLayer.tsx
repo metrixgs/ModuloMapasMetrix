@@ -15,6 +15,8 @@ const RenameLayer = ({
   setAuxModalState,
   auxModalState,
 }: LayerMenuItemActionProps) => {
+  const tref = "body.controls.layers.tabs.layers.layer-menu";
+
   const { renameLayer } = useMapLayersStore((state) => state);
 
   const handleRename = (id: string) => {
@@ -49,15 +51,13 @@ const RenameLayer = ({
               defaultValue={targetLayer.name}
             />
             <HelperText className="text-xs">
-              {translation("body.controls.layers.layer-menu.rename.help")}
+              {translation(tref + ".rename.help")}
             </HelperText>
           </div>
           <Button className="w-fit h-8" type="submit">
             <BiSave className="w-5 h-5 mr-2" />
             <span className="text-xs">
-              {translation(
-                "body.controls.layers.layer-menu.rename.apply-button-title"
-              )}
+              {translation(tref + ".rename.apply-button-title")}
             </span>
           </Button>
         </form>
@@ -73,7 +73,7 @@ const RenameLayer = ({
     <MenuItem onClick={() => handleRename(targetLayer.id)}>
       <BiRename className="w-5 h-5 mr-2" />
       <span>
-        {translation("body.controls.layers.layer-menu.rename.button-title")}
+        {translation(tref + ".rename.button-title")}
       </span>
     </MenuItem>
   );

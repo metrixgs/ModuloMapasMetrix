@@ -5,7 +5,7 @@ import { useState } from "react";
 import { BiLayer } from "react-icons/bi";
 
 import { MapControl } from "@components/Pages/MapPage/Map/Controls/MapControl";
-import LayerControl from "./LayerControl";
+import LayerControl from "./LayerControl/LayerControl";
 
 const Layers = () => {
   // const { t } = useTranslation("global");

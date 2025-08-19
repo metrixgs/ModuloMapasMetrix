@@ -10,6 +10,8 @@ const ToggleLayer = ({
   targetLayer,
   translation,
 }: LayerMenuItemActionProps) => {
+  const tref = "body.controls.layers.tabs.layers.layer-menu";
+
   const { toggleLayer } = useMapLayersStore((state) => state);
 
   return (
@@ -17,12 +19,12 @@ const ToggleLayer = ({
       {targetLayer.active ? (
         <>
           <FaRegEyeSlash className="w-5 h-5 mr-2" />
-          <span>{translation("body.controls.layers.layer-menu.hide")}</span>
+          <span>{translation(tref + ".hide")}</span>
         </>
       ) : (
         <>
           <FaRegEye className="w-5 h-5 mr-2" />
-          <span>{translation("body.controls.layers.layer-menu.show")}</span>
+          <span>{translation(tref + ".show")}</span>
         </>
       )}
     </MenuItem>

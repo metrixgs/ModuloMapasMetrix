@@ -34,7 +34,7 @@ const FilterByExpression = ({
   auxModalState,
   setAuxModalState,
 }: LayerMenuItemActionProps) => {
-  const tref = "body.controls.layers.layer-menu.filters.filter-by-expression";
+  const tref = "body.controls.layers.tabs.layers.layer-menu.filters.filter-by-expression";
 
   const handleFilter = () => {
     if (!auxModalState || !setAuxModalState) return;

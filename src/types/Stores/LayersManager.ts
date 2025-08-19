@@ -2,7 +2,9 @@ import type { ColumnDef } from "@tanstack/react-table";
 
 import type { FeatureCollection } from "geojson";
 
-import L, { type Layer, type GeoJSON, type TileLayer } from "leaflet";
+import L, { type Layer, type GeoJSON, type TileLayer, type PathOptions } from "leaflet";
+
+export type Geometry = "Point" | "Polygon" | "LineString";
 
 export interface LayerGroupItem {
   id: string;
@@ -18,9 +20,52 @@ export interface LayerGroup {
   [id: string]: LayerGroupItem;
 }
 
+export const SymbologyType = {
+  SIMPLE: "simple",
+  CATEGORIZED: "categorized",
+} as const;
+
+export type SymbologyType = typeof SymbologyType[keyof typeof SymbologyType];
+
+export type CategorizedSymbologyClass =
+  | {
+      fieldValue: any;
+      options: PathOptions;
+    }
+  | {
+      fieldValue: any;
+      options: PathOptions;
+    }
+  | {
+      fieldValue: any;
+      options: PathOptions;
+    };
+
+export interface CategorizedSymbology {
+  type: typeof SymbologyType.CATEGORIZED;
+  symbology: {
+    fieldName: string;
+    classes: CategorizedSymbologyClass[];
+  };
+}
+
+export interface SimpleSymbology {
+  type: typeof SymbologyType.SIMPLE;
+  symbology: PathOptions;
+}
+
+export type Symbology = SimpleSymbology | CategorizedSymbology;
+
+export interface SymbologyControllerProps {
+  initialSymbology?: Symbology;
+  onSymbologyChange?: (newSymbology: Symbology) => void;
+  data?: object[];
+  layerGeometry: Geometry;
+}
+
 export interface GeneratedLayerSource {
   sourceType: "generated";
-  geojson?: FeatureCollection
+  geojson?: FeatureCollection;
 }
 
 export interface GeoserverLayerSource {
@@ -63,7 +108,7 @@ export interface BaseLayerItem {
 export interface GridLayerItem extends BaseLayerItem {
   format: "geojson-grid";
   type: "layer" | "filtered";
-  geometry: "Point" | "Polygon" | "LineString";
+  geometry: Geometry;
   layer?: L.VectorGrid.Slicer;
   columns?: ColumnDef<any>[];
 }
@@ -71,9 +116,10 @@ export interface GridLayerItem extends BaseLayerItem {
 export interface GeoJSONLayerItem extends BaseLayerItem {
   format: "geojson";
   type: "layer" | "filtered";
-  geometry: "Point" | "Polygon" | "LineString";
+  geometry: Geometry;
   layer?: GeoJSON;
   columns?: ColumnDef<any>[];
+  symbology?: Symbology;
 }
 
 export interface TileLayerItem extends BaseLayerItem {
@@ -136,6 +182,7 @@ export interface MapLayersStore {
   turnOnLayer: (id: keyof Layers) => void;
   focusLayer: (id: keyof Layers) => void;
   renameLayer: (id: keyof Layers, newName: string) => void;
+  setLayerSymbology: (id: keyof Layers, symbology: Symbology) => void;
   toggleGroup: (id: keyof LayerGroup) => void;
   assignLayerToGroup: (
     layerId: keyof Layers,

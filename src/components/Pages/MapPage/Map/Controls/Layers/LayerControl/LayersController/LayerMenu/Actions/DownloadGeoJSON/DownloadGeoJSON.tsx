@@ -11,6 +11,8 @@ const DownloadGeoJSON = ({
   translation,
 }: LayerMenuItemActionProps) => {
 
+  const tref = "body.controls.layers.tabs.layers.layer-menu"
+
   const handleDownloadGeoJSON = () => {
     if (targetLayer && targetLayer.layer && targetLayer.format === "geojson") {
       const geojson = targetLayer.layer.toGeoJSON();
@@ -22,7 +24,7 @@ const DownloadGeoJSON = ({
     <MenuItem onClick={handleDownloadGeoJSON}>
       <BiDownload className="w-5 h-5 mr-2" />
       <span>
-        {translation("body.controls.layers.layer-menu.download-geojson")}
+        {translation(tref + ".download-geojson")}
       </span>
     </MenuItem>
   );
