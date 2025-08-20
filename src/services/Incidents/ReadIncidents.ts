@@ -39,7 +39,7 @@ export interface IncidentDetail {
 export const ReadIncidentDetails = async (incidentId: string): Promise<IncidentDetail | null> => {
   try {
     // Primero intentar obtener el incidente específico por ID
-    let response = await fetch(`https://lightsteelblue-spoonbill-227005.hostingersite.com/api/incidencias/${incidentId}`)
+    let response = await fetch(`https://api.soymetrix.com/api/incidencias/${incidentId}`)
     let data = null
     
     if (response.ok) {
@@ -49,7 +49,7 @@ export const ReadIncidentDetails = async (incidentId: string): Promise<IncidentD
     } else {
       // Si el endpoint individual no funciona, buscar en la lista completa
       console.log(`Individual endpoint failed, searching in full list for ID: ${incidentId}`)
-      response = await fetch('https://lightsteelblue-spoonbill-227005.hostingersite.com/api/incidencias')
+      response = await fetch('https://api.soymetrix.com/api/incidencias')
       
       if (!response.ok) {
         console.error(`Error fetching incidents list: ${response.status} ${response.statusText}`)

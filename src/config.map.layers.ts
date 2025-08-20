@@ -117,7 +117,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     description: "Colección de incidentes.",
     source: {
       sourceType: "api",
-      endpoint: "https://lightsteelblue-spoonbill-227005.hostingersite.com/api/incidencias",
+      endpoint: "https://api.soymetrix.com/api/incidencias",
       latitude: "latitud",
       longitude: "longitud"
     },
