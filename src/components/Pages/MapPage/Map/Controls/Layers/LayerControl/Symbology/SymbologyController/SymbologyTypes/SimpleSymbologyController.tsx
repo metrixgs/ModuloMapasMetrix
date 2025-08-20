@@ -5,8 +5,8 @@ import { HelperText } from "flowbite-react";
 import { useTranslation } from "react-i18next";
 
 import PolygonPathOptions from "./SymbologyGeometries/PolygonPathOptions";
-import Point from "./SymbologyGeometries/Point";
-import LineString from "./SymbologyGeometries/LineString";
+import PointPathOptions from "./SymbologyGeometries/PointPathOptions";
+import LineStringPathOptions from "./SymbologyGeometries/LineStringPathOptions";
 
 const SimpleSymbologyController = ({
   layerGeometry,
@@ -16,17 +16,17 @@ const SimpleSymbologyController = ({
   const { t } = useTranslation("global");
   const tref = "body.controls.layers.tabs.symbology.controller.type-simple";
 
-  const simpleSymbology = initialSymbology?.type === "simple" ? initialSymbology : undefined;
+  const simpleSymbology =
+    initialSymbology?.type === "simple" ? initialSymbology : undefined;
 
-  const handlePolygonSymbologyChange = (newPathOptions: PathOptions) => {
+  const handleSymbologyChange = (newPathOptions: PathOptions) => {
     if (onSymbologyChange) {
       onSymbologyChange({
         type: "simple",
-        symbology: newPathOptions
-      })
+        symbology: newPathOptions,
+      });
     }
-    console.log(newPathOptions);
-  }
+  };
 
   return (
     <div className="flex flex-col gap-2">
@@ -34,21 +34,21 @@ const SimpleSymbologyController = ({
       {
         {
           Point: (
-            <Point
-              initialSymbology={initialSymbology}
-              onSymbologyChange={onSymbologyChange}
+            <PointPathOptions
+              initialPathOptions={simpleSymbology?.symbology}
+              onPathOptionsChange={handleSymbologyChange}
             />
           ),
           LineString: (
-            <LineString
-              initialSymbology={initialSymbology}
-              onSymbologyChange={onSymbologyChange}
+            <LineStringPathOptions
+              initialPathOptions={simpleSymbology?.symbology}
+              onPathOptionsChange={handleSymbologyChange}
             />
           ),
           Polygon: (
             <PolygonPathOptions
               initialPathOptions={simpleSymbology?.symbology}
-              onPathOptionsChange={handlePolygonSymbologyChange}
+              onPathOptionsChange={handleSymbologyChange}
             />
           ),
         }[layerGeometry]

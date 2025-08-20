@@ -1,3 +1,5 @@
+import type { FeatureCollection } from "geojson";
+
 import {
   SymbologyType as SymbologyTypeOptions,
   type GeoJSONLayerItem,
@@ -14,6 +16,8 @@ import CategorizedSymbologyController from "./SymbologyTypes/CategorizedSymbolog
 
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
+import { extractGeoJSONProperties } from "@/utils/geometryUtils";
+
 interface SymbologyControllerProps {
   layer: GeoJSONLayerItem;
 }
@@ -28,16 +32,21 @@ const SymbologyController = ({ layer }: SymbologyControllerProps) => {
 
   const [type, setType] = useState<SymbologyType | undefined>(symbology?.type);
 
+  const data = layer.layer
+    ? extractGeoJSONProperties(layer.layer.toGeoJSON() as FeatureCollection)
+    : [];
+
   const handleSelect: ChangeEventHandler<HTMLSelectElement> = (e) => {
     let value = e.target.value;
     if (
-      value === SymbologyTypeOptions.CATEGORIZED ||
-      value === SymbologyTypeOptions.SIMPLE
+      value !== SymbologyTypeOptions.CATEGORIZED &&
+      value !== SymbologyTypeOptions.SIMPLE
     ) {
-      setType(value);
-    } else {
       setType(undefined);
+      return;
     }
+
+    setType(value);
   };
 
   return (
@@ -60,15 +69,19 @@ const SymbologyController = ({ layer }: SymbologyControllerProps) => {
               <SimpleSymbologyController
                 layerGeometry={geometry}
                 initialSymbology={symbology}
-                onSymbologyChange={(newSymbology) => setLayerSymbology(layer.id, newSymbology)}
+                onSymbologyChange={(newSymbology) =>
+                  setLayerSymbology(layer.id, newSymbology)
+                }
               />
             ),
             [SymbologyTypeOptions.CATEGORIZED]: (
               <CategorizedSymbologyController
                 layerGeometry={geometry}
                 initialSymbology={symbology}
-                onSymbologyChange={(newSymbology) => console.log(newSymbology)}
-                data={[]}
+                onSymbologyChange={(newSymbology) =>
+                  setLayerSymbology(layer.id, newSymbology)
+                }
+                data={data as Record<string, unknown>[]}
               />
             ),
           }[type]

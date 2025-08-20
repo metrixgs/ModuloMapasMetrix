@@ -2,7 +2,12 @@ import type { ColumnDef } from "@tanstack/react-table";
 
 import type { FeatureCollection } from "geojson";
 
-import L, { type Layer, type GeoJSON, type TileLayer, type PathOptions } from "leaflet";
+import L, {
+  type Layer,
+  type GeoJSON,
+  type TileLayer,
+  type PathOptions,
+} from "leaflet";
 
 export type Geometry = "Point" | "Polygon" | "LineString";
 
@@ -25,27 +30,18 @@ export const SymbologyType = {
   CATEGORIZED: "categorized",
 } as const;
 
-export type SymbologyType = typeof SymbologyType[keyof typeof SymbologyType];
+export type SymbologyType = (typeof SymbologyType)[keyof typeof SymbologyType];
 
-export type CategorizedSymbologyClass =
-  | {
-      fieldValue: any;
-      options: PathOptions;
-    }
-  | {
-      fieldValue: any;
-      options: PathOptions;
-    }
-  | {
-      fieldValue: any;
-      options: PathOptions;
-    };
+export type CategorizedSymbologyClass = {
+  fieldValue: any;
+  options: PathOptions;
+};
 
 export interface CategorizedSymbology {
   type: typeof SymbologyType.CATEGORIZED;
   symbology: {
-    fieldName: string;
-    classes: CategorizedSymbologyClass[];
+    fieldName?: string;
+    classes?: CategorizedSymbologyClass[];
   };
 }
 
@@ -59,7 +55,7 @@ export type Symbology = SimpleSymbology | CategorizedSymbology;
 export interface SymbologyControllerProps {
   initialSymbology?: Symbology;
   onSymbologyChange?: (newSymbology: Symbology) => void;
-  data?: object[];
+  data?: Record<string, unknown>[];
   layerGeometry: Geometry;
 }
 

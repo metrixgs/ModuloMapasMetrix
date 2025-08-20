@@ -36,3 +36,13 @@ export const inferFieldTypes = (
 
   return fieldTypes;
 };
+
+export const getUniqueValues = <
+  T extends Record<string, unknown>,
+  K extends keyof T
+>(
+  data: T[],
+  key: K
+): T[K][] => {
+  return [...new Set(data.map((item) => item[key]))];
+};

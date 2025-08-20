@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-import L, { GeoJSON, TileLayer } from "leaflet";
+import L, { GeoJSON, TileLayer, Path } from "leaflet";
 
 import type { MapLayersStore } from "@/types/Stores/LayersManager";
 
@@ -277,9 +277,7 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
   },
   setLayerSymbology: (layerId, newSymbology) => {
     const { layers: allLayers } = get();
-
     const newLayers = { ...allLayers };
-
     const layer = newLayers[layerId];
 
     if (!layer) {
@@ -308,8 +306,36 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
       layer.symbology = newSymbology;
       newLayers[layerId] = layer;
       set({
-        layers: newLayers
-      })
+        layers: newLayers,
+      });
+    } else if (newSymbology.type === "categorized") {
+      const objective = layer.layer;
+
+      if (
+        !newSymbology.symbology.fieldName ||
+        !newSymbology.symbology.classes
+      ) {
+        return;
+      }
+
+      const { fieldName, classes } = newSymbology.symbology;
+
+      objective.eachLayer((subLayer) => {
+        if (!(subLayer instanceof Path)) return;
+        const feature = (subLayer as any).feature;
+        if (!feature || !feature.properties) return;
+        const value = feature.properties[fieldName];
+        const match = classes.find((c) => c.fieldValue === value);
+        if (match) {
+          subLayer.setStyle(match.options);
+        }
+      });
+      
+      layer.symbology = newSymbology;
+      newLayers[layerId] = layer;
+      set({
+        layers: newLayers,
+      });
     } else {
       // TODO
       console.warn("No more types of symbols considered");

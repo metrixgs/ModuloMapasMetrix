@@ -1,14 +1,14 @@
 import type { GeoJSONLayerItem } from "@/types/Stores/LayersManager";
 
-import { geoJSON, marker, type PathOptions } from "leaflet";
+import { geoJSON, circleMarker } from "leaflet";
 
-import { extractGeoJSONGeometry } from "@/utils/geometryUtils";
+import { customOnEachFeature } from "../Behaviors/customOnEachFeature";
 
 import {
-  getRandomColor,
-  definedColorCircleMarker,
-} from "../../Icons/customIcons";
-import { customOnEachFeature } from "../Behaviors/customOnEachFeature";
+  DefaultPointStyle,
+  DefaultLineStringStyle,
+  DefaultPolygonStyle,
+} from "@/config.map";
 
 const LoadGeoJSON = async (layerItem: GeoJSONLayerItem) => {
   const { source } = layerItem;
@@ -17,36 +17,45 @@ const LoadGeoJSON = async (layerItem: GeoJSONLayerItem) => {
   if (source.sourceType === "generated") {
     if (source.geojson) {
       const geojsonData = source.geojson;
-      const geometry = extractGeoJSONGeometry(geojsonData);
 
-      const defaultStyle: PathOptions = {
-        stroke: true,
-        weight: 0.5,
-        opacity: 1.0,
-        color: "#267E26",
-        fill: true,
-        fillColor: "#267E26",
-        fillOpacity: 0.2,
-      };
-
-      const load = async () => {
-        const color = getRandomColor();
-
-        return geoJSON(geojsonData, {
-          pmIgnore: true,
-          ...(geometry === "Point" && {
+      const load = {
+        Point: async () => {
+          newLayerItem.symbology = {
+            type: "simple",
+            symbology: DefaultPointStyle,
+          };
+          return geoJSON(geojsonData, {
+            pmIgnore: true,
             pointToLayer: (_feature, latlng) => {
-              return marker(latlng, {
-                icon: definedColorCircleMarker(color),
-                pmIgnore: true,
-              });
+              return circleMarker(latlng, DefaultPointStyle);
             },
-          }),
-          onEachFeature: (feature, layer) =>
-            customOnEachFeature(newLayerItem.id, feature, layer),
-          style: defaultStyle
-        });
-      };
+            onEachFeature: (feature, layer) =>
+              customOnEachFeature(newLayerItem.id, feature, layer),
+          });
+        },
+        LineString: async () => {
+          newLayerItem.symbology = {
+            type: "simple",
+            symbology: DefaultLineStringStyle,
+          };
+          return geoJSON(geojsonData, {
+            onEachFeature: (feature, layer) =>
+              customOnEachFeature(newLayerItem.id, feature, layer),
+            style: DefaultLineStringStyle,
+          });
+        },
+        Polygon: async () => {
+          newLayerItem.symbology = {
+            type: "simple",
+            symbology: DefaultPolygonStyle,
+          };
+          return geoJSON(geojsonData, {
+            onEachFeature: (feature, layer) =>
+              customOnEachFeature(newLayerItem.id, feature, layer),
+            style: DefaultPolygonStyle,
+          });
+        },
+      }[newLayerItem.geometry];
 
       newLayerItem.columns = geojsonData.features[0].properties
         ? Object.keys(geojsonData.features[0].properties).map((f) => ({
@@ -54,13 +63,6 @@ const LoadGeoJSON = async (layerItem: GeoJSONLayerItem) => {
             accessorKey: f,
           }))
         : undefined;
-      
-      if (newLayerItem.geometry !== "Point") {
-        newLayerItem.symbology = {
-          type: "simple",
-          symbology: defaultStyle,
-        };
-      }
 
       return { load: load, newLayerItem: newLayerItem };
     } else {

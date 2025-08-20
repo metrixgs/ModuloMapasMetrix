@@ -180,7 +180,7 @@
             }
           },
           "symbology": {
-            "title": "Simbología",
+            "title": "Estilos",
             "controller": {
               "sidebar-title": "Simbología",
               "form": {
@@ -191,6 +191,10 @@
               },
               "type-simple": {
                 "help": "Asigne el mismo estilo a todas las entidades de la capa."
+              },
+              "type-categorized": {
+                "help": "Asigne el estilo según los valores únicos presentes en la columna seleccionada de la capa.",
+                "column-select-label": "Columna"
               },
               "options": {
                 "stroke-label": "Mostrar borde",

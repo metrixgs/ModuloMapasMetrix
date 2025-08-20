@@ -28,7 +28,7 @@ const SymbologyDrawer = ({ layer, open, onClose }: SymbologyDrawerProps) => {
           title={layer?.name}
           titleIcon={() => <BiBrush className="mr-2" />}
         />
-        {layer && <SymbologyController layer={layer} />}
+        {layer && <SymbologyController key={layer.id} layer={layer} />}
       </div>
     </Drawer>
   );

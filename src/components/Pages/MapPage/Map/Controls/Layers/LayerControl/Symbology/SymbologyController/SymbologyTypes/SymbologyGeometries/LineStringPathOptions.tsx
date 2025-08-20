@@ -1,32 +1,26 @@
-import type { PathOptions } from "leaflet";
+import { type PathOptions } from "leaflet";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-import { Label, TextInput, ToggleSwitch } from "flowbite-react";
+import { Label, ToggleSwitch, TextInput } from "flowbite-react";
 
-interface PolygonPathOptionsProps {
+interface LineStringPathOptionsProps {
   initialPathOptions?: PathOptions;
   onPathOptionsChange?: (newPathOptions: PathOptions) => void;
 }
 
-const PolygonPathOptions = ({
+const LineStringPathOptions = ({
   initialPathOptions,
   onPathOptionsChange,
-}: PolygonPathOptionsProps) => {
+}: LineStringPathOptionsProps) => {
   const { t } = useTranslation("global");
-  const tref =
-    "body.controls.layers.tabs.symbology.controller.options";
-
-  console.log(initialPathOptions);
+  const tref = "body.controls.layers.tabs.symbology.controller.options";
 
   const [stroke, setStroke] = useState(initialPathOptions?.stroke);
   const [weight, setWeight] = useState(initialPathOptions?.weight);
   const [opacity, setOpacity] = useState(initialPathOptions?.opacity);
   const [color, setColor] = useState(initialPathOptions?.color);
-  const [fill, setFill] = useState(initialPathOptions?.fill);
-  const [fillColor, setFillColor] = useState(initialPathOptions?.fillColor);
-  const [fillOpacity, setFillOpacity] = useState(initialPathOptions?.fillOpacity);
 
   useEffect(() => {
     const debounce = setTimeout(() => {
@@ -36,9 +30,6 @@ const PolygonPathOptions = ({
           weight,
           opacity,
           color,
-          fill,
-          fillOpacity,
-          fillColor,
         });
       }
     }, 100);
@@ -46,7 +37,7 @@ const PolygonPathOptions = ({
     return () => {
       clearTimeout(debounce);
     };
-  }, [stroke, weight, opacity, color, fill, fillOpacity, fillColor]);
+  }, [stroke, weight, opacity, color]);
 
   return (
     <div className="flex flex-col gap-1">
@@ -91,37 +82,8 @@ const PolygonPathOptions = ({
           onChange={(e) => setColor(e.target.value)}
         />
       </div>
-      <div className="grid grid-cols-2 items-center">
-        <Label>{t(tref + ".fill-label")}</Label>
-        <ToggleSwitch
-          sizing="sm"
-          checked={fill ? fill : false}
-          onChange={() => setFill(!fill)}
-        />
-      </div>
-      <div className="grid grid-cols-2 items-center">
-        <Label>{t(tref + ".fill-opacity-label")}</Label>
-        <TextInput
-          className="w-18"
-          type="number"
-          min={0}
-          max={100}
-          step={1}
-          sizing="sm"
-          value={fillOpacity && fillOpacity*100}
-          onChange={(e) => setFillOpacity(Number(e.target.value)/100)}
-        />
-      </div>
-      <div className="grid grid-cols-2 items-center">
-        <Label>{t(tref + ".fill-color-label")}</Label>
-        <input
-          type="color"
-          value={fillColor}
-          onChange={(e) => setFillColor(e.target.value)}
-        />
-      </div>
     </div>
   );
 };
 
-export default PolygonPathOptions;
+export default LineStringPathOptions;

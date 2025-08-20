@@ -1,4 +1,4 @@
-import { latLng } from "leaflet";
+import { latLng, type PathOptions, type CircleMarkerOptions } from "leaflet";
 
 import type { LayerItem, LayerGroupItem } from "@/types/Stores/LayersManager";
 
@@ -65,3 +65,28 @@ export const INITIAL_LAYERS: LayerItem[] = [
     },
   },
 ];
+
+export const DefaultPointStyle: CircleMarkerOptions = {
+  radius: 6,
+  stroke: false,
+  fill: true,
+  fillColor: "#267E26",
+  fillOpacity: 1,
+};
+
+export const DefaultLineStringStyle: PathOptions = {
+  stroke: true,
+  weight: 2,
+  opacity: 1.0,
+  color: "#267E26",
+}
+
+export const DefaultPolygonStyle: PathOptions = {
+  stroke: true,
+  weight: 0.5,
+  opacity: 1.0,
+  color: "#267E26",
+  fill: true,
+  fillColor: "#267E26",
+  fillOpacity: 0.2,
+};

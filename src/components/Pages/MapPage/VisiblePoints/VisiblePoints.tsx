@@ -32,12 +32,12 @@ const VisiblePointsContent = () => {
           const total = l.layer
             ? (l.layer.toGeoJSON() as FeatureCollection).features.length
             : 0;
-          
+
           let count: number;
-          
+
           if (l.active) {
             if (l.layer && bounds) {
-              const collection = (l.layer.toGeoJSON() as FeatureCollection);
+              const collection = l.layer.toGeoJSON() as FeatureCollection;
               const bboxPolygon_ = bboxPolygon([
                 bounds.getWest(),
                 bounds.getSouth(),
@@ -58,7 +58,9 @@ const VisiblePointsContent = () => {
           return (
             <span>
               <span className="font-semibold">{l.name}:</span>{" "}
-              <span>{count} / {total}</span>
+              <span>
+                {count} / {total}
+              </span>
             </span>
           );
         })}
@@ -69,13 +71,60 @@ const VisiblePointsContent = () => {
 
 const VisiblePoints = () => {
   const { t } = useTranslation("global");
+
+  const { layers } = useMapLayersStore((state) => state);
+
+  const bounds = useMapStateStore((state) => state.bounds);
+
+  const pointLayers = Object.keys(layers)
+    .map((k) => layers[k])
+    .filter((i) => i.format === "geojson")
+    .filter((i) => i.geometry === "Point");
+
+  
+  let total = 0;
+  let count = 0;
+
+  pointLayers.forEach((l) => {
+    const subTotal = l.layer
+      ? (l.layer.toGeoJSON() as FeatureCollection).features.length
+      : 0;
+
+    let subCount: number;
+
+    if (l.active) {
+      if (l.layer && bounds) {
+        const collection = l.layer.toGeoJSON() as FeatureCollection;
+        const bboxPolygon_ = bboxPolygon([
+          bounds.getWest(),
+          bounds.getSouth(),
+          bounds.getEast(),
+          bounds.getNorth(),
+        ]);
+        const intersection = collection.features.filter((feature) =>
+          booleanIntersects(feature, bboxPolygon_)
+        );
+        subCount = intersection.length;
+      } else {
+        subCount = 0;
+      }
+    } else {
+      subCount = 0;
+    }
+
+    total = total + subTotal;
+    count = count + subCount;
+  });
+
   return (
     <div className="min-w-48 flex items-center justify-between">
       <div className="text-xs dark:text-white">
         <span className="font-bold">
           {t("body.footer.visible-incidents.title")}:
         </span>{" "}
-        <span id={visiblePointsId}></span>
+        <span>
+          {count} / {total}
+        </span>
       </div>
       <Popover content={<VisiblePointsContent />}>
         <Button>

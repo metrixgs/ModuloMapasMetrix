@@ -5,7 +5,7 @@ import type { LeafletEvent } from "leaflet";
 import { useMapStore } from "@/stores/useMapStore";
 
 import UpdateMapState from "./UpdateMapState";
-import UpdateVisibleIncidents from "@components/Pages/MapPage/VisiblePoints/UpdateVisiblePoints";
+// import UpdateVisibleIncidents from "@components/Pages/MapPage/VisiblePoints/UpdateVisiblePoints";
 
 const MoveEnd = () => {
   const { map } = useMapStore((state) => state);
@@ -13,7 +13,7 @@ const MoveEnd = () => {
   useEffect(() => {
     const handleMoveEnd = (e: LeafletEvent) => {
       UpdateMapState();
-      UpdateVisibleIncidents(e);
+      // UpdateVisibleIncidents(e);
     };
 
     map?.on("moveend", handleMoveEnd);
