@@ -184,17 +184,17 @@
             "controller": {
               "sidebar-title": "Simbología",
               "form": {
-                "type-label": "Tipo",
+                "type-label": "Tipo de estilo",
                 "type-option-undefined": "Seleccione un tipo",
                 "type-option-simple": "Simple",
-                "type-option-categorized": "Categorizado"
+                "type-option-categorized": "Categorizado",
+                "type-simple-help": "Asigne el mismo estilo a todas las entidades de la capa.",
+                "type-categorized-help": "Asigne el estilo según los valores únicos presentes en la columna seleccionada. Modifique el estilo de cada clase presionando sobre ella."
               },
-              "type-simple": {
-                "help": "Asigne el mismo estilo a todas las entidades de la capa."
-              },
+              "type-simple": {},
               "type-categorized": {
-                "help": "Asigne el estilo según los valores únicos presentes en la columna seleccionada de la capa.",
-                "column-select-label": "Columna"
+                "column-select-label": "Columna",
+                "option-undefined": "Columna"
               },
               "options": {
                 "stroke-label": "Mostrar borde",

@@ -91,7 +91,7 @@ const LayersController = () => {
                           ),
                         }[groupType]
                       }
-                      <Label htmlFor={`layer-${id}`}>{name}</Label>
+                      <Label htmlFor={`layer-${id}`} className="max-w-52 truncate">{name}</Label>
                       <div className="grow flex justify-end">
                         <Popover
                           arrow={false}

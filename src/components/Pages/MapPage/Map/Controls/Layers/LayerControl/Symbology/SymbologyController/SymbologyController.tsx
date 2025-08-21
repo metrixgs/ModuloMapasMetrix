@@ -9,10 +9,10 @@ import {
 import { useState, type ChangeEventHandler } from "react";
 import { useTranslation } from "react-i18next";
 
-import { Select, Label } from "flowbite-react";
+import { Select, Label, HelperText } from "flowbite-react";
 
 import SimpleSymbologyController from "./SymbologyTypes/SimpleSymbologyController";
-import CategorizedSymbologyController from "./SymbologyTypes/CategorizedSymbologyController";
+import CategorizedSymbologyController from "./SymbologyTypes/CategorizedSymbology/CategorizedSymbologyController";
 
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
 
@@ -62,6 +62,15 @@ const SymbologyController = ({ layer }: SymbologyControllerProps) => {
             {t(tref + ".type-option-categorized")}
           </option>
         </Select>
+        <HelperText>
+          {
+            type === SymbologyTypeOptions.SIMPLE ? (
+              t(tref + ".type-simple-help")
+            ) : (
+              t(tref + ".type-categorized-help")
+            )
+          }
+        </HelperText>
       </div>
       {type
         ? {

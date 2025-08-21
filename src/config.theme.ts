@@ -18,6 +18,11 @@ export const customTheme = createTheme({
     root: {
       base: "fixed z-[1000] overflow-y-auto bg-white p-4 transition-transform dark:bg-metrixblack-800",
       backdrop: "fixed inset-0 z-[999] bg-gray-900/50 dark:bg-gray-900/80"
+    },
+    header: {
+      inner: {
+        titleText: "mb-4 max-w-52 truncate inline-flex items-center text-base font-semibold text-gray-500 dark:text-gray-400"
+      }
     }
   },
   modal: {

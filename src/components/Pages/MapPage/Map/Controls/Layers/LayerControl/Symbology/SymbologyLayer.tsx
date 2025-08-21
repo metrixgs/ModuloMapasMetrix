@@ -13,7 +13,7 @@ const SymbologyLayer = ({ layer, active, onSetLayer }: SymbologyLayerProps) => {
   return (
     <div
       className={classNames(
-        "min-h-8 py-1 px-4",
+        "min-h-8 py-2 px-4",
         "flex gap-4 items-center justify-items-start",
         "text-sm",
         "hover:cursor-pointer",
@@ -21,7 +21,7 @@ const SymbologyLayer = ({ layer, active, onSetLayer }: SymbologyLayerProps) => {
         "rounded-lg",
         {
           "hover:bg-gray-200 dark:hover:bg-metrixblack-700": !active,
-          "bg-primary-400/70 dark:bg-primary-400/50": active,
+          "bg-primary-400/20 dark:bg-primary-400/30": active,
           "text-primary-950 dark:text-primary-100": active,
         }
       )}
@@ -32,34 +32,36 @@ const SymbologyLayer = ({ layer, active, onSetLayer }: SymbologyLayerProps) => {
       {symbology ? (
         <div>
           {symbology.type === "simple" ? (
-            <div className="flex items-center gap-2">
+            <div className="w-full flex items-center gap-4">
               <span
-                className={classNames({
-                  "h-3 w-3 rounded-full": geometry === "Point",
-                  "h-6 w-6 border-3 bg-opacity-0 rounded":
-                    geometry === "LineString",
-                  "h-6 w-6 border-3 bg-opacity-100 rounded":
-                    geometry === "Polygon",
+                className={classNames("h-6 w-6", {
+                  "rounded-full scale-[0.6]": geometry === "Point",
+                  "border-3 bg-opacity-0 rounded": geometry === "LineString",
+                  "border-3 bg-opacity-100 rounded": geometry === "Polygon",
                 })}
                 style={{
                   borderColor: symbology.symbology.color,
                   backgroundColor: symbology.symbology.fillColor,
                 }}
               ></span>
-              <span className="font-semibold text-sm dark:text-white">{name}</span>
+              <span className="max-w-52 truncate font-semibold text-sm dark:text-white">
+                {name}
+              </span>
             </div>
           ) : (
             <div className="flex flex-col gap-1">
-              <span className="font-semibold text-sm dark:text-white">{name}</span>
+              <span className="max-w-52 truncate font-semibold text-sm dark:text-white">
+                {name}
+              </span>
               {symbology.symbology.classes &&
                 symbology.symbology.classes.map((c, i) => (
-                  <div key={i} className="flex items-center gap-2">
+                  <div key={i} className="w-full flex items-center gap-4">
                     <span
-                      className={classNames({
-                        "h-3 w-3 rounded-full": geometry === "Point",
-                        "h-6 w-6 border-3 bg-opacity-0 rounded":
+                      className={classNames("h-6 w-6", {
+                        "rounded-full scale-[0.6]": geometry === "Point",
+                        "border-3 bg-opacity-0 rounded":
                           geometry === "LineString",
-                        "h-6 w-6 border-3 bg-opacity-100 rounded":
+                        "border-3 bg-opacity-100 rounded":
                           geometry === "Polygon",
                       })}
                       style={{
@@ -67,7 +69,9 @@ const SymbologyLayer = ({ layer, active, onSetLayer }: SymbologyLayerProps) => {
                         backgroundColor: c.options.fillColor,
                       }}
                     ></span>
-                    <span className="dark:text-white">{c.fieldValue}</span>
+                    <span className="text-sm dark:text-white">
+                      {c.fieldValue}
+                    </span>
                   </div>
                 ))}
             </div>
