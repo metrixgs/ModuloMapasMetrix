@@ -11,6 +11,7 @@ import {
   definedColorCircleMarker,
 } from "../../Icons/customIcons";
 import { customOnEachFeature } from "../Behaviors/customOnEachFeature";
+import { categoriesMap, subcategoriesMap, prioritiesMap } from "@/utils/incidentDataMappers";
 
 const LoadAPI = async (layerItem: LayerItem) => {
   const { source } = layerItem;
@@ -65,9 +66,21 @@ const LoadAPI = async (layerItem: LayerItem) => {
               return date.toLocaleDateString("es-ES");
             },
           },
-          { header: "Categoría", accessorKey: "categoria_id" },
-          { header: "Clasificación", accessorKey: "subcategoria_id" },
-          { header: "Prioridad", accessorKey: "prioridad" },
+          {
+            header: "Categoría",
+            accessorKey: "categoria_id",
+            cell: (info: any) => categoriesMap[info.getValue()] || info.getValue(),
+          },
+          {
+            header: "Clasificación",
+            accessorKey: "subcategoria_id",
+            cell: (info: any) => subcategoriesMap[info.getValue()] || info.getValue(),
+          },
+          {
+            header: "Prioridad",
+            accessorKey: "prioridad",
+            cell: (info: any) => prioritiesMap[info.getValue()] || info.getValue(),
+          },
           { header: "Estatus", accessorKey: "estado_p" },
           { header: "Área Responsable", accessorKey: "nombre_area" },
           { header: "Operador(a)", accessorKey: "nombre_usuario" },
