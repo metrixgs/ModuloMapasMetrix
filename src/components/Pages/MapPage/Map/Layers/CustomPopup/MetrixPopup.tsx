@@ -24,7 +24,7 @@ import {
 } from "react-icons/hi2"
 import { useTranslation } from "react-i18next"
 import { useState, useRef, useEffect } from "react"
-import { ReadIncidentDetails } from "@/services/Incidents/ReadIncidents"
+
 
 
 interface MetrixPopupProps {
@@ -52,9 +52,7 @@ const MetrixPopup = ({ data, popup }: MetrixPopupProps) => {
   const [activeTab, setActiveTab] = useState<TabType>("details")
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0)
   const dropdownRef = useRef<HTMLDivElement>(null)
-  const [detailedData, setDetailedData] = useState<any>(null)
-  const [isLoadingDetails, setIsLoadingDetails] = useState(false)
-  const [detailsLoaded, setDetailsLoaded] = useState(false)
+
 
   // Estados para reproducción de video/audio
   const [isPlaying, setIsPlaying] = useState(false)
@@ -98,27 +96,11 @@ const MetrixPopup = ({ data, popup }: MetrixPopupProps) => {
     return "image" // default fallback
   }
 
-  // Función para cargar detalles de la incidencia de forma lazy
-  const loadIncidentDetails = async () => {
-    if (detailsLoaded || isLoadingDetails || !data?.id) return
 
-    setIsLoadingDetails(true)
-    try {
-      const details = await ReadIncidentDetails(data.id)
-      if (details) {
-        setDetailedData(details)
-        setDetailsLoaded(true)
-      }
-    } catch (error) {
-      console.error("Error loading incident details:", error)
-    } finally {
-      setIsLoadingDetails(false)
-    }
-  }
 
   // Obtener archivos multimedia de los datos
   const getMediaFiles = (): MediaFile[] => {
-    const sourceData = detailedData || data
+    const sourceData = data
 
     if (sourceData?.archivos && Array.isArray(sourceData.archivos) && sourceData.archivos.length > 0) {
       return sourceData.archivos
@@ -250,12 +232,7 @@ const MetrixPopup = ({ data, popup }: MetrixPopupProps) => {
     }
   }, [])
 
-  // Cargar detalles cuando se cambie a pestañas que requieren información completa
-  useEffect(() => {
-    if ((activeTab === "details" || activeTab === "photos") && !detailsLoaded && !isLoadingDetails) {
-      loadIncidentDetails()
-    }
-  }, [activeTab, detailsLoaded, isLoadingDetails])
+
 
   const handleViewInMaps = () => {
     if (data?.latitud && data?.longitud) {
@@ -300,7 +277,7 @@ const MetrixPopup = ({ data, popup }: MetrixPopupProps) => {
   }
 
   const getDetailedViewData = () => {
-    const sourceData = detailedData || data
+    const sourceData = data
     if (!sourceData) return { ticketId: "", leftColumn: {}, rightColumn: {}, bottomSection: {} }
 
     return {
@@ -543,17 +520,6 @@ const MetrixPopup = ({ data, popup }: MetrixPopupProps) => {
 
     switch (activeTab) {
       case "details":
-        if (isLoadingDetails) {
-          return (
-            <div className="flex items-center justify-center h-40">
-              <div className="flex flex-col items-center space-y-2">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-lime-600"></div>
-                <div className="text-sm text-gray-500 dark:text-gray-400">Cargando detalles...</div>
-              </div>
-            </div>
-          )
-        }
-
         return (
           <div>
             {/* Two Column Layout */}
@@ -631,17 +597,6 @@ const MetrixPopup = ({ data, popup }: MetrixPopupProps) => {
         )
 
       case "photos":
-        if (isLoadingDetails) {
-          return (
-            <div className="flex items-center justify-center h-64">
-              <div className="flex flex-col items-center space-y-2">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-lime-600"></div>
-                <div className="text-sm text-gray-500 dark:text-gray-400">Cargando archivos multimedia...</div>
-              </div>
-            </div>
-          )
-        }
-
         return (
           <div className="space-y-4">
             {mediaFiles.length > 0 ? (
@@ -883,7 +838,9 @@ const MetrixPopup = ({ data, popup }: MetrixPopupProps) => {
 
         <div className="flex gap-2">
           <button
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation()
+              e.preventDefault()
               setShowDetailedView(true)
               setActiveTab("details")
             }}
