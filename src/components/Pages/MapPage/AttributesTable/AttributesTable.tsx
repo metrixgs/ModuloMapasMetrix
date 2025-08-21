@@ -205,7 +205,7 @@ const AttributesTable = <T,>({ data, columns, onSelectedRow }: AttributesTablePr
                         className={classNames(
                           "py-2 px-4 w-48",
                           "truncate whitespace-nowrap overflow-hidden",
-                          "text-start font-medium",
+                          "text-center font-medium", // Cambiado de text-start a text-center
                           "border border-t-0 border-gray-300 dark:border-gray-600",
                           "bg-gray-100 dark:bg-metrixblack-700",
                           "hover:bg-gray-200 dark:hover:bg-metrixblack-800/50",
