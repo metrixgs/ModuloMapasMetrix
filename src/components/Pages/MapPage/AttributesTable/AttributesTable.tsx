@@ -126,7 +126,7 @@ const AttributesTable = <T,>({ data, columns, onSelectedRow }: AttributesTablePr
             { title }
           </span>
           <span className="text-xs">
-            ({ table.getPrePaginationRowModel().rows.length }/{ data.length } { t("body.attributes-table.title-total-text") })
+            ({ table.getPrePaginationRowModel().rows.length.toLocaleString() }/{ data.length.toLocaleString() } { t("body.attributes-table.title-total-text") })
           </span>
         </span>
         <SelectColumns table={table} />

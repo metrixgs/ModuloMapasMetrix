@@ -81,10 +81,14 @@ const LoadAPI = async (layerItem: LayerItem) => {
             accessorKey: "prioridad",
             cell: (info: any) => prioritiesMap[info.getValue()] || info.getValue(),
           },
-          { header: "Estatus", accessorKey: "estado_p" },
+          { header: "Estatus", accessorKey: "estado" }, // Cambiado de estado_p a estado
           { header: "Área Responsable", accessorKey: "nombre_area" },
           { header: "Operador(a)", accessorKey: "nombre_usuario" },
-          { header: "Estado", accessorKey: "estado" },
+          {
+            header: "Estado",
+            accessorKey: "estado",
+            cell: () => "", // Vaciar la columna Estado
+          },
           { header: "Municipio", accessorKey: "municipio" },
           { header: "Código Postal", accessorKey: "codigo_postal" },
           { header: "Distrito Federal", accessorKey: "df" },
