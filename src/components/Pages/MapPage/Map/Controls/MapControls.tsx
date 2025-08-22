@@ -12,6 +12,9 @@ import Location from "@components/Pages/MapPage/Map/Controls/Location/Location";
 import Share from "@components/Pages/MapPage/Map/Controls/Share/Share";
 import Zoom from "@components/Pages/MapPage/Map/Controls/Zoom/Zoom";
 
+// Debug
+import Screenshot_ from "./Screenshot_/Screenshot_";
+
 const MapControls = () => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -36,6 +39,7 @@ const MapControls = () => {
       <Location />
       <Share />
       <Zoom />
+      <Screenshot_/>
     </div>
   );
 };

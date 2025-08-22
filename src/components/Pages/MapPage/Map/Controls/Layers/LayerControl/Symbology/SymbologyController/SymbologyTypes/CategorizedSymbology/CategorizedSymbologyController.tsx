@@ -17,6 +17,7 @@ import classNames from "classnames";
 
 import Button from "@components/UI/Button";
 import CategorizedSymbologyClassOptions from "./CategorizedSymbologyClassOptions";
+import { Symbol } from "../../../SymbologyLayer";
 
 import { inferFieldTypes, getUniqueValues } from "@/utils/jsonUtils";
 
@@ -88,10 +89,23 @@ const CategorizedSymbologyController = ({
 
         const generatedClassList: CategorizedSymbologyClass[] = unique.map(
           (v, i) => {
+            const quantity = data?.filter((f) => {
+              if (field) {
+                return f[field] === v
+              } else {
+                return false;
+              }
+            })?.length;
+
             return {
               fieldValue: v,
+              quantity: quantity,
               options: {
                 Point: {
+                  stroke: true,
+                  weight: 1,
+                  opacity: 1.0,
+                  color: palette[i],
                   fill: true,
                   fillColor: palette[i],
                   fillOpacity: 1,
@@ -128,7 +142,7 @@ const CategorizedSymbologyController = ({
     }
   }, [field]);
   return (
-    <div className="grow overflow-y-auto flex flex-col gap-2">
+    <div className="p-1 grow overflow-y-auto flex flex-col gap-2">
       <Label>{t(tref + ".column-select-label")}:</Label>
       <Select
         value={field}
@@ -182,19 +196,7 @@ const CategorizedSymbologyController = ({
                   setClassIndex(i);
                 }}
               >
-                <span
-                  className={classNames({
-                    "h-5 w-5 rounded-full": layerGeometry === "Point",
-                    "h-8 w-8 border-3 bg-opacity-0 rounded":
-                      layerGeometry === "LineString",
-                    "h-8 w-8 border-3 bg-opacity-100 rounded":
-                      layerGeometry === "Polygon",
-                  })}
-                  style={{
-                    borderColor: c.options.color,
-                    backgroundColor: c.options.fillColor,
-                  }}
-                ></span>
+                <Symbol geometry={layerGeometry} options={c.options} />
                 <span className="dark:text-white">{c.fieldValue}</span>
               </button>
             );

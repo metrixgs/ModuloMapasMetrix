@@ -68,7 +68,10 @@ export const INITIAL_LAYERS: LayerItem[] = [
 
 export const DefaultPointStyle: CircleMarkerOptions = {
   radius: 6,
-  stroke: false,
+  stroke: true,
+  weight: 0.5,
+  opacity: 1.0,
+  color: "#267E26",
   fill: true,
   fillColor: "#267E26",
   fillOpacity: 1,

@@ -35,6 +35,7 @@ export type SymbologyType = (typeof SymbologyType)[keyof typeof SymbologyType];
 export type CategorizedSymbologyClass = {
   fieldValue: any;
   options: PathOptions;
+  quantity?: number;
 };
 
 export interface CategorizedSymbology {

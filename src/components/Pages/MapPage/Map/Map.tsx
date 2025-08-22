@@ -29,6 +29,7 @@ const Map = () => {
     if (!mapContainerRef.current || mapRef.current) return;
 
     const mapClass = new LeafletMap(mapContainerRef.current, {
+      preferCanvas: true,
       zoom: INITIAL_VIEW.zoom,
       center: INITIAL_VIEW.center,
       zoomControl: false,

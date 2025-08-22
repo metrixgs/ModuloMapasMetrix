@@ -19,7 +19,7 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
     return Object.keys(layers).map((id) => layers[id]);
   },
   append: async (info, loadLayerFunction) => {
-    const { layers } = get();
+    const { layers, setLayerSymbology } = get();
     const map = useMapStore.getState().map;
 
     const oldLayer = layers[info.id]?.layer;
@@ -54,6 +54,14 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
 
         if (info.active) {
           map?.addLayer(layer);
+
+          if (
+            info.format === "geojson" &&
+            info.symbology &&
+            layer instanceof GeoJSON
+          ) {
+            setLayerSymbology(info.id, info.symbology)
+          }
         }
 
         set({
@@ -330,7 +338,7 @@ export const useMapLayersStore = create<MapLayersStore>((set, get) => ({
           subLayer.setStyle(match.options);
         }
       });
-      
+
       layer.symbology = newSymbology;
       newLayers[layerId] = layer;
       set({

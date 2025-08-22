@@ -82,6 +82,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     groupId: AVAILABLE_GROUPS["metrix-basemaps"].id,
     groupName: AVAILABLE_GROUPS["metrix-basemaps"].name,
     description: "Mapa satelital de ESRI.",
+    thumbnail: "/layers-images/esri-satellite.png",
     source: {
       sourceType: "tile",
       endpoint: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
@@ -98,6 +99,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     groupId: AVAILABLE_GROUPS["metrix-basemaps"].id,
     groupName: AVAILABLE_GROUPS["metrix-basemaps"].name,
     description: "Mapa mundial de Open Street Maps.",
+    thumbnail: "/layers-images/osm.png",
     source: {
       sourceType: "tile",
       endpoint: "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -115,11 +117,32 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     groupId: AVAILABLE_GROUPS["metrix-main"].id,
     groupName: AVAILABLE_GROUPS["metrix-main"].name,
     description: "Colección de incidentes.",
+    thumbnail: "/layers-images/incidentes.png",
     source: {
       sourceType: "api",
       endpoint: "https://api.soymetrix.com/api/incidencias",
       latitude: "latitud",
       longitude: "longitud"
+    },
+  },
+  {
+    id: "metrix-dummy",
+    name: "Liderazgos y combinaciones",
+    active: true,
+    temp: true,
+    format: "geojson",
+    type: "layer",
+    geometry: "Point",
+    renamed: true,
+    groupId: AVAILABLE_GROUPS["metrix-main"].id,
+    groupName: AVAILABLE_GROUPS["metrix-main"].name,
+    description: "Concentrado de liderazgos y coordinaciones por secciones electorales 2021-2025",
+    thumbnail: "/layers-images/dummy.png",
+    source: {
+      sourceType: "geoserver",
+      serverUrl: "https://geoserver.soymetrix.com/geoserver/",
+      workpace: "metrix",
+      name: "demo"
     },
   },
   {
@@ -153,6 +176,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     groupId: AVAILABLE_GROUPS["metrix-electorales"].id,
     groupName: AVAILABLE_GROUPS["metrix-electorales"].name,
     description: "",
+    thumbnail: "/layers-images/circunscripcion.png",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -172,6 +196,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     groupId: AVAILABLE_GROUPS["metrix-electorales"].id,
     groupName: AVAILABLE_GROUPS["metrix-electorales"].name,
     description: "",
+    thumbnail: "/layers-images/distritos-federales.png",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -191,6 +216,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     groupId: AVAILABLE_GROUPS["metrix-electorales"].id,
     groupName: AVAILABLE_GROUPS["metrix-electorales"].name,
     description: "",
+    thumbnail: "/layers-images/distritos-locales.png",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -210,6 +236,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     groupId: AVAILABLE_GROUPS["metrix-geographic"].id,
     groupName: AVAILABLE_GROUPS["metrix-geographic"].name,
     description: "Colección de paises alrededor del mundo.",
+    thumbnail: "/layers-images/pais.png",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -229,6 +256,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     groupId: AVAILABLE_GROUPS["metrix-geographic"].id,
     groupName: AVAILABLE_GROUPS["metrix-geographic"].name,
     description: "Colección de estados alrededor del mundo.",
+    thumbnail: "/layers-images/estados.png",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -248,6 +276,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     groupId: AVAILABLE_GROUPS["metrix-geographic"].id,
     groupName: AVAILABLE_GROUPS["metrix-geographic"].name,
     description: "Colección de municipios alrededor del mundo.",
+    thumbnail: "/layers-images/municipios.png",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -267,6 +296,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     groupId: AVAILABLE_GROUPS["metrix-geographic"].id,
     groupName: AVAILABLE_GROUPS["metrix-geographic"].name,
     description: "Colección de delegaciones.",
+    thumbnail: "/layers-images/delegaciones.png",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -285,7 +315,8 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     renamed: true,
     groupId: AVAILABLE_GROUPS["metrix-geographic"].id,
     groupName: AVAILABLE_GROUPS["metrix-geographic"].name,
-    description: "Colección de colonias o barrios alrededor del mundo.",
+    description: "Colección de colonias alrededor del mundo.",
+    thumbnail: "/layers-images/colonias.png",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -343,6 +374,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     groupId: AVAILABLE_GROUPS["metrix-water"].id,
     groupName: AVAILABLE_GROUPS["metrix-water"].name,
     description: "Red de acueducto.",
+    thumbnail: "/layers-images/acueductos.png",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -362,6 +394,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     groupId: AVAILABLE_GROUPS["metrix-water"].id,
     groupName: AVAILABLE_GROUPS["metrix-water"].name,
     description: "",
+    thumbnail: "/layers-images/acuiferos.png",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -381,6 +414,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     groupId: AVAILABLE_GROUPS["metrix-water"].id,
     groupName: AVAILABLE_GROUPS["metrix-water"].name,
     description: "",
+    thumbnail: "/layers-images/cuerpos-agua.png",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -400,6 +434,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     groupId: AVAILABLE_GROUPS["metrix-water"].id,
     groupName: AVAILABLE_GROUPS["metrix-water"].name,
     description: "Colección de plantas de tratamiento de agua en México.",
+    thumbnail: "/layers-images/plantas-tratamiento.png",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -418,6 +453,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     renamed: true,
     groupId: AVAILABLE_GROUPS["metrix-ordenamiento"].id,
     groupName: AVAILABLE_GROUPS["metrix-ordenamiento"].name,
+    thumbnail: "/layers-images/anp.png",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -436,6 +472,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     renamed: true,
     groupId: AVAILABLE_GROUPS["metrix-ordenamiento"].id,
     groupName: AVAILABLE_GROUPS["metrix-ordenamiento"].name,
+    thumbnail: "/layers-images/zona-norte.png",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -454,6 +491,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     renamed: true,
     groupId: AVAILABLE_GROUPS["metrix-ordenamiento"].id,
     groupName: AVAILABLE_GROUPS["metrix-ordenamiento"].name,
+    thumbnail: "/layers-images/zona-oriente.png",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -472,6 +510,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     renamed: true,
     groupId: AVAILABLE_GROUPS["metrix-ordenamiento"].id,
     groupName: AVAILABLE_GROUPS["metrix-ordenamiento"].name,
+    thumbnail: "/layers-images/zona-poniente.png",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -490,6 +529,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     renamed: true,
     groupId: AVAILABLE_GROUPS["metrix-ordenamiento"].id,
     groupName: AVAILABLE_GROUPS["metrix-ordenamiento"].name,
+    thumbnail: "/layers-images/zona-sur.png",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -508,6 +548,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     renamed: true,
     groupId: AVAILABLE_GROUPS["metrix-ordenamiento"].id,
     groupName: AVAILABLE_GROUPS["metrix-ordenamiento"].name,
+    thumbnail: "/layers-images/zona-patrimonial-a.png",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -526,6 +567,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     renamed: true,
     groupId: AVAILABLE_GROUPS["metrix-ordenamiento"].id,
     groupName: AVAILABLE_GROUPS["metrix-ordenamiento"].name,
+    thumbnail: "/layers-images/zona-patrimonial-b.png",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -544,6 +586,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     renamed: true,
     groupId: AVAILABLE_GROUPS["metrix-ordenamiento"].id,
     groupName: AVAILABLE_GROUPS["metrix-ordenamiento"].name,
+    thumbnail: "/layers-images/zona-patrimonial-b3.png",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -562,6 +605,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     renamed: true,
     groupId: AVAILABLE_GROUPS["metrix-ordenamiento"].id,
     groupName: AVAILABLE_GROUPS["metrix-ordenamiento"].name,
+    thumbnail: "/layers-images/parques-industria.png",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",
@@ -580,6 +624,7 @@ export const AVAILABLE_LAYERS: LayerItem[] = [
     renamed: true,
     groupId: AVAILABLE_GROUPS["metrix-ordenamiento"].id,
     groupName: AVAILABLE_GROUPS["metrix-ordenamiento"].name,
+    thumbnail: "/layers-images/espacios-publicos.png",
     source: {
       sourceType: "geoserver",
       serverUrl: "https://geoserver.soymetrix.com/geoserver/",

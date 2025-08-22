@@ -14,7 +14,6 @@ interface SymbologyDrawerProps {
 }
 
 const SymbologyDrawer = ({ layer, open, onClose }: SymbologyDrawerProps) => {
-
   return (
     <Drawer
       className={classNames("h-[calc(100dvh-14*4px)]", "top-14")}
@@ -23,11 +22,11 @@ const SymbologyDrawer = ({ layer, open, onClose }: SymbologyDrawerProps) => {
       onClose={onClose}
       backdrop={false}
     >
-      <div className="h-full flex flex-col">
-        <DrawerHeader
-          title={layer?.name}
-          titleIcon={() => <BiBrush className="mr-2" />}
-        />
+      <DrawerHeader
+        title={layer?.name}
+        titleIcon={() => <BiBrush className="mr-2" />}
+      />
+      <div className="flex flex-col">
         {layer && <SymbologyController key={layer.id} layer={layer} />}
       </div>
     </Drawer>

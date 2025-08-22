@@ -38,6 +38,19 @@ export const customOnEachFeature = (
             )
           );
           break;
+        case "metrix-dummy":
+          root.render(
+            createElement(
+              I18nextProvider,
+              { i18n: i18next },
+              createElement(MetrixPopup, {
+                data: feature.properties,
+                popup: popupClass,
+                root: root,
+              })
+            )
+          );
+          break;
         default:
           root.render(
             createElement(

@@ -194,7 +194,10 @@
               "type-simple": {},
               "type-categorized": {
                 "column-select-label": "Columna",
-                "option-undefined": "Columna"
+                "option-undefined": "Columna",
+                "features": "elementos",
+                "classes": "clases",
+                "class": "clase"
               },
               "options": {
                 "stroke-label": "Mostrar borde",
