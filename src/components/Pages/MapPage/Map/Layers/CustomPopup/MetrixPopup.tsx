@@ -1,8 +1,8 @@
 "use client"
 import classNames from "classnames"
 import type React from "react"
+import type { CustomPopupProps } from "@/types/Layers"
 
-import type { Popup } from "leaflet"
 import { BiX } from "react-icons/bi"
 import {
   HiArrowUpRight,
@@ -25,13 +25,6 @@ import {
 import { useTranslation } from "react-i18next"
 import { useState, useRef, useEffect } from "react"
 
-
-
-interface MetrixPopupProps {
-  data: Record<string, any> | null
-  popup: Popup
-}
-
 interface MediaFile {
   id: string
   url: string
@@ -44,7 +37,7 @@ interface MediaFile {
 
 type TabType = "details" | "edit" | "user" | "photos" | "activities"
 
-const MetrixPopup = ({ data, popup }: MetrixPopupProps) => {
+const MetrixPopup = ({ data, popup, root }: CustomPopupProps) => {
   const { t } = useTranslation("global")
   const tref = "body.custom-popup"
   const [showDetailedView, setShowDetailedView] = useState(false)
@@ -851,7 +844,10 @@ const MetrixPopup = ({ data, popup }: MetrixPopupProps) => {
 
           {/* Close button - preserved original functionality */}
           <button
-            onClick={() => popup.close()}
+            onClick={() => {
+              popup.close();
+              root.unmount()
+            }}
             className="w-8 h-8 bg-[#cee4b8] hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-full flex items-center justify-center transition-colors"
           >
             <BiX className="w-4 h-4 text-gray-600 dark:text-gray-300" />

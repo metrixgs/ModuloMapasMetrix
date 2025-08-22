@@ -1,17 +1,14 @@
+import type { CustomPopupProps } from "@/types/Layers";
+
 import classNames from "classnames";
-import type { Popup } from "leaflet";
+
 
 import { BiX } from "react-icons/bi";
 
 import Button from "@components/UI/Button";
 import { useTranslation } from "react-i18next";
 
-interface CustomPopupProps {
-  data: Record<string, any> | null;
-  popup: Popup;
-}
-
-const DefaultPopup = ({ data, popup }: CustomPopupProps) => {
+const DefaultPopup = ({ data, popup, root }: CustomPopupProps) => {
   const { t } = useTranslation("global");
   const tref = "body.custom-popup";
 
@@ -29,7 +26,10 @@ const DefaultPopup = ({ data, popup }: CustomPopupProps) => {
         <nav className="w-full flex justify-end">
           <Button
             className="!min-w-6 !w-6 h-6 !p-0 justify-center"
-            onClick={() => popup.close()}
+            onClick={() => {
+              popup.close();
+              root.unmount();
+            }}
             title={t(tref + ".close")}
           >
             <BiX className="h-4 w-4" />

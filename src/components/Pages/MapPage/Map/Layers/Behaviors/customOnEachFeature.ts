@@ -16,43 +16,44 @@ export const customOnEachFeature = (
   layer: Layer
 ) => {
   const onEachFeature = (feature: Feature, layer: Layer) => {
-    const popupClass = popup({
-      closeButton: false,
-    });
-
-    const popupElement = document.createElement("div");
-    const root = createRoot(popupElement);
-
-    switch (layerId) {
-      case "metrix-incidents":
-        root.render(
-          createElement(
-            I18nextProvider,
-            { i18n: i18next },
-            createElement(MetrixPopup, {
-              data: feature.properties,
-              popup: popupClass,
-            })
-          )
-        );
-        break;
-      default:
-        root.render(
-          createElement(
-            I18nextProvider,
-            { i18n: i18next },
-            createElement(DefaultPopup, {
-              data: feature.properties,
-              popup: popupClass,
-            })
-          )
-        );
-        break;
-    }
-
-    popupClass.setContent(popupElement);
-
     layer.on("click", (e) => {
+      const popupClass = popup({
+        closeButton: false,
+      });
+
+      const popupElement = document.createElement("div");
+      const root = createRoot(popupElement);
+
+      switch (layerId) {
+        case "metrix-incidents":
+          root.render(
+            createElement(
+              I18nextProvider,
+              { i18n: i18next },
+              createElement(MetrixPopup, {
+                data: feature.properties,
+                popup: popupClass,
+                root: root,
+              })
+            )
+          );
+          break;
+        default:
+          root.render(
+            createElement(
+              I18nextProvider,
+              { i18n: i18next },
+              createElement(DefaultPopup, {
+                data: feature.properties,
+                popup: popupClass,
+                root: root,
+              })
+            )
+          );
+          break;
+      }
+
+      popupClass.setContent(popupElement);
       popupClass.setLatLng(e.latlng).openOn(e.target._map);
     });
   };

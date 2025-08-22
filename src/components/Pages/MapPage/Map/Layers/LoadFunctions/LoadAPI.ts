@@ -1,17 +1,19 @@
 import type { LayerItem } from "@/types/Stores/LayersManager";
 
-import { geoJSON, marker } from "leaflet";
+import { geoJSON, circleMarker } from "leaflet";
 
 import { ReadGeneralAPI } from "@/services/GeneralAPI/ReadGeneralAPI";
 
 import { json2geojsonPoint } from "@/utils/geometryUtils";
 
-import {
-  getRandomColor,
-  definedColorCircleMarker,
-} from "../../Icons/customIcons";
+import { DefaultPointStyle } from "@/config.map";
+
 import { customOnEachFeature } from "../Behaviors/customOnEachFeature";
-import { categoriesMap, subcategoriesMap, prioritiesMap } from "@/utils/incidentDataMappers";
+import {
+  categoriesMap,
+  subcategoriesMap,
+  prioritiesMap,
+} from "@/utils/incidentDataMappers";
 
 const LoadAPI = async (layerItem: LayerItem) => {
   const { source } = layerItem;
@@ -39,18 +41,19 @@ const LoadAPI = async (layerItem: LayerItem) => {
         );
 
         const load = async () => {
-          const color = getRandomColor();
           return geoJSON(geojsonData, {
             pmIgnore: true,
             pointToLayer: (_feature, latlng) => {
-              return marker(latlng, {
-                icon: definedColorCircleMarker(color),
-                pmIgnore: true,
-              });
+              return circleMarker(latlng, DefaultPointStyle);
             },
             onEachFeature: (feature, layer) =>
               customOnEachFeature(newLayerItem.id, feature, layer),
           });
+        };
+
+        newLayerItem.symbology = {
+          type: "simple",
+          symbology: DefaultPointStyle,
         };
 
         newLayerItem.columns = [
@@ -69,17 +72,20 @@ const LoadAPI = async (layerItem: LayerItem) => {
           {
             header: "Categoría",
             accessorKey: "categoria_id",
-            cell: (info: any) => categoriesMap[info.getValue()] || info.getValue(),
+            cell: (info: any) =>
+              categoriesMap[info.getValue()] || info.getValue(),
           },
           {
             header: "Clasificación",
             accessorKey: "subcategoria_id",
-            cell: (info: any) => subcategoriesMap[info.getValue()] || info.getValue(),
+            cell: (info: any) =>
+              subcategoriesMap[info.getValue()] || info.getValue(),
           },
           {
             header: "Prioridad",
             accessorKey: "prioridad",
-            cell: (info: any) => prioritiesMap[info.getValue()] || info.getValue(),
+            cell: (info: any) =>
+              prioritiesMap[info.getValue()] || info.getValue(),
           },
           { header: "Estatus", accessorKey: "estado" }, // Cambiado de estado_p a estado
           { header: "Área Responsable", accessorKey: "nombre_area" },
