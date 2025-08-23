@@ -26,6 +26,7 @@ import {
 } from "@/config.id";
 
 import { extractGeoJSONProperties } from "@/utils/geometryUtils";
+import { categoriesMap } from "@/utils/incidentDataMappers";
 
 const FilterByColumns = ({
   targetLayer,
@@ -147,7 +148,7 @@ const FilterByColumns = ({
                 searchPlaceholder={translation(tref + ".search")}
                 noResultPlaceholder={translation(tref + ".no-results")}
                 options={uniqueOptions.map((op) => ({
-                  title: op,
+                  title: col === "categoria_id" ? categoriesMap[op] || op : op,
                   value: op,
                 }))}
                 selected={selectedOptions}
