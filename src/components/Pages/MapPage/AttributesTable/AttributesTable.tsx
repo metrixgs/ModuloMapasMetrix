@@ -26,7 +26,7 @@ import {
   BiChevronDown,
   BiSearchAlt,
   BiChevronLeft,
-  BiChevronRight
+  BiChevronRight,
 } from "react-icons/bi";
 
 import { TextInput } from "flowbite-react";
@@ -36,6 +36,8 @@ import { useBottomDrawerStore } from "@/stores/useBottomDrawerStore";
 import Button from "@components/UI/Button";
 
 import { downloadCSV } from "@/utils/downloadUtils";
+import { formatNumber } from "@/utils/numberUtils";
+
 import SelectColumns from "./SelectColumns";
 
 type AttributesTableProps<T> = {
@@ -44,10 +46,16 @@ type AttributesTableProps<T> = {
   onSelectedRow: (row: Row<T>) => Promise<any>;
 };
 
-const AttributesTable = <T,>({ data, columns, onSelectedRow }: AttributesTableProps<T>) => {
+const AttributesTable = <T,>({
+  data,
+  columns,
+  onSelectedRow,
+}: AttributesTableProps<T>) => {
   const { t } = useTranslation("global");
 
-  const { title, close, isFullscreen, toggleFullscreen } = useBottomDrawerStore((state) => state);
+  const { title, close, isFullscreen, toggleFullscreen } = useBottomDrawerStore(
+    (state) => state
+  );
 
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
@@ -63,8 +71,8 @@ const AttributesTable = <T,>({ data, columns, onSelectedRow }: AttributesTablePr
     getPaginationRowModel: getPaginationRowModel(),
     initialState: {
       pagination: {
-        pageSize: 50
-      }
+        pageSize: 100,
+      },
     },
     state: {
       sorting,
@@ -79,20 +87,20 @@ const AttributesTable = <T,>({ data, columns, onSelectedRow }: AttributesTablePr
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     setSelectedRow(undefined);
     setGlobalFilter(e.target.value);
-  }
+  };
 
   const handlePreviusPage = () => {
     setSelectedRow(undefined);
     table.previousPage();
-  }
+  };
 
   const handleNextPage = () => {
     setSelectedRow(undefined);
     table.nextPage();
-  }
+  };
 
   const handleDownloadCSV = () => {
-    const columns = table.getAllColumns().filter(col => col.getIsVisible());
+    const columns = table.getAllColumns().filter((col) => col.getIsVisible());
     const rows = table.getPrePaginationRowModel().rows;
 
     const filteredData = rows.map((row) => {
@@ -106,27 +114,35 @@ const AttributesTable = <T,>({ data, columns, onSelectedRow }: AttributesTablePr
     });
 
     downloadCSV(filteredData as object[], `${title}.csv`);
-  }
+  };
 
   const handleFullscreen = () => {
     toggleFullscreen();
-  }
+  };
 
   const handleClose = () => {
     setSelectedRow(undefined);
     close();
-  }
+  };
 
   return (
     <div id="container-hola" className="flex flex-col gap-2 h-full">
       <nav className="px-2 pt-2 flex justify-end items-center gap-2">
         <span className="flex-grow flex items-center font-bold text-gray-700 dark:text-gray-100">
           <BiTable className="mr-2" />
-          <span className="mr-2">
-            { title }
-          </span>
-          <span className="text-xs">
-            ({ table.getPrePaginationRowModel().rows.length.toLocaleString() }/{ data.length.toLocaleString() } { t("body.attributes-table.title-total-text") })
+          <span>
+            <span className="mr-2">{title}</span>
+            <span className="text-xs">
+              (
+              {formatNumber(table.getPrePaginationRowModel().rows.length, {
+                maximumFractionDigits: 0,
+              })}
+              /
+              {formatNumber(data.length, {
+                maximumFractionDigits: 0,
+              })}{" "}
+              {t("body.attributes-table.title-total-text")})
+            </span>
           </span>
         </span>
         <SelectColumns table={table} />
@@ -146,9 +162,12 @@ const AttributesTable = <T,>({ data, columns, onSelectedRow }: AttributesTablePr
             <BiChevronLeft className="h-8" />
           </Button>
           <span className="w-18 text-xs text-center text-gray-800 dark:text-gray-100">
-            { table.getState().pagination.pageIndex + 1 }/{ table.getPageCount() }
+            {formatNumber(table.getState().pagination.pageIndex + 1, {
+              maximumFractionDigits: 0,
+            })}
+            /{formatNumber(table.getPageCount(), { maximumFractionDigits: 0 })}
           </span>
-           <Button
+          <Button
             className="flex justify-center"
             disabled={!table.getCanNextPage()}
             onClick={handleNextPage}
@@ -156,19 +175,15 @@ const AttributesTable = <T,>({ data, columns, onSelectedRow }: AttributesTablePr
             <BiChevronRight className="h-8" />
           </Button>
         </div>
-        <Button
-          className="flex justify-center"
-          onClick={handleDownloadCSV}
-        >
+        <Button className="flex justify-center" onClick={handleDownloadCSV}>
           <BiDownload className="h-8" />
         </Button>
-        <Button
-          className="flex justify-center"
-          onClick={handleFullscreen}
-        >
-          {
-            isFullscreen ? <BiCollapse className="h-8" /> : <BiExpand className="h-8" />
-          }
+        <Button className="flex justify-center" onClick={handleFullscreen}>
+          {isFullscreen ? (
+            <BiCollapse className="h-8" />
+          ) : (
+            <BiExpand className="h-8" />
+          )}
         </Button>
         <Button className="flex justify-center" onClick={handleClose}>
           <BiX className="h-8" />
@@ -179,7 +194,7 @@ const AttributesTable = <T,>({ data, columns, onSelectedRow }: AttributesTablePr
           "overflow-auto text-sm text-gray-800 dark:text-gray-100",
           {
             "h-full": isFullscreen,
-            "h-72": !isFullscreen
+            "h-72": !isFullscreen,
           }
         )}
       >
@@ -190,112 +205,104 @@ const AttributesTable = <T,>({ data, columns, onSelectedRow }: AttributesTablePr
               "sticky top-0"
             )}
           >
-            {
-              table.getHeaderGroups().map((headerGroup) => (
-                <tr key={headerGroup.id} className="">
-                  <th className={classNames(
-                    "py-2 px-4 w-16",
-                    "border border-s-0 border-t-0 border-gray-300 dark:border-gray-600",
-                  )}
-                  ></th>
-                  {
-                    headerGroup.headers.map((header) => (
-                      <th
-                        key={header.id}
-                        className={classNames(
-                          "py-2 px-4 w-48",
-                          "truncate whitespace-nowrap overflow-hidden",
-                          "text-center font-medium", // Cambiado de text-start a text-center
-                          "border border-t-0 border-gray-300 dark:border-gray-600",
-                          "bg-gray-100 dark:bg-metrixblack-700",
-                          "hover:bg-gray-200 dark:hover:bg-metrixblack-800/50",
-                          "hover:cursor-pointer"
-                        )}
-                        title={String(header.column.columnDef.header)}
-                        onClick={(e) => {
-                          setSelectedRow(undefined);
-                          const handler = header.column.getToggleSortingHandler();
-                          if (handler) {
-                            handler(e);
-                          }
-                        }}
-                      >
-                        <span className="flex justify-between items-center">
-                          {
-                            <span>
-                              {
-                                header.isPlaceholder
-                                ? null
-                                : flexRender(
-                                    header.column.columnDef.header,
-                                    header.getContext()
-                                  )
-                              }
-                            </span>
-                          }
-                          <span>
-                            {
-                              {
-                                "asc": <BiChevronDown />,
-                                "desc": <BiChevronUp />
-                              }[header.column.getIsSorted() as "asc" | "desc"] ?? null
-                            }
-                          </span>
-                        </span>
-                      </th>
-                    ))
-                  }
-                </tr>
-              ))
-            }
-          </thead>
-          <tbody>
-            {
-              table.getRowModel().rows.map((row, index) => (
-                <tr key={row.id}
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id} className="">
+                <th
                   className={classNames(
-                    {
-                      "bg-primary-400/50 dark:bg-primary-700": selectedRow === index
-                    }
+                    "py-2 px-4 w-16",
+                    "border border-s-0 border-t-0 border-gray-300 dark:border-gray-600"
                   )}
-                >
-                  <td
-                    onClick={() => {
-                      if (selectedRow === index) {
-                        setSelectedRow(undefined);
-                      } else {
-                        setSelectedRow(index);
-                        onSelectedRow(row);
-                      }
-                    }}
+                ></th>
+                {headerGroup.headers.map((header) => (
+                  <th
+                    key={header.id}
                     className={classNames(
-                      "py-2 px-4 w-16",
-                      "text-start font-medium",
-                      "border border-s-0 border-gray-300 dark:border-gray-600",
+                      "py-2 px-4 w-48",
+                      "truncate whitespace-nowrap overflow-hidden",
+                      "text-center font-medium", // Cambiado de text-start a text-center
+                      "border border-t-0 border-gray-300 dark:border-gray-600",
                       "bg-gray-100 dark:bg-metrixblack-700",
                       "hover:bg-gray-200 dark:hover:bg-metrixblack-800/50",
                       "hover:cursor-pointer"
                     )}
-                  >{ index + 1 }</td>
-                  {
-                    row.getVisibleCells().map((cell) => (
-                      <td
-                        key={cell.id}
-                        className={classNames(
-                          "py-2 px-4 w-48",
-                          "truncate whitespace-nowrap overflow-hidden",
-                          "text-start font-normal",
-                          "border border-gray-300 dark:border-gray-600",
-                        )}
-                        title={String(cell.getValue())}
-                      >
-                        { flexRender(cell.column.columnDef.cell, cell.getContext()) }
-                      </td>
-                    ))
-                  }
-                </tr>
-              ))
-            }
+                    title={String(header.column.columnDef.header)}
+                    onClick={(e) => {
+                      setSelectedRow(undefined);
+                      const handler = header.column.getToggleSortingHandler();
+                      if (handler) {
+                        handler(e);
+                      }
+                    }}
+                  >
+                    <span className="flex justify-between items-center">
+                      {
+                        <span>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
+                        </span>
+                      }
+                      <span>
+                        {{
+                          asc: <BiChevronDown />,
+                          desc: <BiChevronUp />,
+                        }[header.column.getIsSorted() as "asc" | "desc"] ??
+                          null}
+                      </span>
+                    </span>
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody>
+            {table.getRowModel().rows.map((row, index) => (
+              <tr
+                key={row.id}
+                className={classNames({
+                  "bg-primary-400/50 dark:bg-primary-700":
+                    selectedRow === index,
+                })}
+              >
+                <td
+                  onClick={() => {
+                    if (selectedRow === index) {
+                      setSelectedRow(undefined);
+                    } else {
+                      setSelectedRow(index);
+                      onSelectedRow(row);
+                    }
+                  }}
+                  className={classNames(
+                    "py-2 px-4 w-16",
+                    "text-start font-medium",
+                    "border border-s-0 border-gray-300 dark:border-gray-600",
+                    "bg-gray-100 dark:bg-metrixblack-700",
+                    "hover:bg-gray-200 dark:hover:bg-metrixblack-800/50",
+                    "hover:cursor-pointer"
+                  )}
+                >
+                  {index + 1}
+                </td>
+                {row.getVisibleCells().map((cell) => (
+                  <td
+                    key={cell.id}
+                    className={classNames(
+                      "py-2 px-4 w-48",
+                      "truncate whitespace-nowrap overflow-hidden",
+                      "text-start font-normal",
+                      "border border-gray-300 dark:border-gray-600"
+                    )}
+                    title={String(cell.getValue())}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

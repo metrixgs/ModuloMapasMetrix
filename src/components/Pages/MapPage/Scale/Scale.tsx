@@ -3,6 +3,7 @@ import { useMapStateStore } from "@/stores/useMapStateStore";
 
 import { useEffect, useState } from "react";
 import { getScaleFactor } from "@/utils/geometryUtils";
+import { formatNumber } from "@/utils/numberUtils";
 
 const Scale = () => {
   const { t } = useTranslation("global");
@@ -23,9 +24,9 @@ const Scale = () => {
     <div className="min-w-32">
       <p className="text-xs dark:text-white">
         <span className="font-bold">{t("body.footer.scale.title")}:</span> 1 :{" "}
-        {Math.round(scaleFactor)
-          .toString()
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+        {formatNumber(scaleFactor, {
+          maximumFractionDigits: 0,
+        })}
       </p>
     </div>
   );

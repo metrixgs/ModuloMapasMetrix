@@ -13,7 +13,7 @@ import Button from "@components/UI/Button";
 import { useMapLayersStore } from "@/stores/useMapLayersStore";
 import { useMapStateStore } from "@/stores/useMapStateStore";
 
-import { visiblePointsId } from "@/config.id";
+import { formatNumber } from "@/utils/numberUtils";
 
 const VisiblePointsContent = () => {
   const { layers } = useMapLayersStore((state) => state);
@@ -26,7 +26,7 @@ const VisiblePointsContent = () => {
     .filter((i) => i.geometry === "Point");
 
   return (
-    <div className="max-w-72 py-3 px-4 flex flex-col">
+    <div className=" py-3 px-4 flex flex-col">
       <div className="flex flex-col gap-1 text-xs dark:text-white">
         {pointLayers.map((l) => {
           const total = l.layer
@@ -59,7 +59,8 @@ const VisiblePointsContent = () => {
             <span>
               <span className="font-semibold">{l.name}:</span>{" "}
               <span>
-                {count} / {total}
+                {formatNumber(count, { maximumFractionDigits: 0 })}/
+                {formatNumber(total, { maximumFractionDigits: 0 })}
               </span>
             </span>
           );
@@ -81,7 +82,6 @@ const VisiblePoints = () => {
     .filter((i) => i.format === "geojson")
     .filter((i) => i.geometry === "Point");
 
-  
   let total = 0;
   let count = 0;
 
@@ -117,13 +117,14 @@ const VisiblePoints = () => {
   });
 
   return (
-    <div className="min-w-48 flex items-center justify-between">
+    <div className="w-56 flex items-center gap-2 justify-between">
       <div className="text-xs dark:text-white">
         <span className="font-bold">
           {t("body.footer.visible-incidents.title")}:
         </span>{" "}
         <span>
-          {count} / {total}
+          {formatNumber(count, { maximumFractionDigits: 0 })}/
+          {formatNumber(total, { maximumFractionDigits: 0 })}
         </span>
       </div>
       <Popover content={<VisiblePointsContent />}>

@@ -11,6 +11,8 @@ import Button from "@components/UI/Button";
 import { INITIAL_VIEW } from "@/config.map";
 import { currentCoordsId } from "@/config.id";
 
+import { formatNumber } from "@/utils/numberUtils";
+
 import { useMapStore } from "@/stores/useMapStore";
 
 const Coordinates = () => {
@@ -54,9 +56,7 @@ const Coordinates = () => {
           <BiShare className="w-5 h-5 rotate-y-180" />
         </Button>
       </div>
-      <HelperText>
-        {t("body.footer.coordinates.goto-helper")}
-      </HelperText>
+      <HelperText>{t("body.footer.coordinates.goto-helper")}</HelperText>
     </div>
   );
 
@@ -65,7 +65,8 @@ const Coordinates = () => {
       <div className="text-xs dark:text-white">
         <span className="font-bold">{t("body.footer.coordinates.title")}:</span>{" "}
         <span id={currentCoordsId}>
-          {INITIAL_VIEW.center.lat}, {INITIAL_VIEW.center.lng}
+          {formatNumber(INITIAL_VIEW.center.lat, { maximumFractionDigits: 6 })},{" "}
+          {formatNumber(INITIAL_VIEW.center.lng, { maximumFractionDigits: 6 })}
         </span>
       </div>
       <Popover content={CoordinatesContent}>

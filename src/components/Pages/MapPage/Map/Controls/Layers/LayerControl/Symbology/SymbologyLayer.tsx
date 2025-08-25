@@ -4,6 +4,7 @@ import { type PathOptions } from "leaflet";
 import { useTranslation } from "react-i18next";
 
 import classNames from "classnames";
+import { formatNumber } from "@/utils/numberUtils";
 
 interface SymbologyLayerProps {
   layer: GeoJSONLayerItem;
@@ -119,12 +120,12 @@ const SymbologyLayer = ({ layer, active, onSetLayer }: SymbologyLayerProps) => {
                 <span className="text-xs">
                   {symbology.symbology.classes &&
                     (symbology.symbology.classes.length > 1
-                      ? `(${symbology.symbology.classes.length} ${t(
-                          tref + ".classes"
-                        )})`
-                      : `(${symbology.symbology.classes.length} ${t(
-                          tref + ".class"
-                        )})`)}
+                      ? `(${formatNumber(symbology.symbology.classes.length, {
+                          maximumFractionDigits: 0,
+                        })} ${t(tref + ".classes")})`
+                      : `(${formatNumber(symbology.symbology.classes.length, {
+                          maximumFractionDigits: 0,
+                        })} ${t(tref + ".class")})`)}
                 </span>
               </span>
 
@@ -135,7 +136,11 @@ const SymbologyLayer = ({ layer, active, onSetLayer }: SymbologyLayerProps) => {
                     <div className="text-sm dark:text-white flex flex-col">
                       <span>{c.fieldValue}</span>
                       <span className="text-xs">
-                        {c.quantity} {t(tref + ".features")}
+                        {c.quantity &&
+                          formatNumber(c.quantity, {
+                            maximumFractionDigits: 0,
+                          })}{" "}
+                        {t(tref + ".features")}
                       </span>
                     </div>
                   </div>
